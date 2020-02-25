@@ -190,6 +190,7 @@ public class MinigameScreen implements Screen {
 		setGameState(GameScreenState.RUN);
 	}
 
+	//Method added as a result for refactoring by team septagon
 	private void renderEndState(Batch batch){
 		batch.begin();
 		batch.draw(new Texture("minigameEnd.png"), 0, 0, Kroy.width, Kroy.height);
