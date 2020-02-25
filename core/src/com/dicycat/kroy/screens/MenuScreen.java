@@ -120,79 +120,94 @@ public class MenuScreen implements Screen{
 	  
 	  switch(state) {
 		  case MAINMENU:	// Display all buttons and the main menu		  
-			  stage.act();	//allows the stage to interact with user input
-			  
-			  game.batch.setProjectionMatrix(gamecam.combined);
-			  game.batch.begin();
-			  
-			  Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, xHotSpot, yHotSpot));
-			  game.batch.draw(background, 0, 0);
-			 
-			  game.batch.draw(minigameButton, xAxisCentred, minigameButtonY, buttonWidth, buttonHeight);
-			
-			
-			  //for play button: checks if the position of the cursor is inside the coordinates of the button
-			  if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > playButtonY ) && (Kroy.height - Gdx.input.getY() < (playButtonY + buttonHeight)) ) ){
-				  game.batch.draw(playButtonActive, xAxisCentred, playButtonY, buttonWidth, buttonHeight);
-				  if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-					  this.dispose();
-					  game.batch.end();
-					  fireTruckSelector.visibility(true);// display the truck selection window
-					  setGameState(MenuScreenState.TRUCKSELECT);// set the game state to run and run the selection screen code
-					  return;
-				  }
-			  } else {
-				  game.batch.draw(playButton, xAxisCentred, playButtonY, buttonWidth, buttonHeight);
-			  }
-			  
-			//for exit button
-			  if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > exitButtonY ) && (Kroy.height - Gdx.input.getY() < (exitButtonY + buttonHeight)) ) ){
-				  game.batch.draw(exitButtonActive, xAxisCentred, exitButtonY, buttonWidth, buttonHeight);
-				  if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-					  Gdx.app.exit();
-				  }
-			  } else {
-				  game.batch.draw(exitButton, xAxisCentred, exitButtonY, buttonWidth, buttonHeight);
-			  }
-				
-			  //for minigame button
-			  if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > minigameButtonY ) && (Kroy.height - Gdx.input.getY() < (minigameButtonY + buttonHeight)) ) ){
-				  game.batch.draw(minigameButtonActive, xAxisCentred, minigameButtonY, buttonWidth, buttonHeight);
-				  if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-					  startMinigame();
-						  }
-					  } else {
-						  game.batch.draw(minigameButton, xAxisCentred, minigameButtonY, buttonWidth, buttonHeight);
-					  }
-	
-						  //for options button
-			  if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > optionsButtonY ) && (Kroy.height - Gdx.input.getY() < (optionsButtonY + buttonHeight)) ) ){
-				  game.batch.draw(optionsButtonActive, xAxisCentred, optionsButtonY, buttonWidth, buttonHeight);
-				  if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-					  optionsWindow.visibility(true);
-					  setGameState(MenuScreenState.OPTIONS);
-				  }
-			  } else {
-				  game.batch.draw(optionsButton, xAxisCentred, optionsButtonY, buttonWidth, buttonHeight);
-			  }
-			  game.batch.end();
-				  
+			  renderMainMenuState(); //Calls the method with all the rendering code for when in the main menu
 			  break;
+
 		  case TRUCKSELECT: // Ran when the new game button pressed
-			  Gdx.input.setInputProcessor(fireTruckSelector.stage);
-			  fireTruckSelector.stage.act();
-			  fireTruckSelector.stage.draw();
-			  clickCheck();//Checks for any button presses
+			  renderTruckSelectState(); //Calls the method with all the rendering code for when in truck selection
 			  break;
 		  case OPTIONS:
-			  Gdx.input.setInputProcessor(optionsWindow.stage);
-			  optionsWindow.stage.act();
-			  optionsWindow.stage.draw();
-			  optionsWindow.clickCheck(true);
+			  renderOptionsState(); //Calls the method with all the rendering code for when in options
 			  break;
 		  }
   	}
-  
+
+  	//Method added as a result of refactoring by team septagon
+  	private void renderMainMenuState(){
+		stage.act();	//allows the stage to interact with user input
+
+		game.batch.setProjectionMatrix(gamecam.combined);
+		game.batch.begin();
+
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, xHotSpot, yHotSpot));
+		game.batch.draw(background, 0, 0);
+
+		game.batch.draw(minigameButton, xAxisCentred, minigameButtonY, buttonWidth, buttonHeight);
+
+
+		//for play button: checks if the position of the cursor is inside the coordinates of the button
+		if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > playButtonY ) && (Kroy.height - Gdx.input.getY() < (playButtonY + buttonHeight)) ) ){
+			game.batch.draw(playButtonActive, xAxisCentred, playButtonY, buttonWidth, buttonHeight);
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+				this.dispose();
+				game.batch.end();
+				fireTruckSelector.visibility(true);// display the truck selection window
+				setGameState(MenuScreenState.TRUCKSELECT);// set the game state to run and run the selection screen code
+				return;
+			}
+		} else {
+			game.batch.draw(playButton, xAxisCentred, playButtonY, buttonWidth, buttonHeight);
+		}
+
+		//for exit button
+		if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > exitButtonY ) && (Kroy.height - Gdx.input.getY() < (exitButtonY + buttonHeight)) ) ){
+			game.batch.draw(exitButtonActive, xAxisCentred, exitButtonY, buttonWidth, buttonHeight);
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+				Gdx.app.exit();
+			}
+		} else {
+			game.batch.draw(exitButton, xAxisCentred, exitButtonY, buttonWidth, buttonHeight);
+		}
+
+		//for minigame button
+		if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > minigameButtonY ) && (Kroy.height - Gdx.input.getY() < (minigameButtonY + buttonHeight)) ) ){
+			game.batch.draw(minigameButtonActive, xAxisCentred, minigameButtonY, buttonWidth, buttonHeight);
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+				startMinigame();
+			}
+		} else {
+			game.batch.draw(minigameButton, xAxisCentred, minigameButtonY, buttonWidth, buttonHeight);
+		}
+
+		//for options button
+		if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > optionsButtonY ) && (Kroy.height - Gdx.input.getY() < (optionsButtonY + buttonHeight)) ) ){
+			game.batch.draw(optionsButtonActive, xAxisCentred, optionsButtonY, buttonWidth, buttonHeight);
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+				optionsWindow.visibility(true);
+				setGameState(MenuScreenState.OPTIONS);
+			}
+		} else {
+			game.batch.draw(optionsButton, xAxisCentred, optionsButtonY, buttonWidth, buttonHeight);
+		}
+		game.batch.end();
+	}
+
+	//Method added as a result of refactoring by Septagon
+	private void renderTruckSelectState(){
+		Gdx.input.setInputProcessor(fireTruckSelector.stage);
+		fireTruckSelector.stage.act();
+		fireTruckSelector.stage.draw();
+		clickCheck();//Checks for any button presses
+	}
+
+	//Method added as a result of refactoring by team septagon
+	private void renderOptionsState(){
+		Gdx.input.setInputProcessor(optionsWindow.stage);
+		optionsWindow.stage.act();
+		optionsWindow.stage.draw();
+		optionsWindow.clickCheck(true);
+	}
+
 	/**
 	 * @param state
 	 */
