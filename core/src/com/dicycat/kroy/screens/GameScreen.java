@@ -26,6 +26,7 @@ import com.dicycat.kroy.entities.FireTruck;
 import com.dicycat.kroy.entities.Fortress;
 import com.dicycat.kroy.entities.UFO;
 import com.dicycat.kroy.gamemap.TiledGameMap;
+import com.dicycat.kroy.misc.SaveManager;
 import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.scenes.OptionsWindow;
 import com.dicycat.kroy.scenes.PauseWindow;
@@ -92,6 +93,11 @@ public class GameScreen implements Screen{
 	private int patrolUpdateRate; //How many seconds should pass before we respawn patrols;
 
 	private ArrayList<FireTruck> firetrucks=new ArrayList<FireTruck>();
+	private List<Fortress> fortresses = new ArrayList<Fortress>(); //Added by Septagon - stores all the fortresses in the game
+	private List<UFO> ufos = new ArrayList<UFO>(); //Added by Septagon - stores all the UFO's in the game
+
+	//Used to handle saving and loading states of the game
+	private SaveManager saveManager;
 
 	/**
 	 * extended
@@ -113,6 +119,8 @@ public class GameScreen implements Screen{
 		gameTimer = 60 * 5; //new    //Set timer to 5 minutes  
 		this.truckNum = truckNum;
 		lastPatrol = Gdx.graphics.getDeltaTime();
+
+		//Setup all the fortress positions and sizes
 		fortressPositions = new ArrayList<>();
 		fortressPositions.add(new Vector2(2860, 3211));
 		fortressPositions.add(new Vector2(3130, 5530));
@@ -129,6 +137,8 @@ public class GameScreen implements Screen{
 		fortressSizes.add(new Vector2(450, 256));
 		
 		patrolUpdateRate = 30;
+
+		saveManager = new SaveManager(firetrucks, ufos, fortresses);
 	}
 	
 
@@ -161,8 +171,10 @@ public class GameScreen implements Screen{
 	 * @param num the fortress number
 	 */
 	private void fortressInit(int num) {
-		gameObjects.add(new Fortress(fortressPositions.get(num), textures.getFortress(num), textures.getDeadFortress(num),
-				fortressSizes.get(num)));
+		Fortress fortressToAdd = new Fortress(fortressPositions.get(num), textures.getFortress(num), textures.getDeadFortress(num),
+				fortressSizes.get(num));
+		fortresses.add(fortressToAdd);
+		gameObjects.add(fortressToAdd);
 	}
 
 	/**
@@ -296,9 +308,9 @@ public class GameScreen implements Screen{
 				float randX = (float) (oldX - 400 + Math.random() * 400);
 				float randY = (float) (oldY - 400 + Math.random() * 400);
 
-				gameObjects.add(new UFO(new Vector2(randX, randY)));
-
-
+				UFO ufoToAdd = new UFO(new Vector2(randX, randY));
+				ufos.add(ufoToAdd);
+				gameObjects.add(ufoToAdd);
 			}
 		}
 

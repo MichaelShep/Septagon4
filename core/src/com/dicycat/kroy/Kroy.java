@@ -2,6 +2,7 @@ package com.dicycat.kroy;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.dicycat.kroy.misc.SaveManager;
 import com.dicycat.kroy.screens.GameScreen;
 import com.dicycat.kroy.screens.MenuScreen;
 import com.dicycat.kroy.screens.MinigameScreen;
@@ -23,13 +24,14 @@ public class Kroy extends Game {
 	public static MenuScreen mainMenuScreen;
 	public static MinigameScreen mainMinigameScreen;
 	public SpriteBatch batch;
-	
+
 	private Integer highScore;
 	
 	@Override
 	public void create () {
 		highScore = 0;		 
 		batch = new SpriteBatch();
+
 		mainMenuScreen = new MenuScreen(this);
 		this.setScreen(mainMenuScreen);
 	}

@@ -115,73 +115,90 @@ public class MinigameScreen implements Screen {
 		Batch batch = game.batch;
 		switch (state) {
 		case RUN:
-			if (Gdx.input.isKeyPressed(Keys.P) || Gdx.input.isKeyPressed(Keys.O) || Gdx.input.isKeyPressed(Keys.M)
-					|| Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-				pauseWindow.visibility(true);
-				pause();
-			}
-
-			
-
-			batch.setProjectionMatrix(gamecam.combined);
-			batch.begin(); // Game loop Start
-			batch.draw(map, -Kroy.width / 2, -Kroy.height / 2, Kroy.width, Kroy.height);
-
-			player.update();
-			player.render(batch);
-
-			pipes.forEach(o -> {
-				o.update();
-				o.render(batch);
-				if (o.gameEnd(player)) {
-					// If the player hits a pipe, then the game ends
-					gameOver();
-				}
-				;
-			});
-			pipes.removeIf(o -> o.isRemove());
-
-			// Score starts at -2, so different text is displayed instead
-			if (score < 0) {
-				scoreText = "Ready? ";
-			} else {
-				scoreText = "Score: " + score;
-			}
-
-			// Score is displayed in the top left with a light blue background
-			batch.draw(new Texture("lightBlue.png"), (-Kroy.width / 2), (Kroy.height / 2) - 75, scoreText.length() * 30,
-					75);
-			font.draw(batch, scoreText, (-Kroy.width / 2) + 10, (Kroy.height / 2) - 10);
-
-			if (Kroy.debug) {
-				debugObjects.forEach(o -> o.Draw(gamecam.combined));
-				debugObjects.clear();
-			}
-
-			batch.end();
-
-			pauseWindow.stage.draw();
-
+			renderRunState(batch);
 			break;
 		case PAUSE:
-			pauseWindow.stage.draw();
-			clickCheck();
+			renderPauseState();
 			break;
 		case RESUME:
-			pauseWindow.visibility(false);
-			setGameState(GameScreenState.RUN);
+			renderResumeState();
 			break;
 		case END:
-			batch.begin();
-			batch.draw(new Texture("minigameEnd.png"), 0, 0, Kroy.width, Kroy.height);
-			font.draw(batch, scoreText, (Kroy.width / 2) + 20, (Kroy.height / 2) - 300);
-			batch.end();
-			if(Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-				dispose();
-				game.backToMenu();
-			}
+			renderEndState(batch);
 		default:
 			break;
+		}
+	}
+
+	//Method added as a result for refactoring by team septagon
+	private void renderRunState(Batch batch){
+		if (Gdx.input.isKeyPressed(Keys.P) || Gdx.input.isKeyPressed(Keys.O) || Gdx.input.isKeyPressed(Keys.M)
+				|| Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			pauseWindow.visibility(true);
+			pause();
+		}
+
+		batch.setProjectionMatrix(gamecam.combined);
+		batch.begin(); // Game loop Start
+		batch.draw(map, -Kroy.width / 2, -Kroy.height / 2, Kroy.width, Kroy.height);
+
+		player.update();
+		player.render(batch);
+
+		pipes.forEach(o -> {
+			o.update();
+			o.render(batch);
+			if (o.gameEnd(player)) {
+				// If the player hits a pipe, then the game ends
+				gameOver();
+			}
+			;
+		});
+		pipes.removeIf(o -> o.isRemove());
+
+		// Score starts at -2, so different text is displayed instead
+		if (score < 0) {
+			scoreText = "Ready? ";
+		} else {
+			scoreText = "Score: " + score;
+		}
+
+		// Score is displayed in the top left with a light blue background
+		batch.draw(new Texture("lightBlue.png"), (-Kroy.width / 2), (Kroy.height / 2) - 75, scoreText.length() * 30,
+				75);
+		font.draw(batch, scoreText, (-Kroy.width / 2) + 10, (Kroy.height / 2) - 10);
+
+		if (Kroy.debug) {
+			debugObjects.forEach(o -> o.Draw(gamecam.combined));
+			debugObjects.clear();
+		}
+
+		batch.end();
+
+		pauseWindow.stage.draw();
+	}
+
+	//Method added as a result for refactoring by team septagon
+	private void renderPauseState(){
+		pauseWindow.stage.draw();
+		clickCheck();
+	}
+
+	//Method added as a result for refactoring by team septagon
+	private void renderResumeState(){
+		pauseWindow.visibility(false);
+		setGameState(GameScreenState.RUN);
+	}
+
+	//Method added as a result for refactoring by team septagon
+	private void renderEndState(Batch batch){
+		batch.begin();
+		batch.draw(new Texture("minigameEnd.png"), 0, 0, Kroy.width, Kroy.height);
+		font.draw(batch, scoreText, (Kroy.width / 2) + 20, (Kroy.height / 2) - 300);
+		batch.end();
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+			dispose();
+			game.backToMenu();
 		}
 	}
 

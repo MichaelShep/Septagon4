@@ -30,6 +30,7 @@ public class PauseWindow {
 	
     private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     public TextButton resume = new TextButton("RESUME", skin);
+    public TextButton save = new TextButton("SAVE", skin); //Added by Septagon - allowing player to save the game
     public TextButton exit = new TextButton("EXIT", skin);
     public TextButton menu = new TextButton("MENU", skin);
     
@@ -45,6 +46,8 @@ public class PauseWindow {
 		table.setBackground(background);
 		table.row();
 	    table.add(resume).width(Kroy.CentreWidth());
+		table.row();
+		table.add(save).width(Kroy.CentreWidth()); //Added the save button to the pause menu - Septagon
 		table.row();
 	    table.add(menu).width(Kroy.CentreWidth());
 	    table.row();
