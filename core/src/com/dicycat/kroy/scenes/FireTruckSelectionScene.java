@@ -39,6 +39,8 @@ public class FireTruckSelectionScene {
     public TextButton truckButton6 = new TextButton("Range", skin);
 
 
+
+
     private float width = Gdx.graphics.getWidth();
     private float centre = width* 0.7f;
     
@@ -71,6 +73,8 @@ public class FireTruckSelectionScene {
 	    table.add(truckButton4).width(centre/3.0f);
 	    table.add(truckButton5).width(centre/3.0f);
 	    table.add(truckButton6).width(centre/3.0f);
+
+
 	    
 		table.setFillParent(true);
 	    stage.addActor(table);

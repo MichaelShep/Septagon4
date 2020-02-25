@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
+import com.dicycat.kroy.scenes.DifficultyScene;
 import com.dicycat.kroy.scenes.FireTruckSelectionScene;
 import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.scenes.OptionsWindow;
@@ -59,7 +60,10 @@ public class MenuScreen implements Screen{
   private Pixmap pm = new Pixmap(Gdx.files.internal("handHD2.png")); //cursor
   private int xHotSpot = pm.getWidth() / 3;	//where the cursor's aim is 
   private int yHotSpot = 0;
-  
+
+  //SEPTAGON
+  private DifficultyScene difficultySelector;
+
   private FireTruckSelectionScene fireTruckSelector;
   private boolean currentlyRunningGame = false;
 
@@ -71,6 +75,7 @@ public class MenuScreen implements Screen{
    */
   public static enum MenuScreenState {
 	  MAINMENU,
+	  DIFFICULTYSELECT,
 	  TRUCKSELECT,
 	  OPTIONS
   }
@@ -95,7 +100,11 @@ public class MenuScreen implements Screen{
 	  gamecam = new OrthographicCamera();
 	  gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);
 	  stage = new Stage(gameport);
-	  
+
+	  //SEPTAGON
+	  difficultySelector = new DifficultyScene(game);
+	  difficultySelector.visibility(false);
+
 	  fireTruckSelector = new FireTruckSelectionScene(game);
 	  fireTruckSelector.visibility(false);
 	  
@@ -137,8 +146,8 @@ public class MenuScreen implements Screen{
 				  if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 					  this.dispose();
 					  game.batch.end();
-					  fireTruckSelector.visibility(true);// display the truck selection window
-					  setGameState(MenuScreenState.TRUCKSELECT);// set the game state to run and run the selection screen code
+					  difficultySelector.visibility(true);// display the difficulty selection window
+					  setGameState(MenuScreenState.DIFFICULTYSELECT);// set the game state to run and run the selection screen code
 					  return;
 				  }
 			  } else {
@@ -178,6 +187,12 @@ public class MenuScreen implements Screen{
 			  game.batch.end();
 				  
 			  break;
+		  case DIFFICULTYSELECT:
+		  	  Gdx.input.setInputProcessor(difficultySelector.stage);
+		  	  difficultySelector.stage.act();
+		  	  difficultySelector.stage.draw();
+			  difficultyClickCheck();
+			  break;
 		  case TRUCKSELECT: // Ran when the new game button pressed
 			  Gdx.input.setInputProcessor(fireTruckSelector.stage);
 			  fireTruckSelector.stage.act();
@@ -198,6 +213,31 @@ public class MenuScreen implements Screen{
 	 */
 	public void setGameState(MenuScreenState state){
 	    this.state = state;
+	}
+
+	public void difficultyClickCheck(){
+		difficultySelector.easyButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				//game.batch.end();
+				fireTruckSelector.visibility(true);// display the difficulty selection window
+				setGameState(MenuScreenState.TRUCKSELECT);
+			}
+		});
+		difficultySelector.mediumButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				fireTruckSelector.visibility(true);// display the difficulty selection window
+				setGameState(MenuScreenState.TRUCKSELECT);
+			}
+		});
+		difficultySelector.hardButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				fireTruckSelector.visibility(true);// display the difficulty selection window
+				setGameState(MenuScreenState.TRUCKSELECT);
+			}
+		});
 	}
   
 	/**
