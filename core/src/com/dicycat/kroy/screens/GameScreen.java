@@ -252,6 +252,10 @@ public class GameScreen implements Screen{
 	 */
 	private void updateLoop() {
 		checkZoom();
+
+		//Flag to say that when the game is being updated, the game needs to be saved again
+		if(saveManager.isSavedMostRecentState())
+			saveManager.setSavedMostRecentState(false);
 		
 		List<GameObject> toRemove = new ArrayList<GameObject>();
 		List<Vector2> patrolPositions = new ArrayList<>();
@@ -520,6 +524,20 @@ public class GameScreen implements Screen{
 	    		return;
 	    	}
 	    });
+
+		//Add in functionality for clicking save button
+		pauseWindow.save.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(!saveManager.isSavedMostRecentState()) {
+					//Update all the values in saveManager and save everything to preferences
+					saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+					saveManager.saveAttributes();
+					saveManager.setSavedMostRecentState(true);
+				}
+				return;
+			}
+		});
 	}
 
 	/**

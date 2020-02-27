@@ -6,6 +6,7 @@ import com.dicycat.kroy.entities.FireTruck;
 import com.dicycat.kroy.entities.Fortress;
 import com.dicycat.kroy.entities.UFO;
 
+import javax.swing.plaf.FontUIResource;
 import java.util.List;
 
 /**
@@ -30,7 +31,9 @@ public class SaveManager {
     //Lists containing data on all attributes in the game
     private List<FireTruck> fireTrucks;
     private List<UFO> ufos;
-    private List<Fortress> fortreses;
+    private List<Fortress> fortresses;
+
+    private boolean savedMostRecentState = false;
 
     public SaveManager(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses){
         this.updateSavedEntities(fireTrucks, ufos, fortresses);
@@ -45,21 +48,43 @@ public class SaveManager {
     public void updateSavedEntities(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses){
         this.fireTrucks = fireTrucks;
         this.ufos = ufos;
-        this.fortreses = fortresses;
+        this.fortresses = fortresses;
     }
 
     /**
      * Saves all the attributes when a player finishes the game so that they can be loaded for next time
      */
     public void saveAttributes() {
-        //Test code - saving an integer  with value 50
-        int valueToSave = 50;
 
-        //Stores all the required attributes into the preferences
-        preferences.putInteger("myValue", valueToSave);
+        //Stores all the required attributes about the engines into preferences
+        for(int i = 0; i < fireTrucks.size(); i++){
+            preferences.putFloat("fireTruck" + i + "x", fireTrucks.get(i).getPosition().x);
+            preferences.putFloat("fireTruck" + i + "y", fireTrucks.get(i).getPosition().y);
+            preferences.putFloat("fireTruck" + i + "health", fireTrucks.get(i).getHealthPoints());
+            preferences.putFloat("fireTruck" + i + "water", fireTrucks.get(i).getCurrentWater());
+        }
+        preferences.putInteger("numFireTrucks", fireTrucks.size());
+
+        //Stores all the required attributes about the fortress into preferences
+        for(int i = 0; i < fortresses.size(); i++){
+            preferences.putFloat("fortress" + i + "x", fortresses.get(i).getPosition().x);
+            preferences.putFloat("fortress" + i + "y", fortresses.get(i).getPosition().y);
+            preferences.putFloat("fortress" + i + "health", fortresses.get(i).getHealthPoints());
+        }
+        preferences.putInteger("numFortresses", fortresses.size());
+
+        //Stores all the required attributes about the ufos into preferences
+        for(int i = 0; i < ufos.size(); i++){
+            preferences.putFloat("ufo" + i + "x", ufos.get(i).getPosition().x);
+            preferences.putFloat("ufo" + i + "y", ufos.get(i).getPosition().y);
+            preferences.putFloat("ufo" + i + "health", ufos.get(i).getHealthPoints());
+        }
+        preferences.putInteger("numUfos", ufos.size());
 
         //Saves all the changes to the preferences
         preferences.flush();
+
+        System.out.println("VALUES HAVE BEEN SUCCESSFULLY SAVED");
     }
 
     /**
@@ -72,4 +97,8 @@ public class SaveManager {
             System.out.println("VALUE HAS BEEN LOADED, THE VALUE STORED IS: " + myValue);
         }
     }
+
+    public boolean isSavedMostRecentState() { return savedMostRecentState; }
+
+    public void setSavedMostRecentState(boolean savedMostRecentState) { this.savedMostRecentState = savedMostRecentState; }
 }
