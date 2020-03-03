@@ -100,6 +100,35 @@ public class FireTruck extends Entity{
 		water = new WaterStream(Vector2.Zero);
 	}
 
+	public FireTruck(int truckNumber) {
+		super(new Vector2(3750, 4000), Kroy.mainGameScreen.textures.getTruck(truckNumber), new Vector2(25,50), 100);
+
+		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
+		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
+		DIRECTIONS.put("s",180);		//South Facing Direction (down arrow)
+		DIRECTIONS.put("e",270);		//East Facing Direction (right arrow)
+
+		DIRECTIONS.put("nw",45);		//up and left arrows
+		DIRECTIONS.put("sw",135);		//down and left arrows
+		DIRECTIONS.put("se",225);		//down and right arrows
+		DIRECTIONS.put("ne",315);		//up and right arrows
+		DIRECTIONS.put("",0); 			// included so that if multiple keys in the opposite direction are pressed, the truck faces north
+
+		speed=300;	//How fast the truck can move
+		flowRate=(float) 1.5;	//How fast the truck can dispense water
+		maxWater=400; //How much water the truck can hold
+		currentWater=300;
+
+		firing = false;
+		water = new WaterStream(Vector2.Zero);
+
+		tank = new StatBar(Vector2.Zero, "Blue.png", 3);
+		Kroy.mainGameScreen.addGameObject(tank);
+
+		healthBar= new StatBar(Vector2.Zero, "Green.png", 3);
+		Kroy.mainGameScreen.addGameObject(healthBar);
+	}
+
 	/**
 	 * When called, this method moves the truck by 1 unit of movement in the direction calculated in "updateDirection()"
 	 */
@@ -327,7 +356,7 @@ public class FireTruck extends Entity{
 	 * new
 	 * Increase the currentWater by the input parameter
 	 */
-	public void setCurrentWater(int x) {
+	public void setCurrentWater(float x) {
 		 currentWater += x;
 	}
 	

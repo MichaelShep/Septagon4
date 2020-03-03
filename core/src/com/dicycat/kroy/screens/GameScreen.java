@@ -98,6 +98,7 @@ public class GameScreen implements Screen{
 
 	//Used to handle saving and loading states of the game
 	private SaveManager saveManager;
+	private boolean loadingGame = true;
 
 	/**
 	 * extended
@@ -152,14 +153,20 @@ public class GameScreen implements Screen{
 		deadObjects = new ArrayList<GameObject>();
 		debugObjects = new ArrayList<DebugDraw>();
 
-		// Initialises the FireTrucks
-		for (int i = 0; i < 6; i++) {
-			firetruckInit(spawnPosition.x - 135 + (i * 50), spawnPosition.y, i);
-			fortressInit(i);
+		//Checks if we are loading a game from a previous save or starting a completley new game - added by Septagon
+		if(!loadingGame) {
+			// Initialises the FireTrucks
+			for (int i = 0; i < 6; i++) {
+				firetruckInit(spawnPosition.x - 135 + (i * 50), spawnPosition.y, i);
+				fortressInit(i);
+			}
+			gameObjects.add(new FireStation());
+		}else {
+			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes);
+			gameObjects.add(new FireStation());
 		}
-		gameObjects.add(new FireStation());
-		switchTrucks(truckNum);  
 
+		switchTrucks(truckNum);
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position
 	}
 
