@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.GameTextures;
+import com.dicycat.kroy.entities.FireStation;
 import com.dicycat.kroy.entities.FireTruck;
 import com.dicycat.kroy.entities.Fortress;
 import com.dicycat.kroy.entities.UFO;
@@ -66,6 +67,7 @@ public class SaveManager {
             preferences.putFloat("fireTruck" + i + "y", fireTrucks.get(i).getPosition().y);
             preferences.putInteger("fireTruck" + i + "health", fireTrucks.get(i).getHealthPoints());
             preferences.putFloat("fireTruck" + i + "water", fireTrucks.get(i).getCurrentWater());
+            preferences.putFloat("fireTruck" + i + "rotation", fireTrucks.get(i).getRotation());
         }
         preferences.putInteger("numFireTrucks", fireTrucks.size());
 
@@ -101,6 +103,7 @@ public class SaveManager {
             truck.setPosition(new Vector2(preferences.getFloat("fireTruck" + i + "x"), preferences.getFloat("fireTruck" + i + "y")));
             truck.setHealthPoints(preferences.getInteger("fireTruck" + i + "health"));
             truck.setCurrentWater(preferences.getFloat("fireTruck" + i + "water"));
+            truck.setRotation(preferences.getFloat("fireTruck" + i + "rotation"));
             fireTrucks.add(truck);
             System.out.println("Fire Truck " + i + " loaded");
         }
