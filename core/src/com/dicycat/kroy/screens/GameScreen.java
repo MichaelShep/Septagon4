@@ -88,7 +88,7 @@ public class GameScreen implements Screen{
 	private List<GameObject> objectsToAdd;
 	private List<DebugDraw> debugObjects; //List of debug items
 
-	private float lastPatrol; //time passsed since we last spawned patrols
+	private float lastPatrol; //time passed since we last spawned patrols
 	private List<Vector2> fortressPositions, fortressSizes; //where our fortresses spawn
 	private int patrolUpdateRate; //How many seconds should pass before we respawn patrols;
 
