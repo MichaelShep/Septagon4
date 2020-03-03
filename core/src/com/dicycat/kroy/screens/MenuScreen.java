@@ -19,6 +19,7 @@ import com.dicycat.kroy.scenes.DifficultyScene;
 import com.dicycat.kroy.scenes.FireTruckSelectionScene;
 import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.scenes.OptionsWindow;
+import com.dicycat.kroy.DifficultyMultiplier;
   
 /**
  * Main Menu screen
@@ -81,6 +82,8 @@ public class MenuScreen implements Screen{
   }
   
   public MenuScreenState state = MenuScreenState.MAINMENU;
+
+  private float difficultyMultiplier;
   
   /**
    * @param game
@@ -220,6 +223,7 @@ public class MenuScreen implements Screen{
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				//game.batch.end();
+				DifficultyMultiplier.setDifficulty(0);
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
 			}
@@ -227,6 +231,7 @@ public class MenuScreen implements Screen{
 		difficultySelector.mediumButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				DifficultyMultiplier.setDifficulty(1);
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
 			}
@@ -234,6 +239,7 @@ public class MenuScreen implements Screen{
 		difficultySelector.hardButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				DifficultyMultiplier.setDifficulty(2);
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
 			}

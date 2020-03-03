@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.dicycat.kroy.DifficultyMultiplier;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.entities.FireTruck;
@@ -76,7 +77,7 @@ public class Bullet extends GameObject {
 		FireTruck truck = Kroy.mainGameScreen.getPlayer();
 		if (truck.isAlive()) {
 			if(Intersector.overlaps(hitbox, truck.getHitbox())){
-				truck.applyDamage(10);
+				truck.applyDamage((int)(10 * DifficultyMultiplier.getDifficultyBullet()));
 				remove = true;
 			}
 		}
