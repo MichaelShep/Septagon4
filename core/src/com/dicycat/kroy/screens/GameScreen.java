@@ -88,7 +88,7 @@ public class GameScreen implements Screen{
 	private List<GameObject> objectsToAdd;
 	private List<DebugDraw> debugObjects; //List of debug items
 
-	private float lastPatrol; //time passsed since we last spawned patrols
+	private float lastPatrol; //time passed since we last spawned patrols
 	private List<Vector2> fortressPositions, fortressSizes; //where our fortresses spawn
 	private int patrolUpdateRate; //How many seconds should pass before we respawn patrols;
 
@@ -98,6 +98,7 @@ public class GameScreen implements Screen{
 
 	//Used to handle saving and loading states of the game
 	private SaveManager saveManager;
+	private boolean loadingGame = true;
 
 	/**
 	 * extended
@@ -152,14 +153,20 @@ public class GameScreen implements Screen{
 		deadObjects = new ArrayList<GameObject>();
 		debugObjects = new ArrayList<DebugDraw>();
 
-		// Initialises the FireTrucks
-		for (int i = 0; i < 6; i++) {
-			firetruckInit(spawnPosition.x - 135 + (i * 50), spawnPosition.y, i);
-			fortressInit(i);
+		//Checks if we are loading a game from a previous save or starting a completley new game - added by Septagon
+		if(!loadingGame) {
+			// Initialises the FireTrucks
+			for (int i = 0; i < 6; i++) {
+				firetruckInit(spawnPosition.x - 135 + (i * 50), spawnPosition.y, i);
+				fortressInit(i);
+			}
+			gameObjects.add(new FireStation());
+		}else {
+			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes);
+			gameObjects.add(new FireStation());
 		}
-		gameObjects.add(new FireStation());
-		switchTrucks(truckNum);  
 
+		switchTrucks(truckNum);
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position
 	}
 
@@ -252,6 +259,10 @@ public class GameScreen implements Screen{
 	 */
 	private void updateLoop() {
 		checkZoom();
+
+		//Flag to say that when the game is being updated, the game needs to be saved again
+		if(saveManager.isSavedMostRecentState())
+			saveManager.setSavedMostRecentState(false);
 		
 		List<GameObject> toRemove = new ArrayList<GameObject>();
 		List<Vector2> patrolPositions = new ArrayList<>();
@@ -520,6 +531,20 @@ public class GameScreen implements Screen{
 	    		return;
 	    	}
 	    });
+
+		//Add in functionality for clicking save button
+		pauseWindow.save.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(!saveManager.isSavedMostRecentState()) {
+					//Update all the values in saveManager and save everything to preferences
+					saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+					saveManager.saveAttributes();
+					saveManager.setSavedMostRecentState(true);
+				}
+				return;
+			}
+		});
 	}
 
 	/**
