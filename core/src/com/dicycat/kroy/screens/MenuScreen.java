@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.scenes.*;
+import com.dicycat.kroy.DifficultyMultiplier;
 
 /**
  * Main Menu screen
@@ -244,7 +245,7 @@ public class MenuScreen implements Screen{
 		difficultySelector.easyButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//game.batch.end();
+				DifficultyMultiplier.setDifficulty(0);
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
 			}
@@ -252,6 +253,7 @@ public class MenuScreen implements Screen{
 		difficultySelector.mediumButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				DifficultyMultiplier.setDifficulty(1);
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
 			}
@@ -259,6 +261,7 @@ public class MenuScreen implements Screen{
 		difficultySelector.hardButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				DifficultyMultiplier.setDifficulty(2);
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
 			}
