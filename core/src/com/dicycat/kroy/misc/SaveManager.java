@@ -67,7 +67,9 @@ public class SaveManager {
             preferences.putFloat("fireTruck" + i + "y", fireTrucks.get(i).getPosition().y);
             preferences.putInteger("fireTruck" + i + "health", fireTrucks.get(i).getHealthPoints());
             preferences.putFloat("fireTruck" + i + "water", fireTrucks.get(i).getCurrentWater());
+            preferences.putFloat("fireTruck" + i + "maxWater", fireTrucks.get(i).getMaxWater());
             preferences.putFloat("fireTruck" + i + "rotation", fireTrucks.get(i).getRotation());
+            preferences.putFloat("fireTruck" + i + "range", fireTrucks.get(i).getRange());
         }
         preferences.putInteger("numFireTrucks", fireTrucks.size());
 
@@ -102,8 +104,10 @@ public class SaveManager {
             FireTruck truck = new FireTruck(i);
             truck.setPosition(new Vector2(preferences.getFloat("fireTruck" + i + "x"), preferences.getFloat("fireTruck" + i + "y")));
             truck.setHealthPoints(preferences.getInteger("fireTruck" + i + "health"));
+            truck.setMaxWater(preferences.getFloat("fireTruck" + i + "maxWater"));
             truck.setCurrentWater(preferences.getFloat("fireTruck" + i + "water"));
             truck.setRotation(preferences.getFloat("fireTruck" + i + "rotation"));
+            truck.setRange(preferences.getFloat("fireTruck" + i + "range"));
             fireTrucks.add(truck);
             System.out.println("Fire Truck " + i + " loaded");
         }

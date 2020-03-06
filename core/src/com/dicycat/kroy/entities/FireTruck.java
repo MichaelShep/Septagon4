@@ -360,6 +360,13 @@ public class FireTruck extends Entity{
 	public void setCurrentWater(float x) {
 		 currentWater += x;
 	}
+
+
+	public float getRange(){return this.range;}
+	public void setRange(float range){this.range = range;}
+
+	public float getMaxWater(){return this.maxWater;}
+	public void setMaxWater(float maxWater){this.maxWater = maxWater;}
 	
 
 }
