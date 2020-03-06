@@ -98,14 +98,15 @@ public class GameScreen implements Screen{
 
 	//Used to handle saving and loading states of the game
 	private SaveManager saveManager;
-	private boolean loadingGame = true;
+	private boolean loadingGame = false;
 
 	/**
 	 * extended
 	 * @param _game
 	 * @param truckNum
 	 */
-	public GameScreen(Kroy _game, int truckNum) {
+	public GameScreen(Kroy _game, int truckNum, boolean loadingGame) {
+		this.loadingGame = loadingGame;
 		game = _game;
 		gamecam = new OrthographicCamera();
 		gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);	//Mic:could also use StretchViewPort to make the screen stretch instead of adapt

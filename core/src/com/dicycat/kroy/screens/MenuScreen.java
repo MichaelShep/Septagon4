@@ -68,6 +68,9 @@ public class MenuScreen implements Screen{
   private FireTruckSelectionScene fireTruckSelector;
   private boolean currentlyRunningGame = false;
 
+  //Boolean to keep check of whether the user is loading a game or starting a new game - Septagon
+  private boolean loadingGame = false;
+
   /**
    *  Used to define the current state of the screen, 
    *  MAINMENU is used mostly but then TRUCKSELECT used when the "NewGame" button has been pressed
@@ -153,6 +156,7 @@ public class MenuScreen implements Screen{
 					  this.dispose();
 					  game.batch.end();
 					  difficultySelector.visibility(true);// display the difficulty selection window
+					  loadingGame = false;
 					  setGameState(MenuScreenState.DIFFICULTYSELECT);// set the game state to run and run the selection screen code
 					  return;
 				  }
@@ -206,6 +210,8 @@ public class MenuScreen implements Screen{
 		  	Gdx.input.setInputProcessor(loadGameSelector.stage);
 		  	loadGameSelector.stage.act();
 		  	loadGameSelector.stage.draw();
+		  	loadGameClickCheck();
+		  	break;
 		  case DIFFICULTYSELECT:
 		  	  Gdx.input.setInputProcessor(difficultySelector.stage);
 		  	  difficultySelector.stage.act();
@@ -255,6 +261,18 @@ public class MenuScreen implements Screen{
 			public void clicked(InputEvent event, float x, float y) {
 				fireTruckSelector.visibility(true);// display the difficulty selection window
 				setGameState(MenuScreenState.TRUCKSELECT);
+			}
+		});
+	}
+
+	public void loadGameClickCheck(){
+		loadGameSelector.loadGame1Button.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				System.out.println("Load button pressed");
+				fireTruckSelector.visibility(true);// display the difficulty selection window
+				loadingGame = true;
+				startGame(1);
 			}
 		});
 	}
@@ -325,7 +343,10 @@ public class MenuScreen implements Screen{
 	public void startGame(int truckNum) {
 		 if (!currentlyRunningGame) {	// Checks if a new GameScreen is currently running and either makes one or ignores the commands
 			 currentlyRunningGame = true; // Makes sure that only one GameScreen is opened at once
-			 game.newGame(truckNum); // Calls the function in Kroy to start a new game
+			 if(!loadingGame) //If the user does not want to load a game, start a new game, otherwise load a previous save state
+			 	game.newGame(truckNum); // Calls the function in Kroy to start a new game
+			 else
+			 	game.loadGame(truckNum);
 		 }
 	} 
 	
