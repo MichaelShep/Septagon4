@@ -57,8 +57,8 @@ public class Kroy extends Game {
 	 * Call to generate a brand new GameScreen which runs a previously saved game
 	 * @param truckNum  Selected truck
 	 */
-	public void loadGame(int truckNum) {
-		mainGameScreen = new GameScreen(this,truckNum, true);// Initialise new game
+	public void loadGame(int truckNum, Integer saveNum) {
+		mainGameScreen = new GameScreen(this,truckNum, true, saveNum);// Initialise new game
 		setScreen(mainGameScreen);// Display new game
 	}
 

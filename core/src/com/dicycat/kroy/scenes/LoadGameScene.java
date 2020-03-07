@@ -32,6 +32,10 @@ public class LoadGameScene {
     private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
     public TextButton loadGame1Button = new TextButton("Load Game 1", skin);
+    public TextButton loadGame2Button = new TextButton("Load Game 2", skin);
+    public TextButton loadGame3Button = new TextButton("Load Game 3", skin);
+    public TextButton loadGame4Button = new TextButton("Load Game 4", skin);
+    public TextButton loadGame5Button = new TextButton("Load Game 5", skin);
 
     private float width = Gdx.graphics.getWidth();
     private float centre = width* 0.7f;
@@ -44,6 +48,14 @@ public class LoadGameScene {
         table.setBackground(background);
 
         table.add(loadGame1Button).width(centre/3.0f);
+        table.row();
+        table.add(loadGame2Button).width(centre/3.0f);
+        table.row();
+        table.add(loadGame3Button).width(centre/3.0f);
+        table.row();
+        table.add(loadGame4Button).width(centre/3.0f);
+        table.row();
+        table.add(loadGame5Button).width(centre/3.0f);
         table.row();
 
         table.setFillParent(true);

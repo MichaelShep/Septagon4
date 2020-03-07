@@ -142,6 +142,12 @@ public class GameScreen implements Screen{
 
 		saveManager = new SaveManager(firetrucks, ufos, fortresses);
 	}
+
+	public GameScreen(Kroy _game, int truckNum, boolean loadingGame, Integer saveNum){
+	    this(_game, truckNum, loadingGame);
+	    saveManager.setSave(saveNum);
+
+    }
 	
 
 	/**

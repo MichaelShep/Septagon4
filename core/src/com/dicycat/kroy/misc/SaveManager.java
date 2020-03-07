@@ -146,4 +146,6 @@ public class SaveManager {
     public boolean isSavedMostRecentState() { return savedMostRecentState; }
 
     public void setSavedMostRecentState(boolean savedMostRecentState) { this.savedMostRecentState = savedMostRecentState; }
+
+    public void setSave(Integer index){this.preferencesIndex = index;}
 }
