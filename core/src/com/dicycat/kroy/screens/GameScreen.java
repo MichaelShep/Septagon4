@@ -30,6 +30,7 @@ import com.dicycat.kroy.misc.SaveManager;
 import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.scenes.OptionsWindow;
 import com.dicycat.kroy.scenes.PauseWindow;
+import com.dicycat.kroy.scenes.SaveGameScene;
 
 
 /**
@@ -45,7 +46,9 @@ public class GameScreen implements Screen{
 		PAUSE,
 		RUN,
 		RESUME,
+        SAVE,
 		OPTIONS
+
 	}
 	
 	public Kroy game;
@@ -63,6 +66,7 @@ public class GameScreen implements Screen{
 	private HUD hud; 
 	private PauseWindow pauseWindow;
 	private OptionsWindow optionsWindow;
+	private SaveGameScene saveWindow;
 
 	private Float[][] truckStats = {	//extended
 										//Each list is a configuration of a specific truck. {speed, speed + damage , damage , capacity+range, capacity, range}
@@ -116,6 +120,8 @@ public class GameScreen implements Screen{
 		pauseWindow.visibility(false);
 		optionsWindow = new OptionsWindow(game);
 		optionsWindow.visibility(false);
+		saveWindow = new SaveGameScene(game);
+		saveWindow.visibility(false);
 		textures = new GameTextures(truckNum);
 		spawnPosition = new Vector2(3750, 4000);
 		gameTimer = 60 * 5; //new    //Set timer to 5 minutes  
@@ -252,6 +258,12 @@ public class GameScreen implements Screen{
 				pauseWindow.visibility(false);
 				setGameState(GameScreenState.RUN);
 				break;
+            case SAVE:
+                Gdx.input.setInputProcessor(saveWindow.stage);
+                saveWindow.stage.act();
+                saveWindow.stage.draw();
+                saveClickCheck();
+                break;
 			default:
 				break;
 		}
@@ -543,16 +555,76 @@ public class GameScreen implements Screen{
 		pauseWindow.save.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(!saveManager.isSavedMostRecentState()) {
-					//Update all the values in saveManager and save everything to preferences
-					saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
-					saveManager.saveAttributes();
-					saveManager.setSavedMostRecentState(true);
-				}
+			    saveWindow.visibility(true);
+			    setGameState(GameScreenState.SAVE);
+			    saveClickCheck();
 				return;
 			}
 		});
 	}
+
+	public void saveClickCheck(){
+        saveWindow.saveGame1Button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pauseWindow.stage);
+                saveManager.setSave(0);
+                saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+                saveManager.saveAttributes();
+                pauseWindow.visibility(true);// display the difficulty selection window
+                setGameState(GameScreenState.PAUSE);
+                return;
+            }
+        });
+        saveWindow.saveGame2Button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pauseWindow.stage);
+                saveManager.setSave(1);
+                saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+                saveManager.saveAttributes();
+                saveWindow.visibility(false);// display the difficulty selection window
+                setGameState(GameScreenState.PAUSE);
+                return;
+            }
+        });
+        saveWindow.saveGame3Button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pauseWindow.stage);
+                saveManager.setSave(2);
+                saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+                saveManager.saveAttributes();
+                saveWindow.visibility(false);
+                setGameState(GameScreenState.PAUSE);
+                return;
+            }
+        });
+        saveWindow.saveGame4Button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pauseWindow.stage);
+                saveManager.setSave(3);
+                saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+                saveManager.saveAttributes();
+                saveWindow.visibility(false);
+                setGameState(GameScreenState.PAUSE);
+                return;
+            }
+        });
+        saveWindow.saveGame5Button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pauseWindow.stage);
+                saveManager.setSave(4);
+                saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+                saveManager.saveAttributes();
+                saveWindow.visibility(false);
+                setGameState(GameScreenState.PAUSE);
+                return;
+            }
+        });
+    }
 
 	/**
 	 * Add one fortress to the count

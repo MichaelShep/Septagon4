@@ -208,10 +208,10 @@ public class MenuScreen implements Screen{
 			  break;
 
 		  case LOADGAMESELECT:
-		  	Gdx.input.setInputProcessor(loadGameSelector.stage);
-		  	loadGameSelector.stage.act();
-		  	loadGameSelector.stage.draw();
-		  	loadGameClickCheck();
+			Gdx.input.setInputProcessor(loadGameSelector.stage);
+			loadGameSelector.stage.act();
+			loadGameSelector.stage.draw();
+			loadGameClickCheck();
 		  	break;
 		  case DIFFICULTYSELECT:
 		  	  Gdx.input.setInputProcessor(difficultySelector.stage);
