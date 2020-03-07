@@ -12,6 +12,7 @@ import com.dicycat.kroy.entities.UFO;
 
 import javax.swing.plaf.FontUIResource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,7 +32,14 @@ import java.util.List;
 public class SaveManager {
 
     //Preferences instance that is used to store/load values from our game
-    private Preferences preferences = Gdx.app.getPreferences("myprefs");
+    private Preferences preferences1 = Gdx.app.getPreferences("Save1");
+    private Preferences preferences2 = Gdx.app.getPreferences("Save2");
+    private Preferences preferences3 = Gdx.app.getPreferences("Save3");
+    private Preferences preferences4 = Gdx.app.getPreferences("Save4");
+    private Preferences preferences5 = Gdx.app.getPreferences("Save5");
+
+    private ArrayList<Preferences> preferences = new ArrayList<>(Arrays.asList(preferences1,preferences2,preferences3,preferences4,preferences5));
+    private Integer preferencesIndex = 0;
 
     //Lists containing data on all attributes in the game
     private List<FireTruck> fireTrucks;
@@ -63,33 +71,33 @@ public class SaveManager {
 
         //Stores all the required attributes about the engines into preferences
         for(int i = 0; i < fireTrucks.size(); i++){
-            preferences.putFloat("fireTruck" + i + "x", fireTrucks.get(i).getPosition().x);
-            preferences.putFloat("fireTruck" + i + "y", fireTrucks.get(i).getPosition().y);
-            preferences.putInteger("fireTruck" + i + "health", fireTrucks.get(i).getHealthPoints());
-            preferences.putFloat("fireTruck" + i + "water", fireTrucks.get(i).getCurrentWater());
-            preferences.putFloat("fireTruck" + i + "maxWater", fireTrucks.get(i).getMaxWater());
-            preferences.putFloat("fireTruck" + i + "rotation", fireTrucks.get(i).getRotation());
-            preferences.putFloat("fireTruck" + i + "range", fireTrucks.get(i).getRange());
-            preferences.putFloat("fireTruck" + i + "flowRate", fireTrucks.get(i).getFlowRate());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "x", fireTrucks.get(i).getPosition().x);
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "y", fireTrucks.get(i).getPosition().y);
+            preferences.get(preferencesIndex).putInteger("fireTruck" + i + "health", fireTrucks.get(i).getHealthPoints());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "water", fireTrucks.get(i).getCurrentWater());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "maxWater", fireTrucks.get(i).getMaxWater());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "rotation", fireTrucks.get(i).getRotation());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "range", fireTrucks.get(i).getRange());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "flowRate", fireTrucks.get(i).getFlowRate());
         }
-        preferences.putInteger("numFireTrucks", fireTrucks.size());
+        preferences.get(preferencesIndex).putInteger("numFireTrucks", fireTrucks.size());
 
         //Stores all the required attributes about the fortress into preferences
         for(int i = 0; i < fortresses.size(); i++){
-            preferences.putInteger("fortress" + i + "health", fortresses.get(i).getHealthPoints());
+            preferences.get(preferencesIndex).putInteger("fortress" + i + "health", fortresses.get(i).getHealthPoints());
         }
-        preferences.putInteger("numFortresses", fortresses.size());
+        preferences.get(preferencesIndex).putInteger("numFortresses", fortresses.size());
 
         //Stores all the required attributes about the ufos into preferences
         for(int i = 0; i < ufos.size(); i++){
-            preferences.putFloat("ufo" + i + "x", ufos.get(i).getPosition().x);
-            preferences.putFloat("ufo" + i + "y", ufos.get(i).getPosition().y);
-            preferences.putInteger("ufo" + i + "health", ufos.get(i).getHealthPoints());
+            preferences.get(preferencesIndex).putFloat("ufo" + i + "x", ufos.get(i).getPosition().x);
+            preferences.get(preferencesIndex).putFloat("ufo" + i + "y", ufos.get(i).getPosition().y);
+            preferences.get(preferencesIndex).putInteger("ufo" + i + "health", ufos.get(i).getHealthPoints());
         }
-        preferences.putInteger("numUfos", ufos.size());
+        preferences.get(preferencesIndex).putInteger("numUfos", ufos.size());
 
         //Saves all the changes to the preferences
-        preferences.flush();
+        preferences.get(preferencesIndex).flush();
 
         System.out.println("VALUES HAVE BEEN SUCCESSFULLY SAVED");
     }
@@ -100,35 +108,35 @@ public class SaveManager {
     public void loadAttributes(List<GameObject> gameObjects, GameTextures textures, List<Vector2> fortressPositions, List<Vector2> fortressSizes){
 
         //Loads all the fireTrucks back into the game
-        int numFireTrucks = preferences.getInteger("numFireTrucks");
+        int numFireTrucks = preferences.get(preferencesIndex).getInteger("numFireTrucks");
         for(int i = 0; i < numFireTrucks; i++){
             FireTruck truck = new FireTruck(i);
-            truck.setPosition(new Vector2(preferences.getFloat("fireTruck" + i + "x"), preferences.getFloat("fireTruck" + i + "y")));
-            truck.setHealthPoints(preferences.getInteger("fireTruck" + i + "health"));
-            truck.setMaxWater(preferences.getFloat("fireTruck" + i + "maxWater"));
-            truck.setCurrentWater(preferences.getFloat("fireTruck" + i + "water"));
-            truck.setRotation(preferences.getFloat("fireTruck" + i + "rotation"));
-            truck.setRange(preferences.getFloat("fireTruck" + i + "range"));
-            truck.setFlowRate(preferences.getFloat("fireTruck" + i + "flowRate"));
+            truck.setPosition(new Vector2(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "x"), preferences.get(preferencesIndex).getFloat("fireTruck" + i + "y")));
+            truck.setHealthPoints(preferences.get(preferencesIndex).getInteger("fireTruck" + i + "health"));
+            truck.setMaxWater(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "maxWater"));
+            truck.setCurrentWater(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "water"));
+            truck.setRotation(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "rotation"));
+            truck.setRange(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "range"));
+            truck.setFlowRate(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "flowRate"));
             fireTrucks.add(truck);
             System.out.println("Fire Truck " + i + " loaded");
         }
 
         //Loads all the fortresses back into the game
-        int numFortresses = preferences.getInteger("numFortresses");
+        int numFortresses = preferences.get(preferencesIndex).getInteger("numFortresses");
         for(int i = 0; i < numFortresses; i++){
             Fortress fortress = new Fortress(fortressPositions.get(i), textures.getFortress(i), textures.getDeadFortress(i), fortressSizes.get(i));
-            fortress.setHealthPoints(preferences.getInteger("fortress" + i + "health"));
+            fortress.setHealthPoints(preferences.get(preferencesIndex).getInteger("fortress" + i + "health"));
             gameObjects.add(fortress);
             fortresses.add(fortress);
             System.out.println("Fortress " + i + " loaded");
         }
 
         //Loads all the ufos back into the game
-        int numUfos = preferences.getInteger("numUfos");
+        int numUfos = preferences.get(preferencesIndex).getInteger("numUfos");
         for(int i = 0; i < numUfos; i++){
-            UFO ufo = new UFO(new Vector2(preferences.getFloat("ufo" + i + "x"), preferences.getFloat("ufo" + i + "y")));
-            ufo.setHealthPoints(preferences.getInteger("ufo" + i + "health"));
+            UFO ufo = new UFO(new Vector2(preferences.get(preferencesIndex).getFloat("ufo" + i + "x"), preferences.get(preferencesIndex).getFloat("ufo" + i + "y")));
+            ufo.setHealthPoints(preferences.get(preferencesIndex).getInteger("ufo" + i + "health"));
             gameObjects.add(ufo);
             ufos.add(ufo);
             System.out.println("UFO " + i + " loaded");

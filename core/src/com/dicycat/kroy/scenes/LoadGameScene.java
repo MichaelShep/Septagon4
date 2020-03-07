@@ -14,6 +14,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
 
+/**
+Added by Septagon
+
+ A Scene in the menu system that allows users to choose which save they want
+ to load.
+
+ */
+
 public class LoadGameScene {
 
     private SpriteBatch stageBatch;
