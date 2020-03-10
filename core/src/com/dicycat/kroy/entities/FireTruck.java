@@ -370,6 +370,9 @@ public class FireTruck extends Entity{
 
 	public float getFlowRate(){return this.flowRate;}
 	public void setFlowRate(float flowRate){this.flowRate = flowRate;}
+
+	public float getSpeed() { return this.speed; }
+	public void setSpeed(float speed) { this.speed = speed; }
 	
 
 }

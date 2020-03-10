@@ -73,12 +73,15 @@ public class SaveManager {
         for(int i = 0; i < fireTrucks.size(); i++){
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "x", fireTrucks.get(i).getPosition().x);
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "y", fireTrucks.get(i).getPosition().y);
+            preferences.get(preferencesIndex).putInteger("fireTruck" + i + "maxHealth", fireTrucks.get(i).getMaxHealthPoints());
             preferences.get(preferencesIndex).putInteger("fireTruck" + i + "health", fireTrucks.get(i).getHealthPoints());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "flowRate", fireTrucks.get(i).getFlowRate());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "water", fireTrucks.get(i).getCurrentWater());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "maxWater", fireTrucks.get(i).getMaxWater());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "rotation", fireTrucks.get(i).getRotation());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "range", fireTrucks.get(i).getRange());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "flowRate", fireTrucks.get(i).getFlowRate());
+            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "speed", fireTrucks.get(i).getSpeed());
         }
         preferences.get(preferencesIndex).putInteger("numFireTrucks", fireTrucks.size());
 
@@ -110,14 +113,19 @@ public class SaveManager {
         //Loads all the fireTrucks back into the game
         int numFireTrucks = preferences.get(preferencesIndex).getInteger("numFireTrucks");
         for(int i = 0; i < numFireTrucks; i++){
-            FireTruck truck = new FireTruck(i);
-            truck.setPosition(new Vector2(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "x"), preferences.get(preferencesIndex).getFloat("fireTruck" + i + "y")));
-            truck.setHealthPoints(preferences.get(preferencesIndex).getInteger("fireTruck" + i + "health"));
-            truck.setMaxWater(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "maxWater"));
-            truck.setCurrentWater(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "water"));
+            float speed = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "speed");
+            float flowRate = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "flowRate");
+            float maxWater = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "maxWater");
+            float water = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "water");
+            float range = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "range");
+            Float[] truckStats = {speed, flowRate, maxWater, water, range};
+
+            FireTruck truck = new FireTruck(new Vector2(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "x"), preferences.get(preferencesIndex).getFloat("fireTruck" + i + "y")), truckStats, i);
+
             truck.setRotation(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "rotation"));
-            truck.setRange(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "range"));
-            truck.setFlowRate(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "flowRate"));
+            truck.setMaxHealthPoints(preferences.get(preferencesIndex).getInteger("fireTruck" + i + "maxHealth"));
+            truck.setHealthPoints(preferences.get(preferencesIndex).getInteger("fireTruck" + i + "health"));
+
             fireTrucks.add(truck);
             System.out.println("Fire Truck " + i + " loaded");
         }
