@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.GameTextures;
+import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.entities.FireStation;
 import com.dicycat.kroy.entities.FireTruck;
 import com.dicycat.kroy.entities.Fortress;
@@ -88,6 +89,7 @@ public class SaveManager {
         //Stores all the required attributes about the fortress into preferences
         for(int i = 0; i < fortresses.size(); i++){
             preferences.get(preferencesIndex).putInteger("fortress" + i + "health", fortresses.get(i).getHealthPoints());
+            preferences.get(preferencesIndex).putInteger("fortress" + i + "maxHealth", fortresses.get(i).getMaxHealthPoints());
         }
         preferences.get(preferencesIndex).putInteger("numFortresses", fortresses.size());
 
@@ -133,10 +135,16 @@ public class SaveManager {
         //Loads all the fortresses back into the game
         int numFortresses = preferences.get(preferencesIndex).getInteger("numFortresses");
         for(int i = 0; i < numFortresses; i++){
-            Fortress fortress = new Fortress(fortressPositions.get(i), textures.getFortress(i), textures.getDeadFortress(i), fortressSizes.get(i));
-            fortress.setHealthPoints(preferences.get(preferencesIndex).getInteger("fortress" + i + "health"));
+            int health = preferences.get(preferencesIndex).getInteger("fortress" + i + "health");
+            Fortress fortress = new Fortress(fortressPositions.get(i), textures.getFortress(i), textures.getDeadFortress(i), fortressSizes.get(i), health);
+            Kroy.mainGameScreen.addFortress();
+            System.out.println("FORTRESS " + i + "HEALTH " + fortress.getHealthPoints());
             gameObjects.add(fortress);
             fortresses.add(fortress);
+            if(fortress.getHealthPoints() == 0)
+            {
+                fortress.death();
+            }
             System.out.println("Fortress " + i + " loaded");
         }
 

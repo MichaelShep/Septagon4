@@ -193,6 +193,8 @@ public class GameScreen implements Screen{
 	private void fortressInit(int num) {
 		Fortress fortressToAdd = new Fortress(fortressPositions.get(num), textures.getFortress(num), textures.getDeadFortress(num),
 				fortressSizes.get(num));
+
+		Kroy.mainGameScreen.addFortress();
 		fortresses.add(fortressToAdd);
 		gameObjects.add(fortressToAdd);
 	}
