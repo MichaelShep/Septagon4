@@ -27,7 +27,7 @@ public class Goose extends Entity {
 	 * @param health The health of the goose unnecessary
 	 */
 	public Goose(Vector2 spawnPos, Texture img, Vector2 imSize, int health) {
-		super(spawnPos, img, imSize, health);
+		super(spawnPos, img, imSize, health, 10);
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class FireStation extends Entity {
 	 * extended
 	 */
 	public FireStation() {
-		super(new Vector2(3600,4100), textureLiving, new Vector2(298,175), 100);
+		super(new Vector2(3600,4100), textureLiving, new Vector2(298,175), 100, 300);
 	}
 
 	/**

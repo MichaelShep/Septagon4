@@ -21,14 +21,12 @@ import com.dicycat.kroy.debug.DebugCircle;
 import com.dicycat.kroy.debug.DebugDraw;
 import com.dicycat.kroy.debug.DebugLine;
 import com.dicycat.kroy.debug.DebugRect;
-import com.dicycat.kroy.entities.FireStation;
-import com.dicycat.kroy.entities.FireTruck;
-import com.dicycat.kroy.entities.Fortress;
-import com.dicycat.kroy.entities.UFO;
+import com.dicycat.kroy.entities.*;
 import com.dicycat.kroy.gamemap.TiledGameMap;
 import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.scenes.OptionsWindow;
 import com.dicycat.kroy.scenes.PauseWindow;
+import com.badlogic.gdx.graphics.Texture;
 
 
 /**
@@ -148,6 +146,12 @@ public class GameScreen implements Screen{
 			fortressInit(i);
 		}
 		gameObjects.add(new FireStation());
+		gameObjects.add(new PowerUps(new Vector2(1772,4633), new Texture("Fire.png"),null));//
+		gameObjects.add(new PowerUps(new Vector2(4344,3729), new Texture("Fire.png"),null));//
+		gameObjects.add(new PowerUps(new Vector2(5512,2696), new Texture("WaterPotion.png"),null));//
+		gameObjects.add(new PowerUps(new Vector2(5055,1415), new Texture("WaterPotion.png"),null));//
+		gameObjects.add(new PowerUps(new Vector2(1608,585), new Texture("WaterPotion.png"),null));//
+		gameObjects.add(new PowerUps(new Vector2(1919,3871), new Texture("WaterPotion.png"),null));//
 		switchTrucks(truckNum);  
 
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position

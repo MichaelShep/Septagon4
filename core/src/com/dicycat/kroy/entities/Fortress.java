@@ -28,7 +28,7 @@ public class Fortress extends Entity {
 	 * @param size
 	 */
 	public Fortress(Vector2 spawnPos, Texture fortressTexture, Texture deadTexture, Vector2 size) {
-		super(spawnPos, fortressTexture, size, 500);
+		super(spawnPos, fortressTexture, size, 500, 300);
 		dispenser = new BulletDispenser(this);
 		dispenser.addPattern(new Pattern(180, 300, 800, 0.1f, 20, 1, 0.5f));
 		dispenser.addPattern(new Pattern(100, 500, 0.5f, 8, 5, 0.5f));
@@ -49,7 +49,7 @@ public class Fortress extends Entity {
 	 * new
 	 */
 	public Fortress() {
-		super(new Vector2(2903, 3211),  new Texture("cliffords tower.png"),  new Vector2(256, 218), 500);
+		super(new Vector2(2903, 3211),  new Texture("cliffords tower.png"),  new Vector2(256, 218), 500, 300);
 		this.deadTexture = new Texture("cliffords tower dead.png");		
 	}
  

@@ -45,7 +45,7 @@ public class FireTruck extends Entity{
 	 * @param truckStats
 	 */
 	public FireTruck(Vector2 spawnPos, Float[] truckStats, int truckNum) {
-		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25,50), 100);
+		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25,50), 100, 500);
  
 		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
 		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
@@ -78,7 +78,7 @@ public class FireTruck extends Entity{
 	 * new
 	 */
 	public FireTruck() {
-		super(new Vector2(3750, 4000), new Texture("fireTruck3.png"), new Vector2(25,50), 100);
+		super(new Vector2(3750, 4000), new Texture("fireTruck3.png"), new Vector2(25,50), 100, 500);
  
 		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
 		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
@@ -330,6 +330,12 @@ public class FireTruck extends Entity{
 	public void setCurrentWater(int x) {
 		 currentWater += x;
 	}
-	
 
+	/**
+	 * new
+	 * refillWater immediately
+	 */
+	public void refillWater() {
+		this.currentWater = this.maxWater;
+	}
 }
