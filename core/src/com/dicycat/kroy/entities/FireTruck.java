@@ -382,6 +382,9 @@ public class FireTruck extends Entity{
 
 	public float getSpeed() { return this.speed; }
 	public void setSpeed(float speed) { this.speed = speed; }
+
+	public StatBar getHealthBar() { return healthBar; }
+	public StatBar getTank() { return tank; }
 	
 
 }

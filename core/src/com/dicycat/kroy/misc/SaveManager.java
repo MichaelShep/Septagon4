@@ -136,9 +136,12 @@ public class SaveManager {
             truck.setRotation(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "rotation"));
             fireTrucks.add(truck);
 
-            if(truck.getHealthPoints() == 0)
+            System.out.println("LOADED HEALTH: " + truck.getHealthPoints());
+            if(truck.getHealthPoints() <= 0)
             {
                 truck.die();
+                gameObjects.remove(truck.getHealthBar());
+                gameObjects.remove(truck.getTank());
             }
             System.out.println("Fire Truck " + i + " loaded");
         }
