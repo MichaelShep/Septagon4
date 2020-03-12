@@ -30,17 +30,7 @@ public class Fortress extends Entity {
 	 */
 	public Fortress(Vector2 spawnPos, Texture fortressTexture, Texture deadTexture, Vector2 size) {
 		super(spawnPos, fortressTexture, size, 500);
-		dispenser = new BulletDispenser(this);
-		dispenser.addPattern(new Pattern(180, (int)(300 * DifficultyMultiplier.getDifficultySpeed()), 800, 0.1f, 20, 1, 0.5f));
-		dispenser.addPattern(new Pattern((int)(100 * DifficultyMultiplier.getDifficultySpeed()), 500, 0.5f, 8, 5, 0.5f));
-		dispenser.addPattern(new Pattern(0, (int)(50 * DifficultyMultiplier.getDifficultySpeed()), 800, 2f, 3, 36, 4));
-		dispenser.addPattern(new Pattern((int)(200 * DifficultyMultiplier.getDifficultySpeed()), 600, 0.3f, 12, 2, 0.3f));
-		dispenser.addPattern(new Pattern(false, 0, 3, (int)(100 * DifficultyMultiplier.getDifficultySpeed()), 900, 0.02f, 1, 0.2f));
-		dispenser.addPattern(new Pattern(true, 0, 1, (int)(100 * DifficultyMultiplier.getDifficultySpeed()), 900, 0.02f, 1, 1.2f));
-
-		this.deadTexture = deadTexture;
-		healthBar = new StatBar(new Vector2(getCentre().x, getCentre().y + 100), "Red.png", 10);
-		Kroy.mainGameScreen.addGameObject(healthBar);
+		this.setup(deadTexture);
 	}
 
 	/**
@@ -51,6 +41,14 @@ public class Fortress extends Entity {
 	 */
 	public Fortress(Vector2 spawnPos, Texture fortressTexture, Texture deadTexture, Vector2 size, int health) {
 		super(spawnPos, fortressTexture, size, health);
+		this.setup(deadTexture);
+	}
+
+	/***
+	 * Used to setup info for the fortresses - moved from constructor so that we can have two different constructors - Septagon
+	 * @param deadTexture
+	 */
+	private void setup(Texture deadTexture){
 		dispenser = new BulletDispenser(this);
 		dispenser.addPattern(new Pattern(180, (int)(300 * DifficultyMultiplier.getDifficultySpeed()), 800, 0.1f, 20, 1, 0.5f));
 		dispenser.addPattern(new Pattern((int)(100 * DifficultyMultiplier.getDifficultySpeed()), 500, 0.5f, 8, 5, 0.5f));

@@ -47,17 +47,41 @@ public class FireTruck extends Entity{
 	 */
 	public FireTruck(Vector2 spawnPos, Float[] truckStats, int truckNum) {
 		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25,50), (int)(100 * DifficultyMultiplier.getDifficultyHealth()));
- 
-		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
-		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
-		DIRECTIONS.put("s",180);		//South Facing Direction (down arrow)
-		DIRECTIONS.put("e",270);		//East Facing Direction (right arrow)
+		this.setup(truckStats);
+	}
 
-		DIRECTIONS.put("nw",45);		//up and left arrows
-		DIRECTIONS.put("sw",135);		//down and left arrows
-		DIRECTIONS.put("se",225);		//down and right arrows
-		DIRECTIONS.put("ne",315);		//up and right arrows
-		DIRECTIONS.put("",0); 			// included so that if multiple keys in the opposite direction are pressed, the truck faces north
+	/**
+	 * Version of constructor with health passed in as well - used by the SaveManager
+	 * @param spawnPos The starting position of the truck
+	 * @param truckStats All the values for the different attributes of the truck
+	 * @param truckNum The number used to identify the truck
+	 * @param health The initial health
+	 */
+	public FireTruck(Vector2 spawnPos, Float[] truckStats, int truckNum, int health){
+		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25, 50), (int)(health * DifficultyMultiplier.getDifficultyHealth()));
+		this.setup(truckStats);
+	}
+	
+	/** 
+	 * new
+	 */
+	public FireTruck() {
+		super(new Vector2(3750, 4000), new Texture("fireTruck3.png"), new Vector2(25,50), 100);
+		this.setupWithDefaultValues();
+	}
+
+	public FireTruck(int truckNumber) {
+		super(new Vector2(3750, 4000), Kroy.mainGameScreen.textures.getTruck(truckNumber), new Vector2(25,50), 100);
+		this.setupWithDefaultValues();
+
+	}
+
+	/***
+	 * Used to setup all values for the firetruck - moved from constructor so that can have multiple different constructors
+	 */
+	private void setup(Float[] truckStats)
+	{
+		this.setupDirections();
 
 		speed = truckStats[0]; 			// Speed value of the truck
 		flowRate = truckStats[1];		// Flow rate of the truck (referred to as the damage of the truck in game)
@@ -74,46 +98,13 @@ public class FireTruck extends Entity{
 		healthBar= new StatBar(Vector2.Zero, "Green.png", 3);
 		Kroy.mainGameScreen.addGameObject(healthBar);
 	}
-	
-	/** 
-	 * new
+
+	/***
+	 * Used to setup the fireTruck if not values are passed in for stats - all given default values - Septagon
 	 */
-	public FireTruck() {
-		super(new Vector2(3750, 4000), new Texture("fireTruck3.png"), new Vector2(25,50), 100);
- 
-		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
-		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
-		DIRECTIONS.put("s",180);		//South Facing Direction (down arrow)
-		DIRECTIONS.put("e",270);		//East Facing Direction (right arrow)
-
-		DIRECTIONS.put("nw",45);		//up and left arrows
-		DIRECTIONS.put("sw",135);		//down and left arrows
-		DIRECTIONS.put("se",225);		//down and right arrows
-		DIRECTIONS.put("ne",315);		//up and right arrows
-		DIRECTIONS.put("",0); 			// included so that if multiple keys in the opposite direction are pressed, the truck faces north
-		
-		speed=300;	//How fast the truck can move
-		flowRate=(float) 1.5;	//How fast the truck can dispense water
-		maxWater=400; //How much water the truck can hold
-		currentWater=300;
-				
-		firing = false;
-		water = new WaterStream(Vector2.Zero);
-	}
-
-	public FireTruck(int truckNumber) {
-		super(new Vector2(3750, 4000), Kroy.mainGameScreen.textures.getTruck(truckNumber), new Vector2(25,50), 100);
-
-		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
-		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
-		DIRECTIONS.put("s",180);		//South Facing Direction (down arrow)
-		DIRECTIONS.put("e",270);		//East Facing Direction (right arrow)
-
-		DIRECTIONS.put("nw",45);		//up and left arrows
-		DIRECTIONS.put("sw",135);		//down and left arrows
-		DIRECTIONS.put("se",225);		//down and right arrows
-		DIRECTIONS.put("ne",315);		//up and right arrows
-		DIRECTIONS.put("",0); 			// included so that if multiple keys in the opposite direction are pressed, the truck faces north
+	private void setupWithDefaultValues()
+	{
+		this.setupDirections();
 
 		speed=300;	//How fast the truck can move
 		flowRate=(float) 1.5;	//How fast the truck can dispense water
@@ -129,6 +120,24 @@ public class FireTruck extends Entity{
 		healthBar= new StatBar(Vector2.Zero, "Green.png", 3);
 		Kroy.mainGameScreen.addGameObject(healthBar);
 	}
+
+	/***
+	 * Sets up all the possible directions for the firetruck - moved into separate method by Septagon
+	 */
+	private void setupDirections()
+	{
+		DIRECTIONS.put("n",0);			//North Facing Direction (up arrow)
+		DIRECTIONS.put("w",90);			//West Facing Direction (left arrow)
+		DIRECTIONS.put("s",180);		//South Facing Direction (down arrow)
+		DIRECTIONS.put("e",270);		//East Facing Direction (right arrow)
+
+		DIRECTIONS.put("nw",45);		//up and left arrows
+		DIRECTIONS.put("sw",135);		//down and left arrows
+		DIRECTIONS.put("se",225);		//down and right arrows
+		DIRECTIONS.put("ne",315);		//up and right arrows
+		DIRECTIONS.put("",0); 			// included so that if multiple keys in the opposite direction are pressed, the truck faces north
+	}
+
 
 	/**
 	 * When called, this method moves the truck by 1 unit of movement in the direction calculated in "updateDirection()"
