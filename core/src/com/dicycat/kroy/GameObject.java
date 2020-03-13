@@ -102,7 +102,10 @@ public abstract class GameObject {
 	}
 
 	/**
-	 * set Texture
+	 * sets the current texture to a new texture (should be the same size)
+	 * @param tex Texture to change to
 	 */
-	public void setTexture(){}
+	public void setTexture(Texture tex) {
+		sprite.setTexture(tex);
+	}
 }

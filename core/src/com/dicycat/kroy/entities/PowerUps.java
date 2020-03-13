@@ -40,19 +40,19 @@ public class PowerUps extends Entity {
         type = PowerType.getRandomType();
         switch (type){
             case RANGE:
-                new Texture("atom.png");
+                setTexture(new Texture ("atom.png"));
                 break;
             case SPEED:
-                new Texture("thunder.png");
+                setTexture(new Texture("thunder.png"));
                 break;
             case FULLHEALTH:
-                new Texture("health.png");
+                setTexture(new Texture("health.png"));
                 break;
             case REFILLWATER:
-                new Texture("raindrop.png");
+                setTexture(new Texture("raindrop.png"));
                 break;
             case FASTSHOOTING:
-                new Texture("flame.png");
+                setTexture(new Texture("flame.png"));
                 break;
         }
         }

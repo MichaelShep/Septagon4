@@ -346,7 +346,7 @@ public class FireTruck extends Entity{
 	}
 
 	public void SpeedUp(){
-		speed += 4600;
+		speed += 460;
 		System.out.println(speed);
 	}
 

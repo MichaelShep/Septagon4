@@ -146,9 +146,9 @@ public class GameScreen implements Screen{
 			fortressInit(i);
 		}
 		gameObjects.add(new FireStation());
-		gameObjects.add(new PowerUps(new Vector2(1772,4633)));
 		gameObjects.add(new PowerUps(new Vector2(4344,3729)));
-		gameObjects.add(new PowerUps(new Vector2(5512,2696)));
+		gameObjects.add(new PowerUps(new Vector2(4144,3729)));
+		gameObjects.add(new PowerUps(new Vector2(4544,3729)));
 		gameObjects.add(new PowerUps(new Vector2(5055,1415)));
 		gameObjects.add(new PowerUps(new Vector2(1608,585)));
 		gameObjects.add(new PowerUps(new Vector2(1919,3871)));
