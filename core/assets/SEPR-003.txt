@@ -1,0 +1,37 @@
+Website (5/5): 
+The required documents can be found on the website. However I could not find a link to the executable test plan.
+
+Change Management (2/10): 
+Most of the discussion in this section falls out of the scope of the team's formal approach to change management. It is not clear whether the team researched adequate methods, since there is no explicit mention to them, or how they relate to the group's practice in terms of what were the processes followed to change code and other deliverables.
+
+Change Report - Testing (6/10): 
+Integration testing is similar to unit testing , in the sense that the engineer needs to selects which system units to test together. Doing this in a manual way can be hard (because one does not have absolute control of which units are exercised by a test). Usually integration testing is performed in an automated manner. 
+
+Manual and automated testing are not mutually exclusive and both of them should be used as they have the ability to reveal different types of errors. The justification for the use of manual testing is weak. Automated testing is always beneficial for a project because it provides a systematic and quick way to test parts of a system. Moreover writing new tests can enable an engineer to gain insights about an unfamiliar codebase. 
+
+You mention that you used fuzz testing but this is an automated testing technique that requires specialised tools. Do you mean that you used exploratory testing?
+
+It is not clear from the documentation in which tests you have used Mockito. What are the dependencies that you wanted to break?
+
+You mention that you achieved 40% line coverage for your tests. Why do you think this is adequate?
+
+Reporting tests using screenshot provides no useful information.
+
+Change Report - Methods and Plans (5/10): 
+Methods and plans are clearly discussed and with enough level of detail in general terms. However, there is no updated version of the Methods and Plans document or Gantt chart including the plan for Assessment 4, which should have been included with highlighted changes, even if these are minimal, according to what is requested in the assessment document.
+
+Implementation (35/55): 
+When the game starts, the fire station and the fire trucks should be visible. Brief in-game instructions for the controls of the game (and the minigame) would have been useful. The stats of the different fire trucks (range, speed etc.) are not visible to the user to allow better decision making. The pace of the game is quite slow and - especially with the truck that moves one space at a time - and when damaged/empty, fire trucks need to be dragged all the way back to the fire station, one step at a time. More automation would have been useful to speed up the game and make it more engaging. A functional minigame has been implemented as requested by the assessment brief. It would be useful to provide some indication (e.g. a timer) about the impending destruction of the fire station. While playing the game it crashed with the following exception
+
+Exception in thread "LWJGL Application" java.lang.ArrayIndexOutOfBoundsException: -1
+	at com.kroy.game.input.InputManager.tileClicked(InputManager.java:162)
+	at com.kroy.game.input.InputManager.handleInput(InputManager.java:89)
+	at com.kroy.game.MainClass.render(MainClass.java:84)
+	at com.badlogic.gdx.backends.lwjgl.LwjglApplication.mainLoop(LwjglApplication.java:233)
+	at com.badlogic.gdx.backends.lwjgl.LwjglApplication$1.run(LwjglApplication.java:128)
+
+The report provides clear traceability links to requirements (including those that haven't been fully met) and to affected classes. The new code is appropriately documented using Javadoc-style comments. New/modified code has been marked using comments that include the team's name. This should have been mentioned in the report.
+
+Self-assessment (10/10)
+
+

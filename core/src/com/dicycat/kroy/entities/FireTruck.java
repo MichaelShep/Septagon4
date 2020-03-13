@@ -158,7 +158,7 @@ public class FireTruck extends Entity{
 	 */
 	@Override
 	public void update(){
-		if (Gdx.input.isKeyPressed(ARROWKEYS[0]) ||
+		if 	(Gdx.input.isKeyPressed(ARROWKEYS[0]) ||
 				Gdx.input.isKeyPressed(ARROWKEYS[1]) ||
 				Gdx.input.isKeyPressed(ARROWKEYS[2]) ||
 				Gdx.input.isKeyPressed(ARROWKEYS[3])) { // Runs movement code if any arrow key pressed
@@ -337,5 +337,20 @@ public class FireTruck extends Entity{
 	 */
 	public void refillWater() {
 		this.currentWater = this.maxWater;
+	}
+	public void fullHealth(){
+	}
+
+	public void fastShooting(){
+		flowRate += 10;
+	}
+
+	public void SpeedUp(){
+		speed += 4600;
+		System.out.println(speed);
+	}
+
+	public void increaseRange(){
+		range += 10;
 	}
 }

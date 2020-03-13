@@ -100,4 +100,9 @@ public abstract class GameObject {
 	public void die() {
 		remove = true;
 	}
+
+	/**
+	 * set Texture
+	 */
+	public void setTexture(){}
 }

@@ -17,8 +17,8 @@ public class PowerUps extends Entity {
 
 
 
-    private enum PowerType {
-        Immunity, TimeStop, DoubleDamage, UnlimitedWater, Speed;
+    public static enum PowerType {
+        FULLHEALTH, FASTSHOOTING, RANGE, REFILLWATER, SPEED;
 
         public static PowerType getRandomType() {
             Random random = new Random();
@@ -35,14 +35,52 @@ public class PowerUps extends Entity {
         this(spawnPos, img, imSize, health, radius);
         this.type = type;
     }
+    public PowerUps(Vector2 spawnPos) {
+        this(spawnPos, new Texture("thunder.png"), imSize, health, radius);
+        type = PowerType.getRandomType();
+        switch (type){
+            case RANGE:
+                new Texture("atom.png");
+                break;
+            case SPEED:
+                new Texture("thunder.png");
+                break;
+            case FULLHEALTH:
+                new Texture("health.png");
+                break;
+            case REFILLWATER:
+                new Texture("raindrop.png");
+                break;
+            case FASTSHOOTING:
+                new Texture("flame.png");
+                break;
+        }
+        }
     /**
-     * Refills the trucks water; This will be delegated to its own subclass in the
-     * future, currently just here to test the class in development.
+     * Update all the power ups
      */
     @Override
-    public void update() {
+    public void update(){
         if (playerInRadius()) {
-            Kroy.mainGameScreen.getPlayer().refillWater();
+            FireTruck player = Kroy.mainGameScreen.getPlayer();
+
+            switch (type) {
+                case SPEED:
+                    player.SpeedUp();
+                    break;
+                case FULLHEALTH:
+                    player.fullHealth();
+                    break;
+                case FASTSHOOTING:
+                    player.fastShooting();
+                    break;
+                case RANGE:
+                    player.increaseRange();
+                    break;
+                case REFILLWATER:
+                    player.refillWater();
+                    break;
+            }
             applyDamage(1);
         }
     }
