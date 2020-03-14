@@ -213,8 +213,8 @@ public class FireTruck extends Entity{
         hitbox.setCenter(getCentre().x, getCentre().y);
         
         //Draw debugs
-    	Kroy.mainGameScreen.DrawRect(new Vector2(hitbox.x, hitbox.y), new Vector2(hitbox.width, hitbox.height), 2, Color.GREEN);
-    	Kroy.mainGameScreen.DrawCircle(getCentre(), range, 1, Color.BLUE);
+    	Kroy.mainGameScreen.getDebugRenderer().DrawRect(new Vector2(hitbox.x, hitbox.y), new Vector2(hitbox.width, hitbox.height), 2, Color.GREEN);
+    	Kroy.mainGameScreen.getDebugRenderer().DrawCircle(getCentre(), range, 1, Color.BLUE);
 		
 
 		//water bar update

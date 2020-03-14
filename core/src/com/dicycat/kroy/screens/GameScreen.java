@@ -18,21 +18,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.Kroy;
-import com.dicycat.kroy.debug.DebugCircle;
-import com.dicycat.kroy.debug.DebugDraw;
-import com.dicycat.kroy.debug.DebugLine;
-import com.dicycat.kroy.debug.DebugRect;
+import com.dicycat.kroy.debug.*;
 import com.dicycat.kroy.entities.FireStation;
 import com.dicycat.kroy.entities.FireTruck;
 import com.dicycat.kroy.entities.Fortress;
 import com.dicycat.kroy.entities.UFO;
 import com.dicycat.kroy.gamemap.TiledGameMap;
+import com.dicycat.kroy.misc.ButtonListeners;
 import com.dicycat.kroy.misc.OverwriteDialog;
 import com.dicycat.kroy.misc.SaveManager;
+import com.dicycat.kroy.misc.Updater;
 import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.scenes.OptionsWindow;
 import com.dicycat.kroy.scenes.PauseWindow;
 import com.dicycat.kroy.scenes.SaveGameScene;
+import sun.security.util.Debug;
 
 
 /**
@@ -92,11 +92,8 @@ public class GameScreen implements Screen{
 	private List<GameObject> gameObjects, deadObjects;	//List of active game objects
 	private List<GameObject> objectsToRender = new ArrayList<GameObject>(); // List of game objects that have been updated but need rendering
 	private List<GameObject> objectsToAdd;
-	private List<DebugDraw> debugObjects; //List of debug items
 
-	private float lastPatrol; //time passed since we last spawned patrols
 	private List<Vector2> fortressPositions, fortressSizes; //where our fortresses spawn
-	private int patrolUpdateRate; //How many seconds should pass before we respawn patrols;
 
 	private ArrayList<FireTruck> firetrucks=new ArrayList<FireTruck>();
 	private List<Fortress> fortresses = new ArrayList<Fortress>(); //Added by Septagon - stores all the fortresses in the game
@@ -105,8 +102,8 @@ public class GameScreen implements Screen{
 	//Used to handle saving and loading states of the game
 	private SaveManager saveManager;
 	private boolean loadingGame = false;
-
-	private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+	private DebugRenderer debugRenderer;
+	private Updater updater;
 
 	/**
 	 * extended
@@ -130,7 +127,6 @@ public class GameScreen implements Screen{
 		spawnPosition = new Vector2(3750, 4000);
 		gameTimer = 60 * 5; //new    //Set timer to 5 minutes  
 		this.truckNum = truckNum;
-		lastPatrol = Gdx.graphics.getDeltaTime();
 
 		//Setup all the fortress positions and sizes
 		fortressPositions = new ArrayList<>();
@@ -147,10 +143,11 @@ public class GameScreen implements Screen{
 		fortressSizes.add(new Vector2(450, 256));
 		fortressSizes.add(new Vector2(400, 256));
 		fortressSizes.add(new Vector2(450, 256));
-		
-		patrolUpdateRate = 30;
 
 		saveManager = new SaveManager(firetrucks, ufos, fortresses);
+		new ButtonListeners(this, saveManager);
+		debugRenderer = new DebugRenderer();
+		updater = new Updater(this, saveManager);
 	}
 
 	public GameScreen(Kroy _game, int truckNum, boolean loadingGame, Integer saveNum){
@@ -158,7 +155,6 @@ public class GameScreen implements Screen{
 	    saveManager.setSave(saveNum);
 
     }
-	
 
 	/**
 	 * Screen first shown
@@ -168,7 +164,6 @@ public class GameScreen implements Screen{
 		objectsToAdd = new ArrayList<GameObject>();
 		gameObjects = new ArrayList<GameObject>();
 		deadObjects = new ArrayList<GameObject>();
-		debugObjects = new ArrayList<DebugDraw>();
 
 		//Checks if we are loading a game from a previous save or starting a completley new game - added by Septagon
 		if(!loadingGame) {
@@ -189,9 +184,9 @@ public class GameScreen implements Screen{
 
 	/**
 	 * new
-	 * 
+	 *
 	 * Initialises each fortress
-	 * 
+	 *
 	 * @param num the fortress number
 	 */
 	private void fortressInit(int num) {
@@ -205,9 +200,9 @@ public class GameScreen implements Screen{
 
 	/**
 	 * new
-	 * 
+	 *
 	 * Initialises each truck
-	 * 
+	 *
 	 * @param num the truck number
 	 */
 	private void firetruckInit(float x, float y, int num) {
@@ -225,40 +220,10 @@ public class GameScreen implements Screen{
 
 		switch (state) {
 			case RUN:
-				if (Gdx.input.isKeyPressed(Keys.P) || Gdx.input.isKeyPressed(Keys.O) || Gdx.input.isKeyPressed(Keys.M)|| Gdx.input.isKeyPressed(Keys.ESCAPE)){
-					pauseWindow.visibility(true);
-					pause();
-				}
-				
-				gameTimer -= delta;		//Decrement timer
-
-				updateLoop(); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
-
-				gameMap.renderRoads(gamecam); // Render the background roads, fields and rivers
-				gameMap.renderBuildings(gamecam); // Renders the buildings and the foreground items which are not entities
-
-				game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-				game.batch.setProjectionMatrix(gamecam.combined);	//Mic:only renders the part of the map where the camera is
-				game.batch.begin(); // Game loop Start
-
-				hud.update(delta);
-
-				renderObjects(); // Renders objects specified in the UpdateLoop() called previously
-
-				game.batch.end();
-
-
-				hud.stage.draw();
-				pauseWindow.stage.draw();
-
-				if (Kroy.debug) {
-					DrawDebug(); //Draw all debug items as they have to be drawn outside the batch
-				}
-
+				handleRunState(delta);
 				break;
 			case PAUSE:
 				pauseWindow.stage.draw();
-				clickCheck();
 				break;
 			case RESUME:
 				pauseWindow.visibility(false);
@@ -268,7 +233,6 @@ public class GameScreen implements Screen{
                 Gdx.input.setInputProcessor(saveWindow.stage);
                 saveWindow.stage.act();
                 saveWindow.stage.draw();
-                saveClickCheck();
                 break;
 			default:
 				break;
@@ -276,80 +240,35 @@ public class GameScreen implements Screen{
 	}
 
 	/**
-	 * Updates all the active gameobjects and adds them to the render queue.
-	 * Removes gameobjects from the active pool if they are marked for removal.
-	 * Adds new gameobjects.
-	 * Adds dead objects to render queue.
-	 * Respawns the player if necessary.
+	 * Used to handle the rendering loop for when the game is in the run state - Refractored by Septagon
+	 * @param delta
 	 */
-	private void updateLoop() {
-		checkZoom();
-
-		//Flag to say that when the game is being updated, the game needs to be saved again
-		if(saveManager.isSavedMostRecentState())
-			saveManager.setSavedMostRecentState(false);
-		
-		List<GameObject> toRemove = new ArrayList<GameObject>();
-		List<Vector2> patrolPositions = new ArrayList<>();
-
-		for (GameObject gObject : gameObjects) {	//Go through every game object
-			gObject.update();						//Update the game object
-			if (gObject.isRemove()) {				//Check if game object is to be removed
-				toRemove.add(gObject);					//Set it to be removed
-			}else {
-				objectsToRender.add(gObject);
-				//it doesn't need to be removed; check if it is a fortress
-				if (gObject instanceof  Fortress) {
-					//it is. mark down its position so we can spawn an entity there later
-					patrolPositions.add(gObject.getCentre());
-				}
-			}
+	private void handleRunState(float delta)
+	{
+		if (Gdx.input.isKeyPressed(Keys.P) || Gdx.input.isKeyPressed(Keys.O) || Gdx.input.isKeyPressed(Keys.M)|| Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			pauseWindow.visibility(true);
+			pause();
 		}
 
-		currentTruck.update();
-		if (Gdx.input.isKeyPressed(Keys.PLUS)) {
+		gameTimer -= delta;		//Decrement timer
+		updater.updateLoop(); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
+
+		gameMap.renderRoads(gamecam); // Render the background roads, fields and rivers
+		gameMap.renderBuildings(gamecam); // Renders the buildings and the foreground items which are not entities
+
+		game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		game.batch.setProjectionMatrix(gamecam.combined);	//Mic:only renders the part of the map where the camera is
+		game.batch.begin(); // Game loop Start
+
+		hud.update(delta);
+		renderObjects(); // Renders objects specified in the UpdateLoop() called previously
+		game.batch.end();
+		hud.stage.draw();
+		pauseWindow.stage.draw();
+
+		if (Kroy.debug) {
+			debugRenderer.DrawDebug(gamecam); //Draw all debug items as they have to be drawn outside the batch
 		}
-		
-
-		for (GameObject rObject : toRemove) {	//Remove game objects set for removal
-			gameObjects.remove(rObject);
-			if (rObject.isDisplayable()) {
-				deadObjects.add(rObject);
-			}
-		}
-		for (GameObject aObject : objectsToAdd) {		//Add game objects to be added
-			gameObjects.add(aObject);
-		}
-		objectsToAdd.clear();	// Clears list as not to add new objects twice
-
-		for (GameObject dObject : deadObjects) { // loops through the destroyed but displayed items (such as destroyed bases)
-			objectsToRender.add(dObject);
-		}
-		if (currentTruck.isRemove()) {	//If the player is set for removal, respawn
-			updateLives();
-			
-		}
-		switchTrucks();
-
-		lastPatrol += Gdx.graphics.getDeltaTime();
-		if (lastPatrol >= patrolUpdateRate) {
-			lastPatrol = 0;
-
-			//we should spawn a patrol near every fortress if it given it's been 10 secs.
-			for (Vector2 position: patrolPositions) {
-
-				//Randomize the positions a little bit
-				float oldX = position.x;
-				float oldY = position.y;
-				float randX = (float) (oldX - 400 + Math.random() * 400);
-				float randY = (float) (oldY - 400 + Math.random() * 400);
-
-				UFO ufoToAdd = new UFO(new Vector2(randX, randY));
-				ufos.add(ufoToAdd);
-				gameObjects.add(ufoToAdd);
-			}
-		}
-
 	}
 	
 	/**
@@ -357,7 +276,7 @@ public class GameScreen implements Screen{
 	 * Can zoom in the game by pressing EQUALS key
 	 * Can zoom out by pressing MINUS key
 	 */
-	private void checkZoom() {
+	public void checkZoom() {
 		if (Gdx.input.isKeyJustPressed(Keys.EQUALS)) {
 			if (zoom > 0.5f) {
 				zoom = zoom - 0.5f;
@@ -406,55 +325,6 @@ public class GameScreen implements Screen{
 	 */
 	public FireTruck getPlayer() {
 		return currentTruck;
-	}
-
-	/**
-	 * Draws all debug objects for one frame
-	 */
-	private void DrawDebug() {
-		for (DebugDraw dObject : debugObjects) {
-			dObject.Draw(gamecam.combined);
-		}
-		debugObjects.clear();
-	}
-
-	/**
-	 * Draw a debug line
-	 * @param start Start of the line
-	 * @param end End of the line
-	 * @param lineWidth Width of the line
-	 * @param colour Colour of the line
-	 */
-	public void DrawLine(Vector2 start, Vector2 end, int lineWidth, Color colour) {
-		if (Kroy.debug) {
-			debugObjects.add(new DebugLine(start, end, lineWidth, colour));
-		}
-	}
-
-	/**
-	 * Draw a debug circle (outline)
-	 * @param position Centre of the circle
-	 * @param radius Radius of the circle
-	 * @param lineWidth Width of the outline
-	 * @param colour Colour of the line
-	 */
-	public void DrawCircle(Vector2 position, float radius, int lineWidth, Color colour) {
-		if (Kroy.debug) {
-			debugObjects.add(new DebugCircle(position, radius, lineWidth, colour));
-		}
-	}
-
-	/**
-	 * Draw a debug rectangle (outline)
-	 * @param bottomLefiretrucks Bottom lefiretrucks point of the rectangle
-	 * @param dimensions Dimensions of the rectangle (Width, Length)
-	 * @param lineWidth Width of the outline
-	 * @param colour Colour of the line
-	 */
-	public void DrawRect(Vector2 bottomLefiretrucks, Vector2 dimensions, int lineWidth, Color colour) {
-		if (Kroy.debug) {
-			debugObjects.add(new DebugRect(bottomLefiretrucks, dimensions, lineWidth, colour));
-		}
 	}
 
 	/**
@@ -511,13 +381,6 @@ public class GameScreen implements Screen{
 			return null;
 		}
 	}
-
-	/**
-	 * @return  the list of active game objects
-	 */
-	public List<GameObject> getGameObjects(){
-		return gameObjects;
-	}
 	
 	/**
 	 * @return the number of alive trucks
@@ -526,114 +389,12 @@ public class GameScreen implements Screen{
 		return lives;
 	}
 
-	/**
-	 * Checks the pause buttons
-	 */
-	private void clickCheck() {
-		//resume button
-		pauseWindow.resume.addListener(new ClickListener() {
-	    	@Override
-	    	public void clicked(InputEvent event, float x, float y) {
-	    		pauseWindow.visibility(false);
-				resume();
-	    	}
-	    });
-
-		//exit button
-		pauseWindow.exit.addListener(new ClickListener() {
-	    	@Override
-	    	public void clicked(InputEvent event, float x, float y) {
-	    		Gdx.app.exit();
-	    	}
-	    });
-		//menu button
-		pauseWindow.menu.addListener(new ClickListener() {
-	    	@Override
-	    	public void clicked(InputEvent event, float x, float y) {
-	    		pauseWindow.visibility(false);
-	    		dispose();
-	    		game.backToMenu();
-	    		return;
-	    	}
-	    });
-
-		//Add in functionality for clicking save button
-		pauseWindow.save.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-			    saveWindow.visibility(true);
-			    setGameState(GameScreenState.SAVE);
-			    saveClickCheck();
-				return;
-			}
-		});
-	}
-
-	public void saveClickCheck(){
-        saveWindow.saveGame1Button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                clickedSavedButton(0);
-                return;
-            }
-        });
-        saveWindow.saveGame2Button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                clickedSavedButton(1);
-                return;
-            }
-        });
-        saveWindow.saveGame3Button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                clickedSavedButton(2);
-                return;
-            }
-        });
-        saveWindow.saveGame4Button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                clickedSavedButton(3);
-                return;
-            }
-        });
-        saveWindow.saveGame5Button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                clickedSavedButton(4);
-                return;
-            }
-        });
-
-		saveWindow.backButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				setGameState(GameScreenState.PAUSE);
-				return;
-			}
-		});
-    }
-
 	public void performSave(int saveNumber)
 	{
 		saveManager.setSave(saveNumber);
 		saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
 		saveManager.saveAttributes();
 		this.setGameState(GameScreen.GameScreenState.PAUSE);
-	}
-
-	private void clickedSavedButton(int saveNumber)
-	{
-		Gdx.input.setInputProcessor(pauseWindow.stage);
-		if(saveManager.getPreferences().get(saveNumber).getBoolean("hasUsedSave") == true)
-		{
-			OverwriteDialog overwriteDialog = new OverwriteDialog(skin, this, 0);
-			overwriteDialog.show(saveWindow.stage);
-		}else
-		{
-			performSave(saveNumber);
-		}
 	}
 
 	/**
@@ -696,7 +457,7 @@ public class GameScreen implements Screen{
 	 * switch to FireTruck number n by calling changeToTruck function
 	 * @param n
 	 */
-	private void switchTrucks(int n) {
+	public void switchTrucks(int n) {
 		changeToTruck(firetrucks.get(n));
 	}
 
@@ -705,20 +466,14 @@ public class GameScreen implements Screen{
 	 * Check for inputs to switch between trucks.
 	 * It only works if the truck that has chosen is alive
 	 */
-	private void switchTrucks() {
+	public void switchTrucks() {
 		if (Gdx.input.isKeyPressed(Keys.NUM_1)) {
 			if(firetrucks.get(0).isAlive())
 				changeToTruck(firetrucks.get(0));
-			else {
-				System.out.println("This truck is dead");
-			}
 		} 
 		else if (Gdx.input.isKeyPressed(Keys.NUM_2)) {
 			if(firetrucks.get(1).isAlive())
 				changeToTruck(firetrucks.get(1));
-			else {
-				System.out.println("This truck is dead");
-			}
 		}
 		else if (Gdx.input.isKeyPressed(Keys.NUM_3)) {
 			if(firetrucks.get(2).isAlive())
@@ -727,23 +482,14 @@ public class GameScreen implements Screen{
 		else if (Gdx.input.isKeyPressed(Keys.NUM_4)) {
 			if(firetrucks.get(3).isAlive())
 				changeToTruck(firetrucks.get(3));
-			else {
-				System.out.println("This truck is dead");
-			}
 		}
 		else if (Gdx.input.isKeyPressed(Keys.NUM_5)) {
 			if(firetrucks.get(4).isAlive())
 				changeToTruck(firetrucks.get(4));
-			else {
-				System.out.println("This truck is dead");
-			}
 		}
 		else if (Gdx.input.isKeyPressed(Keys.NUM_6)) {
 			if(firetrucks.get(5).isAlive())
 				changeToTruck(firetrucks.get(5));
-			else {
-				System.out.println("This truck is dead");
-			}
 		}
 
 	}
@@ -772,5 +518,15 @@ public class GameScreen implements Screen{
 	public Vector2 getSpawnPosition() {
 		return spawnPosition;
 	}
-	
+
+	public PauseWindow getPauseWindow() { return pauseWindow; }
+	public SaveGameScene getSaveWindow() { return saveWindow; }
+	public Kroy getGame() { return game; }
+	public DebugRenderer getDebugRenderer() { return debugRenderer; }
+	public List<GameObject> getGameObjects() { return gameObjects; }
+	public List<GameObject> getObjectsToRender() { return objectsToRender; }
+	public List<GameObject> getDeadObjects() { return deadObjects; }
+	public List<GameObject> getObjectsToAdd() { return objectsToAdd; }
+	public List<UFO> getUfos() { return ufos; }
+	public FireTruck getCurrentTruck() { return currentTruck; }
 }
