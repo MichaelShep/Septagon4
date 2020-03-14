@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -37,6 +38,8 @@ public class LoadGameScene {
     public TextButton loadGame4Button = new TextButton("Load Game 4", skin);
     public TextButton loadGame5Button = new TextButton("Load Game 5", skin);
 
+    public TextButton backButton = new TextButton("Back", skin);
+
     private float width = Gdx.graphics.getWidth();
     private float centre = width* 0.7f;
 
@@ -56,6 +59,8 @@ public class LoadGameScene {
         table.add(loadGame4Button).width(centre/3.0f);
         table.row();
         table.add(loadGame5Button).width(centre/3.0f);
+        table.row();
+        table.add(backButton).width(centre/3.0f);
         table.row();
 
         table.setFillParent(true);

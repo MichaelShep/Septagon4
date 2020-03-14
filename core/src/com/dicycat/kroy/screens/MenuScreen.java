@@ -269,49 +269,86 @@ public class MenuScreen implements Screen{
 	}
 
 	public void loadGameClickCheck(){
-		loadGameSelector.loadGame1Button.addListener(new ClickListener() {
+		if(Gdx.app.getPreferences("Save0").getBoolean("hasUsedSave") == true)
+		{
+			loadGameSelector.loadGame1Button.addListener(new ClickListener()
+			{
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					System.out.println("Load button pressed");
+					fireTruckSelector.visibility(true);// display the difficulty selection window
+					loadingGame = true;
+					startGame(1, 0);
+				}
+			});
+		}
+
+		if(Gdx.app.getPreferences("Save1").getBoolean("hasUsedSave") == true)
+		{
+			loadGameSelector.loadGame2Button.addListener(new ClickListener()
+			{
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					System.out.println("Load button pressed");
+					fireTruckSelector.visibility(true);// display the difficulty selection window
+					loadingGame = true;
+					startGame(1, 1);
+				}
+			});
+		}
+
+		if(Gdx.app.getPreferences("Save2").getBoolean("hasUsedSave") == true)
+		{
+			loadGameSelector.loadGame3Button.addListener(new ClickListener()
+			{
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					System.out.println("Load button pressed");
+					fireTruckSelector.visibility(true);// display the difficulty selection window
+					loadingGame = true;
+					startGame(1, 2);
+				}
+			});
+		}
+
+		if(Gdx.app.getPreferences("Save3").getBoolean("hasUsedSave") == true)
+		{
+			loadGameSelector.loadGame4Button.addListener(new ClickListener()
+			{
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					System.out.println("Load button pressed");
+					fireTruckSelector.visibility(true);// display the difficulty selection window
+					loadingGame = true;
+					startGame(1, 3);
+				}
+			});
+		}
+
+		if(Gdx.app.getPreferences("Save4").getBoolean("hasUsedSave") == true)
+		{
+			loadGameSelector.loadGame5Button.addListener(new ClickListener()
+			{
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					System.out.println("Load button pressed");
+					fireTruckSelector.visibility(true);// display the difficulty selection window
+					loadingGame = true;
+					startGame(1, 4);
+				}
+			});
+		}
+
+		loadGameSelector.backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("Load button pressed");
-				fireTruckSelector.visibility(true);// display the difficulty selection window
-				loadingGame = true;
-				startGame(1, 0);
-			}
-		});
-		loadGameSelector.loadGame2Button.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("Load button pressed");
-				fireTruckSelector.visibility(true);// display the difficulty selection window
-				loadingGame = true;
-				startGame(1, 1);
-			}
-		});
-		loadGameSelector.loadGame3Button.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("Load button pressed");
-				fireTruckSelector.visibility(true);// display the difficulty selection window
-				loadingGame = true;
-				startGame(1, 2);
-			}
-		});
-		loadGameSelector.loadGame4Button.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("Load button pressed");
-				fireTruckSelector.visibility(true);// display the difficulty selection window
-				loadingGame = true;
-				startGame(1, 3);
-			}
-		});
-		loadGameSelector.loadGame5Button.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("Load button pressed");
-				fireTruckSelector.visibility(true);// display the difficulty selection window
-				loadingGame = true;
-				startGame(1, 4);
+				System.out.println("Back button pressed");
+				setGameState(MenuScreenState.MAINMENU);
 			}
 		});
 	}

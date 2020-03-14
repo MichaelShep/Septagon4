@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -13,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
+import com.dicycat.kroy.misc.OverwriteDialog;
+
+import java.awt.*;
 
 public class SaveGameScene {
     private SpriteBatch stageBatch;
@@ -27,6 +31,7 @@ public class SaveGameScene {
     public TextButton saveGame3Button = new TextButton("Save Game 3", skin);
     public TextButton saveGame4Button = new TextButton("Save Game 4", skin);
     public TextButton saveGame5Button = new TextButton("Save Game 5", skin);
+    public TextButton backButton = new TextButton("Back", skin);
 
     private float width = Gdx.graphics.getWidth();
     private float centre = width* 0.7f;
@@ -47,6 +52,8 @@ public class SaveGameScene {
         table.add(saveGame4Button).width(centre/3.0f);
         table.row();
         table.add(saveGame5Button).width(centre/3.0f);
+        table.row();
+        table.add(backButton).width(centre/3.0f);
         table.row();
 
         table.setFillParent(true);

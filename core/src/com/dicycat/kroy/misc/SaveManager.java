@@ -33,14 +33,6 @@ import java.util.List;
 public class SaveManager {
     private static final int NUM_MAX_SAVES = 5;
 
-    //Preferences instance that is used to store/load values from our game
-    /*private Preferences preferences1 = Gdx.app.getPreferences("Save1");
-    private Preferences preferences2 = Gdx.app.getPreferences("Save2");
-    private Preferences preferences3 = Gdx.app.getPreferences("Save3");
-    private Preferences preferences4 = Gdx.app.getPreferences("Save4");
-    private Preferences preferences5 = Gdx.app.getPreferences("Save5");*/
-
-    //private ArrayList<Preferences> preferences = new ArrayList<>(Arrays.asList(preferences1,preferences2,preferences3,preferences4,preferences5));
     private List<Preferences> preferences;
     private Integer preferencesIndex = 0;
 
@@ -53,6 +45,7 @@ public class SaveManager {
 
     public SaveManager(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses){
         preferences = new ArrayList<Preferences>();
+
         for(int i = 0; i < NUM_MAX_SAVES; i++)
         {
             preferences.add(Gdx.app.getPreferences("Save" + i));
@@ -109,6 +102,9 @@ public class SaveManager {
         }
         preferences.get(preferencesIndex).putInteger("numUfos", ufos.size());
 
+        //Adds variable that will signify that the save has been used so that we know the user can load from this save
+        preferences.get(preferencesIndex).putBoolean("hasUsedSave", true);
+
         //Saves all the changes to the preferences
         preferences.get(preferencesIndex).flush();
 
@@ -129,10 +125,12 @@ public class SaveManager {
             float water = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "water");
             float range = preferences.get(preferencesIndex).getFloat("fireTruck" + i + "range");
             int health = preferences.get(preferencesIndex).getInteger("fireTruck" + i + "health");
+            int maxHealth = preferences.get(preferencesIndex).getInteger("fireTruck" + i + "maxHealth");
             Float[] truckStats = {speed, flowRate, maxWater, water, range};
 
             FireTruck truck = new FireTruck(new Vector2(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "x"), preferences.get(preferencesIndex).getFloat("fireTruck" + i + "y")), truckStats, i, health);
 
+            truck.setMaxHealthPoints(maxHealth);
             truck.setRotation(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "rotation"));
             fireTrucks.add(truck);
 
@@ -174,6 +172,7 @@ public class SaveManager {
     }
 
     public boolean isSavedMostRecentState() { return savedMostRecentState; }
+    public List<Preferences> getPreferences() { return preferences; }
 
     public void setSavedMostRecentState(boolean savedMostRecentState) { this.savedMostRecentState = savedMostRecentState; }
 
