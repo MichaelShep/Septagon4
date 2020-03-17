@@ -44,20 +44,11 @@ import sun.security.util.Debug;
  */
 public class GameScreen implements Screen{  
 
-	public static enum GameScreenState{
-		PAUSE,
-		RUN,
-		RESUME,
-        SAVE,
-		OPTIONS
-
-	}
+	public static enum GameScreenState{ PAUSE, RUN, RESUME, SAVE, OPTIONS }
 	
 	public Kroy game;
 	public GameTextures textures;
 	public static float gameTimer; //Timer to destroy station
-
-	
 	public GameScreenState state = GameScreenState.RUN;
 	
 	public static TiledGameMap gameMap;

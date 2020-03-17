@@ -6,6 +6,8 @@ import java.util.List;
 
 public class DifficultyMultiplier {
 
+    private static int difficultyValue;
+
     private static float difficultySpeed;
     private static float[] difficultySpeedList =  {0.5f, 1f, 2.5f};
     private static float difficultyBullet;
@@ -26,8 +28,11 @@ public class DifficultyMultiplier {
     }
 
     public static void setDifficulty(int d){
+        difficultyValue = d;
         difficultySpeed = difficultySpeedList[d];
         difficultyBullet = difficultyBulletList[d];
         difficultyHealth = difficultyHealthList[d];
     }
+
+    public static int getDifficultyValue() { return difficultyValue; }
 }

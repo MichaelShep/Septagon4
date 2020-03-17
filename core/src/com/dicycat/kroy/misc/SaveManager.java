@@ -3,6 +3,7 @@ package com.dicycat.kroy.misc;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
+import com.dicycat.kroy.DifficultyMultiplier;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.Kroy;
@@ -102,6 +103,9 @@ public class SaveManager {
         }
         preferences.get(preferencesIndex).putInteger("numUfos", ufos.size());
 
+        //Saves the difficulty value of the game
+        preferences.get(preferencesIndex).putInteger("difficulty", DifficultyMultiplier.getDifficultyValue());
+
         //Adds variable that will signify that the save has been used so that we know the user can load from this save
         preferences.get(preferencesIndex).putBoolean("hasUsedSave", true);
 
@@ -115,6 +119,9 @@ public class SaveManager {
      * Loads all the attributes from the previous save state
      */
     public void loadAttributes(List<GameObject> gameObjects, GameTextures textures, List<Vector2> fortressPositions, List<Vector2> fortressSizes){
+
+        //Sets up the difficulty of the game
+        DifficultyMultiplier.setDifficulty(preferences.get(preferencesIndex).getInteger("difficulty"));
 
         //Loads all the fireTrucks back into the game
         int numFireTrucks = preferences.get(preferencesIndex).getInteger("numFireTrucks");

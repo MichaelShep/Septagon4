@@ -59,6 +59,7 @@ public class FireTruck extends Entity{
 	 */
 	public FireTruck(Vector2 spawnPos, Float[] truckStats, int truckNum, int health){
 		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25, 50), (int)(health * DifficultyMultiplier.getDifficultyHealth()));
+		System.out.println("LOADED INTERMEDIATE HEALTH: " + health);
 		this.setup(truckStats);
 	}
 	
