@@ -21,6 +21,8 @@ Added by Septagon
  A Scene in the menu system that allows users to choose which save they want
  to load.
 
+ [ID: LOAD SCENE]
+
  */
 
 public class LoadGameScene {

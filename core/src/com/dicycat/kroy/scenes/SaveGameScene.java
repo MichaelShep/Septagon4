@@ -18,6 +18,11 @@ import com.dicycat.kroy.misc.OverwriteDialog;
 
 import java.awt.*;
 
+/***
+ * Class for managing the save game menu screen
+ * [ID: SAVE SCENE]
+ */
+
 public class SaveGameScene {
     private SpriteBatch stageBatch;
     public Stage stage;

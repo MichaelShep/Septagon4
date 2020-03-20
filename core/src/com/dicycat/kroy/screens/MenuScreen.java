@@ -79,7 +79,7 @@ public class MenuScreen implements Screen{
   public static enum MenuScreenState {
 	  MAINMENU,
 	  DIFFICULTYSELECT,
-	  LOADGAMESELECT,
+	  LOADGAMESELECT, //Addition of load game scene to the menu [ID: LOAD MENU]
 	  TRUCKSELECT,
 	  OPTIONS
   }
@@ -110,6 +110,7 @@ public class MenuScreen implements Screen{
 	  difficultySelector = new DifficultyScene(game);
 	  difficultySelector.visibility(false);
 
+	  //Creating the loadGameScene [ID: ADDING LOAD]
 	  loadGameSelector = new LoadGameScene(game);
 	  loadGameSelector.visibility(false);
 	  //
@@ -165,6 +166,7 @@ public class MenuScreen implements Screen{
 				  game.batch.draw(playButton, xAxisCentred, playButtonY, buttonWidth, buttonHeight);
 			  }
 
+			  //Adding in ability for load button to be pressed [ID: LOAD PRESSED]
 			  if(( (Gdx.input.getX() < (xAxisCentred + buttonWidth)) && (Gdx.input.getX() > xAxisCentred) ) && ( (Kroy.height - Gdx.input.getY() > loadGameButtonY) && (Kroy.height - Gdx.input.getY() < (loadGameButtonY + buttonHeight)) ) ){
 			  	if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 			  		loadGameSelector.visibility(true);
@@ -207,6 +209,7 @@ public class MenuScreen implements Screen{
 				  
 			  break;
 
+		  //Handling load game display and updating [ID: LOAD DISPLAY]
 		  case LOADGAMESELECT:
 			Gdx.input.setInputProcessor(loadGameSelector.stage);
 			loadGameSelector.stage.act();
@@ -268,6 +271,10 @@ public class MenuScreen implements Screen{
 		});
 	}
 
+	/***
+	 * Handle all the input and adding listeners to buttons for the load game scene
+	 * [ID: LOAD HANDLE INPUT]
+	 */
 	public void loadGameClickCheck(){
 		if(Gdx.app.getPreferences("Save0").getBoolean("hasUsedSave") == true)
 		{

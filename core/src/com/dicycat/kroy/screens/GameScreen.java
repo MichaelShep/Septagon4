@@ -90,7 +90,7 @@ public class GameScreen implements Screen{
 	private List<Fortress> fortresses = new ArrayList<Fortress>(); //Added by Septagon - stores all the fortresses in the game
 	private List<UFO> ufos = new ArrayList<UFO>(); //Added by Septagon - stores all the UFO's in the game
 
-	//Used to handle saving and loading states of the game
+	//Used to handle saving and loading states of the game (creates SaveManager) [ID: DECLARE SAVE]
 	private SaveManager saveManager;
 	private boolean loadingGame = false;
 	private DebugRenderer debugRenderer;
@@ -135,6 +135,7 @@ public class GameScreen implements Screen{
 		fortressSizes.add(new Vector2(400, 256));
 		fortressSizes.add(new Vector2(450, 256));
 
+		//Initialises the save manager and passes it all the lists that will be needed for saving [ID: INIT SAVE]
 		saveManager = new SaveManager(firetrucks, ufos, fortresses);
 		new ButtonListeners(this, saveManager);
 		debugRenderer = new DebugRenderer();
@@ -156,7 +157,7 @@ public class GameScreen implements Screen{
 		gameObjects = new ArrayList<GameObject>();
 		deadObjects = new ArrayList<GameObject>();
 
-		//Checks if we are loading a game from a previous save or starting a completley new game - added by Septagon
+		//Checks if we are loading a game from a previous save or starting a completley new game [ID: CHECK LOADING]
 		if(!loadingGame) {
 			// Initialises the FireTrucks
 			for (int i = 0; i < 6; i++) {
@@ -220,6 +221,7 @@ public class GameScreen implements Screen{
 				pauseWindow.visibility(false);
 				setGameState(GameScreenState.RUN);
 				break;
+			//Render and update the save screen [ID: DISPLAY SAVE]
             case SAVE:
                 Gdx.input.setInputProcessor(saveWindow.stage);
                 saveWindow.stage.act();
@@ -380,6 +382,10 @@ public class GameScreen implements Screen{
 		return lives;
 	}
 
+	/**
+	 * Method that will set up the save manager for the current save and save all neccessary values [ID: SAVE PERFORM]
+	 * @param saveNumber The save slot that is being used for the save
+	 */
 	public void performSave(int saveNumber)
 	{
 		saveManager.setSave(saveNumber);

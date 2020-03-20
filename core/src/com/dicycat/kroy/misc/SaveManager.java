@@ -29,6 +29,8 @@ import java.util.List;
  * NOTE TO SELF: NEED TO LOOK AT AND MAKE SURE THAT ENTITIES ARE REMOVED FROM THE THREE LISTS THAT I USE HERE
  * WHEN THEY ARE REMOVED FROM THE GAMEOJECT LIST IN THE GAMESCREEN, DON'T THINK THEY ARE AT THE MOMENT AND THIS
  * COULD CAUSE MEMORY LEAKS
+ *
+ * [ID: SAVE MANAGER]
  */
 
 public class SaveManager {
@@ -68,7 +70,7 @@ public class SaveManager {
     }
 
     /**
-     * Saves all the attributes when a player finishes the game so that they can be loaded for next time
+     * Saves all the attributes needed for the game into the save slot that is currently being used [ID: SAVE]
      */
     public void saveAttributes() {
 
@@ -116,7 +118,7 @@ public class SaveManager {
     }
 
     /**
-     * Loads all the attributes from the previous save state
+     * Loads all the attributes from the save slot that is currently being used [ID: LOAD]
      */
     public void loadAttributes(List<GameObject> gameObjects, GameTextures textures, List<Vector2> fortressPositions, List<Vector2> fortressSizes){
 

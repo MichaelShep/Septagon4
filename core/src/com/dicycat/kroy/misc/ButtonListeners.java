@@ -8,7 +8,7 @@ import com.dicycat.kroy.screens.GameScreen;
 
 /**
  * Class added as a result of refractoring the GameScreen class
- * Used to adding all the listener methods to all the buttons in all the different menus
+ * Used to adding all the listener methods to all the buttons in the pause menu
  */
 public class ButtonListeners
 {
@@ -56,7 +56,7 @@ public class ButtonListeners
             }
         });
 
-        //Add in functionality for clicking save button
+        //Add in functionality for clicking save button [ID: SAVE PRESSED]
         gameScreen.getPauseWindow().save.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -67,6 +67,10 @@ public class ButtonListeners
         });
     }
 
+    /***
+     * Adds input handlers for all the buttons in the save screen
+     * [ID: SAVE HANDLER]
+     */
     public void addSaveScreenListners(){
         gameScreen.getSaveWindow().saveGame1Button.addListener(new ClickListener() {
             @Override
@@ -113,9 +117,14 @@ public class ButtonListeners
         });
     }
 
+    /**
+     * Adds functionality for saving a game into a specific save slot [ID: SAVE SLOT]
+     * @param saveNumber The save slot that the current game should be saved into
+     */
     private void clickedSavedButton(int saveNumber)
     {
         Gdx.input.setInputProcessor(gameScreen.getPauseWindow().stage);
+        //If there is already a save at this location, ask the user if they want to overwrite that save
         if(saveManager.getPreferences().get(saveNumber).getBoolean("hasUsedSave") == true)
         {
             OverwriteDialog overwriteDialog = new OverwriteDialog(skin, gameScreen, 0);
