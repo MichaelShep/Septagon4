@@ -23,13 +23,7 @@ import java.awt.*;
  * [ID: SAVE SCENE]
  */
 
-public class SaveGameScene {
-    private SpriteBatch stageBatch;
-    public Stage stage;
-    public Table table = new Table();
-    private NinePatchDrawable background = new NinePatchDrawable(new NinePatch(new Texture("Grey.png"), 3, 3, 3, 3));
-
-    private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+public class SaveGameScene extends Scene {
 
     public TextButton saveGame1Button = new TextButton("Save Game 1", skin);
     public TextButton saveGame2Button = new TextButton("Save Game 2", skin);
@@ -38,32 +32,17 @@ public class SaveGameScene {
     public TextButton saveGame5Button = new TextButton("Save Game 5", skin);
     public TextButton backButton = new TextButton("Back", skin);
 
-    private float width = Gdx.graphics.getWidth();
-    private float centre = width* 0.7f;
-
     public SaveGameScene(Kroy game){
-        stageBatch = game.batch;
-        Viewport viewport = new ScreenViewport(new OrthographicCamera());
-        stage = new Stage(viewport, stageBatch);
+        super(game);
 
-        table.setBackground(background);
-
-        table.add(saveGame1Button).width(centre/3.0f);
-        table.row();
-        table.add(saveGame2Button).width(centre/3.0f);
-        table.row();
-        table.add(saveGame3Button).width(centre/3.0f);
-        table.row();
-        table.add(saveGame4Button).width(centre/3.0f);
-        table.row();
-        table.add(saveGame5Button).width(centre/3.0f);
-        table.row();
-        table.add(backButton).width(centre/3.0f);
-        table.row();
+        super.addRow(saveGame1Button);
+        super.addRow(saveGame2Button);
+        super.addRow(saveGame3Button);
+        super.addRow(saveGame4Button);
+        super.addRow(saveGame5Button);
+        super.addRow(backButton);
 
         table.setFillParent(true);
         stage.addActor(table);
     }
-
-    public void visibility(boolean state){ this.table.setVisible(state);}
 }

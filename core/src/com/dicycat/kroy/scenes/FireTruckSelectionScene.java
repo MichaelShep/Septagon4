@@ -21,14 +21,7 @@ import com.dicycat.kroy.Kroy;
  * @author Luke Taylor
  *
  */
-public class FireTruckSelectionScene {
-
-	public Stage stage;
-	public Table table = new Table();
-	private SpriteBatch sb;
-	private NinePatchDrawable background = new NinePatchDrawable(new NinePatch(new Texture("Grey.png"), 3, 3, 3, 3));
-	
-    private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+public class FireTruckSelectionScene extends Scene {
     
     //Buttons initialised, labelled and stylised
     public TextButton truckButton1 = new TextButton("Speed", skin);
@@ -38,22 +31,11 @@ public class FireTruckSelectionScene {
     public TextButton truckButton5 = new TextButton("Capacity", skin);
     public TextButton truckButton6 = new TextButton("Range", skin);
 
-
-
-
-    private float width = Gdx.graphics.getWidth();
-    private float centre = width* 0.7f;
-    
-    
 	/**
 	 * @param game		Kroy instance
 	 */
 	public FireTruckSelectionScene(Kroy game) {
-		sb = game.batch;
-		Viewport viewport = new ScreenViewport(new OrthographicCamera());
-		stage = new Stage(viewport, sb);
-
-		table.setBackground(background);
+		super(game);
 		
 		// Images + Buttons added to the screen
 		table.add(new Image(new Texture("fireTruck1.png")));
@@ -73,19 +55,8 @@ public class FireTruckSelectionScene {
 	    table.add(truckButton4).width(centre/3.0f);
 	    table.add(truckButton5).width(centre/3.0f);
 	    table.add(truckButton6).width(centre/3.0f);
-
-
 	    
 		table.setFillParent(true);
 	    stage.addActor(table);
-	    
-	    
-	}
-	
-	/**
-	 * @param state		Makes the window visible or hidden
-	 */
-	public void visibility(boolean state){
-		this.table.setVisible(state);
 	}
 }

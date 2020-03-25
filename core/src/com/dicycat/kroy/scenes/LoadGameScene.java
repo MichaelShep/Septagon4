@@ -25,14 +25,7 @@ Added by Septagon
 
  */
 
-public class LoadGameScene {
-
-    private SpriteBatch stageBatch;
-    public Stage stage;
-    public Table table = new Table();
-    private NinePatchDrawable background = new NinePatchDrawable(new NinePatch(new Texture("Grey.png"), 3, 3, 3, 3));
-
-    private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+public class LoadGameScene extends Scene {
 
     public TextButton loadGame1Button = new TextButton("Load Game 1", skin);
     public TextButton loadGame2Button = new TextButton("Load Game 2", skin);
@@ -42,32 +35,17 @@ public class LoadGameScene {
 
     public TextButton backButton = new TextButton("Back", skin);
 
-    private float width = Gdx.graphics.getWidth();
-    private float centre = width* 0.7f;
-
     public LoadGameScene(Kroy game){
-        stageBatch = game.batch;
-        Viewport viewport = new ScreenViewport(new OrthographicCamera());
-        stage = new Stage(viewport, stageBatch);
+        super(game);
 
-        table.setBackground(background);
-
-        table.add(loadGame1Button).width(centre/3.0f);
-        table.row();
-        table.add(loadGame2Button).width(centre/3.0f);
-        table.row();
-        table.add(loadGame3Button).width(centre/3.0f);
-        table.row();
-        table.add(loadGame4Button).width(centre/3.0f);
-        table.row();
-        table.add(loadGame5Button).width(centre/3.0f);
-        table.row();
-        table.add(backButton).width(centre/3.0f);
-        table.row();
+        super.addRow(loadGame1Button);
+        super.addRow(loadGame2Button);
+        super.addRow(loadGame3Button);
+        super.addRow(loadGame4Button);
+        super.addRow(loadGame5Button);
+        super.addRow(backButton);
 
         table.setFillParent(true);
         stage.addActor(table);
     }
-
-    public void visibility(boolean state){ this.table.setVisible(state);}
 }
