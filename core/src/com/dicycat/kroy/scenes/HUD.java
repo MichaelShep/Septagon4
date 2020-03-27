@@ -1,5 +1,6 @@
 package com.dicycat.kroy.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
+import com.dicycat.kroy.entities.PowerUps;
 
 /**
  * HUD window
@@ -32,7 +34,10 @@ public class HUD {
 	private Label worldTimerLabel;
 	private Label scoreCountLabel;
 	private Label trucksCountLabel;	//we could put mini images of the trucks instead of using an int for the lives
-	
+	private Label powerUpLabel; //Label that will be used to display what powerUp the user currently has [ID: LABEL]
+
+	private boolean displayingPowerUp = false; //Holds whether the player currently has a powerUp or not
+	private PowerUps currentPowerUp = null; //Holds the currentPower that the player has
 	
 	/**
 	 * @param sb	SpriteBatch
@@ -81,6 +86,41 @@ public class HUD {
 			timeCount =0;
 			scoreCountLabel.setText(String.format("%05d", score));
 			trucksCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.getLives()));
+
+			if(displayingPowerUp && currentPowerUp.getDuration() >= 1)
+			{
+				currentPowerUp.setDuration(currentPowerUp.getDuration() - 1);
+				powerUpLabel.setText("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds");
+			}else if(displayingPowerUp)
+			{
+				removePowerUpMessage();
+			}
+		}
+	}
+
+	/***
+	 * Adds a powerUp message to the screen informing the user of the powerUp that they currently have
+	 * @param currentPowerUp The powerUp that the message should be displayed for
+	 */
+	public void addPowerUpMessage(PowerUps currentPowerUp){
+		this.currentPowerUp = currentPowerUp;
+		displayingPowerUp = true;
+		powerUpLabel = new Label("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds", new Label.LabelStyle(new BitmapFont(), Color.RED));
+		powerUpLabel.setPosition(Gdx.graphics.getWidth() / 2 - powerUpLabel.getWidth() / 2, Gdx.graphics.getHeight() - 50);
+		stage.addActor(powerUpLabel);
+		System.out.println("PowerUp label added");
+	}
+
+	/***
+	 * Removes the current powerUp message from the screen
+	 */
+	public void removePowerUpMessage(){
+		if(powerUpLabel != null)
+		{
+			displayingPowerUp = false;
+			powerUpLabel.remove();
+			currentPowerUp.remove();
+			currentPowerUp = null;
 		}
 	}
 

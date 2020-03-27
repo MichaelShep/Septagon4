@@ -24,6 +24,10 @@ import com.dicycat.kroy.DifficultyMultiplier;
  *
  */
 public class FireTruck extends Entity{
+	private static float SPEED_INCREASE = 460;
+	private static float RANGE_INCREASE = 10;
+	private static float SHOOTING_INCREASE = 10;
+
 	private float speed;	//How fast the truck can move
 	private float flowRate;	//How fast the truck can dispense water
 	private float maxWater; //How much water the truck can hold
@@ -378,16 +382,27 @@ public class FireTruck extends Entity{
 	}
 
 	public void fastShooting(){
-		flowRate += 10;
+		flowRate += SHOOTING_INCREASE;
 	}
 
 	public void SpeedUp(){
-		speed += 460;
-		System.out.println(speed);
+		speed += SPEED_INCREASE;
 	}
 
 	public void increaseRange(){
-		range += 10;
+		range += RANGE_INCREASE;
+	}
+
+	public void resetShooting(){
+		flowRate -= SHOOTING_INCREASE;
+	}
+
+	public void resetSpeedUp(){
+		speed -= SPEED_INCREASE;
+	}
+
+	public void resetRange(){
+		range -= RANGE_INCREASE;
 	}
 
 	public float getRange(){return this.range;}
