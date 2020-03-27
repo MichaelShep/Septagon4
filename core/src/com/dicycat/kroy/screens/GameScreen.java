@@ -19,10 +19,7 @@ import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.debug.*;
-import com.dicycat.kroy.entities.FireStation;
-import com.dicycat.kroy.entities.FireTruck;
-import com.dicycat.kroy.entities.Fortress;
-import com.dicycat.kroy.entities.UFO;
+import com.dicycat.kroy.entities.*;
 import com.dicycat.kroy.gamemap.TiledGameMap;
 import com.dicycat.kroy.misc.ButtonListeners;
 import com.dicycat.kroy.misc.OverwriteDialog;
@@ -165,6 +162,13 @@ public class GameScreen implements Screen{
 				fortressInit(i);
 			}
 			gameObjects.add(new FireStation());
+			gameObjects.add(new PowerUps(new Vector2(4344,3729)));
+			gameObjects.add(new PowerUps(new Vector2(4144,3729)));
+			gameObjects.add(new PowerUps(new Vector2(4544,3729)));
+			gameObjects.add(new PowerUps(new Vector2(5055,1415)));
+			gameObjects.add(new PowerUps(new Vector2(1608,585)));
+			gameObjects.add(new PowerUps(new Vector2(1919,3871)));
+
 		}else {
 			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes);
 			gameObjects.add(new FireStation());

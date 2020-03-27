@@ -86,7 +86,7 @@ public abstract class GameObject {
 	public void setRotation(float degrees) {
 		rotation = degrees;
 	}
-	public void setTexture(Texture texture) { this.setTexture(texture); }
+	public void setTexture(Texture texture) { sprite.setTexture(texture); }
 	
 	/**
 	 * set remove value to the input parameter

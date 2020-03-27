@@ -371,6 +371,24 @@ public class FireTruck extends Entity{
 		 currentWater += x;
 	}
 
+	public void refillWater() {
+		this.currentWater = this.maxWater;
+	}
+	public void fullHealth(){
+	}
+
+	public void fastShooting(){
+		flowRate += 10;
+	}
+
+	public void SpeedUp(){
+		speed += 460;
+		System.out.println(speed);
+	}
+
+	public void increaseRange(){
+		range += 10;
+	}
 
 	public float getRange(){return this.range;}
 	public void setRange(float range){this.range = range;}

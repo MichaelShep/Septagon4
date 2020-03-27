@@ -30,6 +30,22 @@ public abstract class Entity extends GameObject{
 		radius = 500;
 		changePosition(spawnPos);
 	}
+
+	/***
+	 * Second constructor that also takes in the radius of the object
+	 * @param spawnPos The position the entity will spawn at.
+	 * @param img The texture of the entity.
+	 * @param imSize Size of the entity. Can be used to resizr large/small textures
+	 * @param health Hit points of the entity
+	 * @param radius Radius of the entity
+	 */
+	public Entity(Vector2 spawnPos, Texture img, Vector2 imSize, int health, int radius){
+		super(spawnPos, img, imSize);
+		healthPoints = health;
+		maxHealthPoints = health;
+		this.radius = radius;
+		changePosition(spawnPos);
+	}
  
 	/**
 	 * Method is called every frame (If added to the gameobjects list in GameScreen)
