@@ -1,9 +1,11 @@
 package com.dicycat.kroy.misc;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.entities.Fortress;
+import com.dicycat.kroy.entities.PowerUps;
 import com.dicycat.kroy.entities.UFO;
 import com.dicycat.kroy.screens.GameScreen;
 
@@ -37,7 +39,7 @@ public class Updater
      * Adds dead objects to render queue.
      * Respawns the player if necessary.
      */
-    public void updateLoop() {
+    public void updateLoop(List<PowerUps> powerUps) {
         gameScreen.checkZoom();
 
         //Flag to say that when the game is being updated, the game needs to be saved again
@@ -47,7 +49,7 @@ public class Updater
         List<GameObject> toRemove = new ArrayList<GameObject>();
         List<Vector2> patrolPositions = new ArrayList<>();
 
-        patrolPositions = updateObjects(toRemove, patrolPositions);
+        patrolPositions = updateObjects(toRemove, patrolPositions, powerUps);
         addAndRemoveObjects(toRemove);
         gameScreen.switchTrucks();
         spawnPatrols(patrolPositions);
@@ -59,8 +61,15 @@ public class Updater
      * @param patrolPositions All of positions of where the patrols should spawn
      * @return Returns the list of generated partolPositions
      */
-    private List<Vector2> updateObjects(List<GameObject> toRemove, List<Vector2> patrolPositions)
+    private List<Vector2> updateObjects(List<GameObject> toRemove, List<Vector2> patrolPositions, List<PowerUps> powerUps)
     {
+        //Checks whether a powerUp should be removed from the list of powerUps
+        for(int i = 0; i < powerUps.size(); i++)
+        {
+            if(powerUps.get(i).isShouldRemove())
+                powerUps.remove(powerUps.get(i));
+        }
+
         for (GameObject gObject : gameScreen.getGameObjects()) {	//Go through every game object
             gObject.update();						//Update the game object
             if (gObject.isRemove()) {				//Check if game object is to be removed

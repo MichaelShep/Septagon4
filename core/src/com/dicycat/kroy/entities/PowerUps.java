@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.scenes.HUD;
 
-import java.util.Random;
-
 public class PowerUps extends Entity {
 
     private static int radius = 25;
@@ -15,48 +13,25 @@ public class PowerUps extends Entity {
     private PowerType type = null;
     private HUD hud;
     private int duration = 30;
-
-    public static enum PowerType {
-        FULLHEALTH, FASTSHOOTING, RANGE, REFILLWATER, SPEED;
-
-        public static PowerType getRandomType() {
-            Random random = new Random();
-            return values()[random.nextInt(values().length)];
-        }
-    }
-
+    private boolean shouldRemove = false;
 
     public PowerUps(Vector2 spawnPos, Texture img, Vector2 imSize, int health, HUD hud) {
         super(spawnPos, img, imSize, health, radius);
         this.hud = hud;
+        this.setPowerUpTexture();
 
     }
     public PowerUps(Vector2 spawnPos, Texture img, PowerType type, HUD hud) {
         super(spawnPos, img, imSize, health, radius);
         this.type = type;
         this.hud = hud;
+        this.setPowerUpTexture();
     }
     public PowerUps(Vector2 spawnPos, HUD hud) {
         super(spawnPos, new Texture("thunder.png"), imSize, health, radius);
         this.hud = hud;
         type = PowerType.getRandomType();
-        switch (type){
-            case RANGE:
-                setTexture(new Texture ("atom.png"));
-                break;
-            case SPEED:
-                setTexture(new Texture("thunder.png"));
-                break;
-            case FULLHEALTH:
-                setTexture(new Texture("health.png"));
-                break;
-            case REFILLWATER:
-                setTexture(new Texture("raindrop.png"));
-                break;
-            case FASTSHOOTING:
-                setTexture(new Texture("flame.png"));
-                break;
-        }
+        this.setPowerUpTexture();
     }
     /**
      * Update all the power ups
@@ -65,13 +40,13 @@ public class PowerUps extends Entity {
     public void update(){
         if (playerInRadius()) {
             FireTruck player = Kroy.mainGameScreen.getPlayer();
+            shouldRemove = true;
 
             switch (type) {
                 case SPEED:
                     player.SpeedUp();
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
-                    System.out.println("Player has sped up");
                     break;
                 case FULLHEALTH:
                     player.fullHealth();
@@ -144,7 +119,35 @@ public class PowerUps extends Entity {
         }
     }
 
+    /***
+     * Sets the texture of the powerUp based on its type
+     */
+    private void setPowerUpTexture()
+    {
+        switch (type){
+            case RANGE:
+                setTexture(new Texture ("atom.png"));
+                break;
+            case SPEED:
+                setTexture(new Texture("thunder.png"));
+                break;
+            case FULLHEALTH:
+                setTexture(new Texture("health.png"));
+                break;
+            case REFILLWATER:
+                setTexture(new Texture("raindrop.png"));
+                break;
+            case FASTSHOOTING:
+                setTexture(new Texture("flame.png"));
+                break;
+        }
+    }
+
     public int getDuration() { return duration; }
+    public PowerType getType() { return type; }
+    public boolean isShouldRemove() { return shouldRemove; }
 
     public void setDuration(int duration) { this.duration = duration; }
+    public void setType(PowerType type) { this.type = type; this.setPowerUpTexture(); }
+    public void setShouldRemove(boolean shouldRemove) { this.shouldRemove = shouldRemove; }
 }

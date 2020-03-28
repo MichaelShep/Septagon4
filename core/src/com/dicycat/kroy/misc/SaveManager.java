@@ -7,10 +7,8 @@ import com.dicycat.kroy.DifficultyMultiplier;
 import com.dicycat.kroy.GameObject;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.Kroy;
-import com.dicycat.kroy.entities.FireStation;
-import com.dicycat.kroy.entities.FireTruck;
-import com.dicycat.kroy.entities.Fortress;
-import com.dicycat.kroy.entities.UFO;
+import com.dicycat.kroy.entities.*;
+import com.dicycat.kroy.scenes.HUD;
 
 import javax.swing.plaf.FontUIResource;
 import java.util.ArrayList;
@@ -43,18 +41,22 @@ public class SaveManager {
     private List<FireTruck> fireTrucks;
     private List<UFO> ufos;
     private List<Fortress> fortresses;
+    private List<PowerUps>  powerUps;
 
     private boolean savedMostRecentState = true;
 
-    public SaveManager(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses){
+    public SaveManager(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses, List<PowerUps> powerUps){
         preferences = new ArrayList<Preferences>();
 
         for(int i = 0; i < NUM_MAX_SAVES; i++)
         {
             preferences.add(Gdx.app.getPreferences("Save" + i));
+            //Gdx.app.getPreferences("Save" + i).clear();
+            //Gdx.app.getPreferences("Save" + i).flush();
+            //System.out.println("Save games should have been removed");
         }
 
-        this.updateSavedEntities(fireTrucks, ufos, fortresses);
+        this.updateSavedEntities(fireTrucks, ufos, fortresses, powerUps);
     }
 
     /***
@@ -63,10 +65,11 @@ public class SaveManager {
      * @param ufos List containing data on all the UFO's currently in the game
      * @param fortresses List containing data on all the fortresses currently in the game
      */
-    public void updateSavedEntities(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses){
+    public void updateSavedEntities(List<FireTruck> fireTrucks, List<UFO> ufos, List<Fortress> fortresses, List<PowerUps> powerUps){
         this.fireTrucks = fireTrucks;
         this.ufos = ufos;
         this.fortresses = fortresses;
+        this.powerUps = powerUps;
     }
 
     /**
@@ -105,6 +108,15 @@ public class SaveManager {
         }
         preferences.get(preferencesIndex).putInteger("numUfos", ufos.size());
 
+        //Stores all the required attributes about the powerUps into preferences
+        for(int i = 0; i < powerUps.size(); i++)
+        {
+            preferences.get(preferencesIndex).putInteger("powerUp" + i + "type", powerUps.get(i).getType().getValue());
+            preferences.get(preferencesIndex).putFloat("powerUp" + i + "x", powerUps.get(i).getX());
+            preferences.get(preferencesIndex).putFloat("powerUp" + i + "y", powerUps.get(i).getY());
+        }
+        preferences.get(preferencesIndex).putInteger("numPowerUps", powerUps.size());
+
         //Saves the difficulty value of the game
         preferences.get(preferencesIndex).putInteger("difficulty", DifficultyMultiplier.getDifficultyValue());
 
@@ -120,7 +132,7 @@ public class SaveManager {
     /**
      * Loads all the attributes from the save slot that is currently being used [ID: LOAD]
      */
-    public void loadAttributes(List<GameObject> gameObjects, GameTextures textures, List<Vector2> fortressPositions, List<Vector2> fortressSizes){
+    public void loadAttributes(List<GameObject> gameObjects, GameTextures textures, List<Vector2> fortressPositions, List<Vector2> fortressSizes, HUD hud){
 
         //Sets up the difficulty of the game
         DifficultyMultiplier.setDifficulty(preferences.get(preferencesIndex).getInteger("difficulty"));
@@ -177,6 +189,16 @@ public class SaveManager {
             gameObjects.add(ufo);
             ufos.add(ufo);
             System.out.println("UFO " + i + " loaded");
+        }
+
+        //Loads all the powerUps back into the game
+        int numPowerUps = preferences.get(preferencesIndex).getInteger("numPowerUps");
+        for(int i = 0; i < numPowerUps; i++){
+            PowerUps powerUp = new PowerUps(new Vector2(preferences.get(preferencesIndex).getFloat("powerUp" + i + "x"), preferences.get(preferencesIndex).getFloat("powerUp" + i + "y")), hud);
+            powerUp.setType(PowerType.valueOf(preferences.get(preferencesIndex).getInteger("powerUp" + i + "type")));
+            gameObjects.add(powerUp);
+            powerUps.add(powerUp);
+            System.out.println("PowerUp " + i + " loaded");
         }
     }
 

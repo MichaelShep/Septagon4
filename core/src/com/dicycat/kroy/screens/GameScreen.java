@@ -86,6 +86,7 @@ public class GameScreen implements Screen{
 	private ArrayList<FireTruck> firetrucks=new ArrayList<FireTruck>();
 	private List<Fortress> fortresses = new ArrayList<Fortress>(); //Added by Septagon - stores all the fortresses in the game
 	private List<UFO> ufos = new ArrayList<UFO>(); //Added by Septagon - stores all the UFO's in the game
+	private List<PowerUps> powerUps = new ArrayList<>(); //Added by Septagon - stores all the powerUps in the game
 
 	//Used to handle saving and loading states of the game (creates SaveManager) [ID: DECLARE SAVE]
 	private SaveManager saveManager;
@@ -133,7 +134,7 @@ public class GameScreen implements Screen{
 		fortressSizes.add(new Vector2(450, 256));
 
 		//Initialises the save manager and passes it all the lists that will be needed for saving [ID: INIT SAVE]
-		saveManager = new SaveManager(firetrucks, ufos, fortresses);
+		saveManager = new SaveManager(firetrucks, ufos, fortresses, powerUps);
 		new ButtonListeners(this, saveManager);
 		debugRenderer = new DebugRenderer();
 		updater = new Updater(this, saveManager);
@@ -162,15 +163,20 @@ public class GameScreen implements Screen{
 				fortressInit(i);
 			}
 			gameObjects.add(new FireStation());
-			gameObjects.add(new PowerUps(new Vector2(4344,3729), hud));
-			gameObjects.add(new PowerUps(new Vector2(4144,3729), hud));
-			gameObjects.add(new PowerUps(new Vector2(4544,3729), hud));
-			gameObjects.add(new PowerUps(new Vector2(5055,1415), hud));
-			gameObjects.add(new PowerUps(new Vector2(1608,585), hud));
-			gameObjects.add(new PowerUps(new Vector2(1919,3871), hud));
+			powerUps.add(new PowerUps(new Vector2(4344,3729), hud));
+			powerUps.add(new PowerUps(new Vector2(4144,3729), hud));
+			powerUps.add(new PowerUps(new Vector2(4544,3729), hud));
+			powerUps.add(new PowerUps(new Vector2(5055,1415), hud));
+			powerUps.add(new PowerUps(new Vector2(1608,585), hud));
+			powerUps.add(new PowerUps(new Vector2(1919,3871), hud));
+
+			for(PowerUps p: powerUps)
+			{
+				gameObjects.add(p);
+			}
 
 		}else {
-			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes);
+			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes, hud);
 			gameObjects.add(new FireStation());
 		}
 
@@ -248,7 +254,7 @@ public class GameScreen implements Screen{
 		}
 
 		gameTimer -= delta;		//Decrement timer
-		updater.updateLoop(); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
+		updater.updateLoop(powerUps); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
 
 		gameMap.renderRoads(gamecam); // Render the background roads, fields and rivers
 		gameMap.renderBuildings(gamecam); // Renders the buildings and the foreground items which are not entities
@@ -393,7 +399,7 @@ public class GameScreen implements Screen{
 	public void performSave(int saveNumber)
 	{
 		saveManager.setSave(saveNumber);
-		saveManager.updateSavedEntities(firetrucks, ufos, fortresses);
+		saveManager.updateSavedEntities(firetrucks, ufos, fortresses, powerUps);
 		saveManager.saveAttributes();
 		this.setGameState(GameScreen.GameScreenState.PAUSE);
 	}
