@@ -31,6 +31,10 @@ public class HUD {
 	private Label scoreLabel;
 	private Label timeLabel;
 	private Label trucksLabel;
+	//Used to display how many fortresses are left that the player needs to destroy [ID: INIT]
+	private Label fortressesLabel;
+	private Label fortressCountLabel;
+
 	private Label worldTimerLabel;
 	private Label scoreCountLabel;
 	private Label trucksCountLabel;	//we could put mini images of the trucks instead of using an int for the lives
@@ -56,6 +60,11 @@ public class HUD {
 		scoreCountLabel = new Label(String.format("%05d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		trucksLabel = new Label("TRUCKS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+		//Setup Fortress label [ID: SETUP]
+		fortressesLabel = new Label("FORTRESSES LEFT:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		fortressCountLabel = new Label(String.format("%01d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
 		trucksCountLabel = new Label(String.format("%01d", trucks), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
 		tableHUD.add(timeLabel).expandX().padTop(10);
@@ -64,6 +73,8 @@ public class HUD {
 		tableHUD.add(scoreCountLabel).expandX().padTop(10);
 		tableHUD.add(trucksLabel).expandX().padTop(10);
 		tableHUD.add(trucksCountLabel).expandX().padTop(10);
+		tableHUD.add(fortressesLabel).expandX().padTop(10);
+		tableHUD.add(fortressCountLabel).expandX().padTop(10);
 		
 		stage.addActor(tableHUD);
 		
@@ -86,6 +97,7 @@ public class HUD {
 			timeCount =0;
 			scoreCountLabel.setText(String.format("%05d", score));
 			trucksCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.getLives()));
+			fortressCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.fortressesLeft())); //Updates the text for displaying the fortresses [ID: DISPLAY]
 
 			if(displayingPowerUp && currentPowerUp.getDuration() >= 1)
 			{
@@ -120,6 +132,7 @@ public class HUD {
 			displayingPowerUp = false;
 			powerUpLabel.remove();
 			currentPowerUp.remove();
+			powerUpLabel = null;
 			currentPowerUp = null;
 		}
 	}

@@ -170,7 +170,6 @@ public class SaveManager {
         for(int i = 0; i < numFortresses; i++){
             int health = preferences.get(preferencesIndex).getInteger("fortress" + i + "health");
             Fortress fortress = new Fortress(fortressPositions.get(i), textures.getFortress(i), textures.getDeadFortress(i), fortressSizes.get(i), health);
-            Kroy.mainGameScreen.addFortress();
             System.out.println("FORTRESS " + i + "HEALTH " + fortress.getHealthPoints());
             gameObjects.add(fortress);
             fortresses.add(fortress);

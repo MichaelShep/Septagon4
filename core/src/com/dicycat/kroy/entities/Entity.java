@@ -67,7 +67,8 @@ public abstract class Entity extends GameObject{
 	 */
 	public void applyDamage(float damage) {	
 		healthPoints -= damage;
-		if (healthPoints <= 0) { 
+		//Makes the entity die if it is not already dead and its health is less than 0 [ID: CHECKDEAD]
+		if (healthPoints <= 0 && !dead) {
 			die();
 		}
 	}

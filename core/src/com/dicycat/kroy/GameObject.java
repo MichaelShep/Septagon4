@@ -15,6 +15,7 @@ public abstract class GameObject {
 	protected Sprite sprite;						//Sprite of the object
 	protected boolean remove, displayable;			//Should this GameObject be removed? Should this item be displayed?
 	protected float rotation = 0;	//Current angle the truck is facing in degrees
+	protected boolean dead = false; //Keeps track of whether the Entity is dead or not [ID: DECLARE]
 
 	public GameObject(Vector2 spawnPos, Texture image, Vector2 imSize) {	//Constructor; takes the screen to be put on, spawn position vector, image and a vector for its size
 		sprite = new Sprite(image,(int) spawnPos.x ,(int) spawnPos.y ,(int) imSize.x,(int) imSize.y); // sprite class stores the texture position and size of the object
@@ -100,5 +101,6 @@ public abstract class GameObject {
 	 */
 	public void die() {
 		remove = true;
+		dead = true; //Ensures that the object is tracked as being dead [ID: KILL]
 	}
 }

@@ -73,7 +73,7 @@ public class GameScreen implements Screen{
 	private FireTruck currentTruck;
 	private int lives = 6;
 	private float zoom = 1;
-	
+
 	private int fortressesCount;
 	private Vector2 spawnPosition;	//Coordinates the player spawns at
 	
@@ -416,6 +416,8 @@ public class GameScreen implements Screen{
 	 */
 	public void removeFortress() {
 		fortressesCount--;
+		System.out.println("Fortresses Left: " + fortressesCount);
+
 	}
 
 	/**
