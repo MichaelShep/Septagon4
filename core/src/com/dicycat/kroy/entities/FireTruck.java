@@ -379,6 +379,7 @@ public class FireTruck extends Entity{
 		this.currentWater = this.maxWater;
 	}
 	public void fullHealth(){
+		this.healthPoints = this.maxHealthPoints;
 	}
 
 	public void fastShooting(){

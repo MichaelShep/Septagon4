@@ -50,6 +50,7 @@ public class PowerUps extends Entity {
                     break;
                 case FULLHEALTH:
                     player.fullHealth();
+                    this.setDuration(3);
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
@@ -65,6 +66,7 @@ public class PowerUps extends Entity {
                     break;
                 case REFILLWATER:
                     player.refillWater();
+                    this.setDuration(3);
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;

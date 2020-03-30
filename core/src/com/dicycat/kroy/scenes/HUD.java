@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
+import com.dicycat.kroy.entities.PowerType;
 import com.dicycat.kroy.entities.PowerUps;
 
 /**
@@ -102,7 +103,8 @@ public class HUD {
 			if(displayingPowerUp && currentPowerUp.getDuration() >= 1)
 			{
 				currentPowerUp.setDuration(currentPowerUp.getDuration() - 1);
-				powerUpLabel.setText("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds");
+				if(currentPowerUp.getType() != PowerType.REFILLWATER && currentPowerUp.getType() != PowerType.FULLHEALTH)
+					powerUpLabel.setText("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds");
 			}else if(displayingPowerUp)
 			{
 				removePowerUpMessage();
@@ -117,10 +119,12 @@ public class HUD {
 	public void addPowerUpMessage(PowerUps currentPowerUp){
 		this.currentPowerUp = currentPowerUp;
 		displayingPowerUp = true;
-		powerUpLabel = new Label("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds", new Label.LabelStyle(new BitmapFont(), Color.RED));
+		if(currentPowerUp.getType() != PowerType.REFILLWATER && currentPowerUp.getType() != PowerType.FULLHEALTH)
+			powerUpLabel = new Label("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds", new Label.LabelStyle(new BitmapFont(), Color.RED));
+		else
+			powerUpLabel = new Label("You have been given " + currentPowerUp.toString(), new Label.LabelStyle(new BitmapFont(), Color.RED));
 		powerUpLabel.setPosition(Gdx.graphics.getWidth() / 2 - powerUpLabel.getWidth() / 2, Gdx.graphics.getHeight() - 50);
 		stage.addActor(powerUpLabel);
-		System.out.println("PowerUp label added");
 	}
 
 	/***
