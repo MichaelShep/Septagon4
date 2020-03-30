@@ -29,6 +29,14 @@ public class GameTextures {
 		fireStation = new Texture("FireStationTemp.png");
 		fireStationDead = new Texture("FireStationTempDead.png");	
 	}
+
+	public void initTextures()
+	{
+		ufo = new Texture("ufo.png");
+		bullet = new Texture("bullet.png");
+		fireStation = new Texture("FireStationTemp.png");
+		fireStationDead = new Texture("FireStationTempDead.png");
+	}
 	
 	/**
 	 * @return FireTruck

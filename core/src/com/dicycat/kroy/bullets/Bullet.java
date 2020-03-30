@@ -21,7 +21,6 @@ public class Bullet extends GameObject {
 	private float maxDist;		//Max distance to travel
 	private float travelDist; 	//Distance left to travel
 	private Circle hitbox;		//Bullet hit box
- 
 
 	/**
 	 * @param spawnPos Position to spawn the bullet
@@ -74,11 +73,16 @@ public class Bullet extends GameObject {
 		hitbox.y = getCentre().y;
 
 		//Check to see if bullet collides with the players truck.
-		FireTruck truck = Kroy.mainGameScreen.getPlayer();
-		if (truck.isAlive()) {
-			if(Intersector.overlaps(hitbox, truck.getHitbox())){
-				truck.applyDamage((int)(10 * DifficultyMultiplier.getDifficultyBullet()));
-				remove = true;
+		if(Kroy.mainGameScreen.getPlayer() != null)
+		{
+			FireTruck truck = Kroy.mainGameScreen.getPlayer();
+			if (truck.isAlive())
+			{
+				if (Intersector.overlaps(hitbox, truck.getHitbox()))
+				{
+					truck.applyDamage((int) (10 * DifficultyMultiplier.getDifficultyBullet()));
+					remove = true;
+				}
 			}
 		}
 
@@ -87,4 +91,11 @@ public class Bullet extends GameObject {
 	public Circle GetHitbox(){
 		return this.hitbox;
 	}
+
+	public int getSpeed() { return speed; }
+	public float getMaxDist() { return maxDist; }
+	public float getTravelDist() { return travelDist; }
+	public Circle getHitbox() { return hitbox; }
+	public Vector2 getVelocity() { return velocity; }
+	public boolean isRemove() { return remove; }
 }
