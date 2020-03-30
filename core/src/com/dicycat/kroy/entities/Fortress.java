@@ -21,7 +21,6 @@ public class Fortress extends Entity {
 	private BulletDispenser dispenser;
 	private Texture deadTexture;
 	private StatBar healthBar;
-
 	/**
 	 * @param spawnPos
 	 * @param fortressTexture

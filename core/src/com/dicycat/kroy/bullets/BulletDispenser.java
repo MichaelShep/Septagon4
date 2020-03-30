@@ -36,6 +36,7 @@ public class BulletDispenser {
 		currentPattern = 0;
 		bulletTimer = 0;
 		patternTimer = 0;
+		currentBullet = 0;
 	}
 	
 	/**
@@ -91,5 +92,18 @@ public class BulletDispenser {
 		
 		return null;	//Not firing/no bullets
 	}
+
+	public Entity getOwner() { return owner; }
+	public List<Pattern> getPatterns() { return patterns; }
+	public int getCurrentPattern() { return currentPattern; }
+	public int getCurrentBullet() { return currentBullet; }
+	public float getBulletTimer() { return bulletTimer; }
+	public float getPatternTimer() { return patternTimer; }
+	public float getPatternTime() { return patternTime; }
+	public Pattern getFiringPattern() { return firingPattern; }
+
+	public void setPatternTimer(float patternTimer) { this.patternTimer = patternTimer; }
+	public void setBulletTimer(float bulletTimer) { this.bulletTimer = bulletTimer; }
+	public void setCurrentBullet(int currentBullet) { this.currentBullet = currentBullet; }
 }
 
