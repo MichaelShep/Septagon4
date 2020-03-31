@@ -65,8 +65,8 @@ public class Fortress extends Entity {
 	 * new
 	 */
 	public Fortress() {
-		super(new Vector2(2903, 3211),  new Texture("cliffords tower.png"),  new Vector2(256, 218), 500);
-		this.deadTexture = new Texture("cliffords tower dead.png");
+		super(new Vector2(2903, 3211),  Kroy.mainGameScreen.textures.getFortress(0),  new Vector2(256, 218), 500);
+		this.deadTexture = Kroy.mainGameScreen.textures.getDeadFortress(0);
 	}
  
 	/**
@@ -131,4 +131,7 @@ public class Fortress extends Entity {
 
 	}
 
+	public Texture getDeadTexture() { return deadTexture; }
+	public StatBar getHealthBar() { return healthBar; }
+	public BulletDispenser getDispenser() { return dispenser; }
 }

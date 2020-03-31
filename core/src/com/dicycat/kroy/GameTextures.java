@@ -53,6 +53,9 @@ public class GameTextures {
 	public void setupTruckAddressArray()
 	{
 		truckAddress = new String[]{"fireTruck1.png", "fireTruck2.png", "fireTruck3.png", "fireTruck4.png", "fireTruck5.png", "fireTruck6.png"};
+		livingFortresses = new Texture[]{new Texture("cliffords tower.png"), new Texture("york minster.png"), new Texture("Memorial.png"), new Texture("york museum.png"), new Texture("University.png"), new Texture("Station.png")};
+		deadFortresses = new Texture[]{new Texture("cliffords tower dead.png"), new Texture("york minster dead.png"), new Texture("york museum dead.png"), new Texture("york museum dead.png"), new Texture("york minster dead.png"), new Texture("york museum dead.png")};
+
 	}
 	
 	/**
