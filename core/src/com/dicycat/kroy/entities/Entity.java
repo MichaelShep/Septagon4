@@ -90,11 +90,12 @@ public abstract class Entity extends GameObject{
 	 * new
 	 * @return healthPoints
 	 */
-	public Integer getHealthPoints(){
+	public int getHealthPoints(){
 		return healthPoints; 
 	}
-	public Integer getMaxHealthPoints() { return maxHealthPoints; }
-	
+	public int getMaxHealthPoints() { return maxHealthPoints; }
+	public int getRadius() { return radius; }
+
 	/**
 	 * new
 	 * increase the HealthPoints by x
@@ -105,4 +106,6 @@ public abstract class Entity extends GameObject{
 		}
 	}
 	public void setMaxHealthPoints(int maxHealthPoints) { this.maxHealthPoints = maxHealthPoints; }
+
+	public void setHealthToFixedValue(int x) { healthPoints = x; }
 }

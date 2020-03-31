@@ -17,25 +17,42 @@ public class GameTextures {
 	private Texture[] livingFortresses = {new Texture("cliffords tower.png"), new Texture("york minster.png"), new Texture("Memorial.png") , new Texture("york museum.png") , new Texture("University.png"), new Texture("Station.png")};
 	private Texture[] deadFortresses = {new Texture("cliffords tower dead.png"), new Texture("york minster dead.png"), new Texture("york museum dead.png"), new Texture("york museum dead.png"), new Texture("york minster dead.png"), new Texture("york museum dead.png")};
 	private String[] truckAddress = {"fireTruck1.png", "fireTruck2.png", "fireTruck3.png", "fireTruck4.png", "fireTruck5.png", "fireTruck6.png"};
-	  
-	 
+
 	/**
 	 * @param truckNum Which truck texture to get
 	 */
 	public GameTextures(int truckNum) {
-		truck = new Texture(truckAddress[truckNum]);
-		ufo = new Texture("ufo.png");
-		bullet = new Texture("bullet.png");
-		fireStation = new Texture("FireStationTemp.png");
-		fireStationDead = new Texture("FireStationTempDead.png");	
+		this.initFireTruckTexture(truckNum);
+		this.initTextures();
 	}
 
+	/**
+	 * Initialises all the textures (other than the fireTruck texture)
+	 */
 	public void initTextures()
 	{
 		ufo = new Texture("ufo.png");
 		bullet = new Texture("bullet.png");
 		fireStation = new Texture("FireStationTemp.png");
 		fireStationDead = new Texture("FireStationTempDead.png");
+	}
+
+	/**
+	 * Initialises the truck texture for the passed in fire truck
+	 * @param truckNum The truck texture that should be initialised
+	 */
+	public void initFireTruckTexture(int truckNum)
+	{
+		System.out.println(truckAddress);
+		truck = new Texture(truckAddress[truckNum]);
+	}
+
+	/**
+	 * Sets up the truckAddress array - only used for JUnit testing purposes
+	 */
+	public void setupTruckAddressArray()
+	{
+		truckAddress = new String[]{"fireTruck1.png", "fireTruck2.png", "fireTruck3.png", "fireTruck4.png", "fireTruck5.png", "fireTruck6.png"};
 	}
 	
 	/**

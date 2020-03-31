@@ -24,9 +24,9 @@ import com.dicycat.kroy.DifficultyMultiplier;
  *
  */
 public class FireTruck extends Entity{
-	private static float SPEED_INCREASE = 460;
-	private static float RANGE_INCREASE = 10;
-	private static float SHOOTING_INCREASE = 10;
+	public static float SPEED_INCREASE = 460;
+	public static float RANGE_INCREASE = 10;
+	public static float SHOOTING_INCREASE = 10;
 
 	private float speed;	//How fast the truck can move
 	private float flowRate;	//How fast the truck can dispense water
@@ -258,7 +258,7 @@ public class FireTruck extends Entity{
 	 * @param targets
 	 * find and aim at the nearest target from an ArrayList of Gameobjects
 	 */
-	private void playerFire(ArrayList<GameObject> targets) {		//Method to find and aim at the nearest target from an ArrayList of Gameobjects
+	public void playerFire(ArrayList<GameObject> targets) {		//Method to find and aim at the nearest target from an ArrayList of Gameobjects
 		GameObject currentGameObject=targets.get(0);
 		GameObject nearestEnemy=targets.get(0);				//set nearest enemy to the first gameobject
 
@@ -285,7 +285,7 @@ public class FireTruck extends Entity{
 	 * Returns an array of all enemy GameObjects in range
 	 * @return
 	 */
-	private ArrayList<GameObject> entitiesInRange(){
+	public ArrayList<GameObject> entitiesInRange(){
 		ArrayList<GameObject> outputArray = new ArrayList<GameObject>();	//create array list to output enemies in range
 
 		for (GameObject currentObject : Kroy.mainGameScreen.getGameObjects()) {		//iterates through all game objects
@@ -373,6 +373,7 @@ public class FireTruck extends Entity{
 	public void setCurrentWater(float x) {
 		 currentWater += x;
 	}
+	public void setCurrentWaterToFixedValue(float x) { currentWater = x; }
 
 	public void refillWater() {
 		this.currentWater = this.maxWater;
@@ -409,10 +410,8 @@ public class FireTruck extends Entity{
 	public void setRange(float range){this.range = range;}
 
 	public float getMaxWater(){return this.maxWater;}
-	public void setMaxWater(float maxWater){this.maxWater = maxWater;}
 
 	public float getFlowRate(){return this.flowRate;}
-	public void setFlowRate(float flowRate){this.flowRate = flowRate;}
 
 	public float getSpeed() { return this.speed; }
 	public void setSpeed(float speed) { this.speed = speed; }
@@ -420,5 +419,7 @@ public class FireTruck extends Entity{
 	public StatBar getHealthBar() { return healthBar; }
 	public StatBar getTank() { return tank; }
 	
-
+	public boolean isFiring() { return firing; }
+	public HashMap<String, Integer> getDIRECTIONS() { return DIRECTIONS; }
+	public WaterStream getWater() { return water; }
 }

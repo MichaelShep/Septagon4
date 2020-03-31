@@ -62,7 +62,8 @@ public abstract class GameObject {
 	public int getTextureHeight() {	return sprite.getTexture().getHeight(); }
 	public Sprite getSprite() { return sprite; }
 	public Vector2 getPosition() { return new Vector2(getX(), getY());  }
-	public boolean isDisplayable() { return displayable; } 
+	public boolean isDisplayable() { return displayable; }
+	public boolean isDead() { return dead; }
 
 	/**
 	 * Return centre of GameObject

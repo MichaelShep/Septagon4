@@ -61,12 +61,5 @@ public class FireStation extends Entity {
 	public static Texture getTexturedead() {
 		return texturedead;
 	}
-
-	/**
-	 * new
-	 * change the FireStaion's texture to texturedead when it dies
-	 */
-	public static void setTexturedead(Texture texturedead) {
-		FireStation.texturedead = texturedead;
-	}
+	public static Texture getTextureLiving() { return textureLiving; }
 }

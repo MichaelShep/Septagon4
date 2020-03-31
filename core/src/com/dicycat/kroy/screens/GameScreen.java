@@ -50,7 +50,7 @@ public class GameScreen implements Screen{
 	
 	public static TiledGameMap gameMap;
 	
-	private OrthographicCamera gamecam;	//follows along what the port displays
+	private OrthographicCamera gamecam = new OrthographicCamera();	//follows along what the port displays
 	private Viewport gameport;
 	
 	private HUD hud; 
@@ -100,9 +100,24 @@ public class GameScreen implements Screen{
 	 * @param truckNum
 	 */
 	public GameScreen(Kroy _game, int truckNum, boolean loadingGame) {
+		this.init(_game, truckNum, loadingGame);
+	}
+
+	public GameScreen(Kroy _game, int truckNum, boolean loadingGame, Integer saveNum){
+	    this(_game, truckNum, loadingGame);
+	    saveManager.setSave(saveNum);
+    }
+
+	/**
+	 * Method that performs all initialisation of the screen
+	 * @param _game The current game context
+	 * @param truckNum The starting truck that the player has selected
+	 * @param loadingGame Whether the player is loading a game or not
+	 */
+	public void init(Kroy _game, int truckNum, boolean loadingGame)
+	{
 		this.loadingGame = loadingGame;
 		game = _game;
-		gamecam = new OrthographicCamera();
 		gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);	//Mic:could also use StretchViewPort to make the screen stretch instead of adapt
 		hud = new HUD(game.batch, this.game);
 		gameMap = new TiledGameMap();										//or FitPort to make it fit into a specific width/height ratio
@@ -114,7 +129,7 @@ public class GameScreen implements Screen{
 		saveWindow.visibility(false);
 		textures = new GameTextures(truckNum);
 		spawnPosition = new Vector2(3750, 4000);
-		gameTimer = 60 * 5; //new    //Set timer to 5 minutes  
+		gameTimer = 60 * 5; //new    //Set timer to 5 minutes
 		this.truckNum = truckNum;
 
 		//Setup all the fortress positions and sizes
@@ -139,12 +154,6 @@ public class GameScreen implements Screen{
 		debugRenderer = new DebugRenderer();
 		updater = new Updater(this, saveManager);
 	}
-
-	public GameScreen(Kroy _game, int truckNum, boolean loadingGame, Integer saveNum){
-	    this(_game, truckNum, loadingGame);
-	    saveManager.setSave(saveNum);
-
-    }
 
 	/**
 	 * Screen first shown
@@ -329,6 +338,9 @@ public class GameScreen implements Screen{
 	public FireTruck getPlayer() {
 		return currentTruck;
 	}
+	public void setPlayer(FireTruck player) { this.currentTruck = player; }
+
+	public void setGameTimer(int gameTimer) { this.gameTimer = gameTimer; }
 
 	/**
 	 * Updates the position of the camera to have the truck centre
@@ -526,6 +538,18 @@ public class GameScreen implements Screen{
 	 */
 	public Vector2 getSpawnPosition() {
 		return spawnPosition;
+	}
+
+	/**
+	 * Sets up values that are needed in JUnit tests - only used for JUnit testing
+	 */
+	public void setupEssentialValues()
+	{
+		this.gamecam = new OrthographicCamera();
+		this.debugRenderer = new DebugRenderer();
+		objectsToAdd = new ArrayList<GameObject>();
+		gameObjects = new ArrayList<GameObject>();
+		deadObjects = new ArrayList<GameObject>();
 	}
 
 	public PauseWindow getPauseWindow() { return pauseWindow; }
