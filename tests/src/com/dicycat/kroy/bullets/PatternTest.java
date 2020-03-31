@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
  * Added by Septagon
  */
 
-@PrepareForTest( Bullet.class )
 @RunWith(GdxTestRunner.class)
 public class PatternTest
 {

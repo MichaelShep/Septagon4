@@ -65,4 +65,6 @@ public class DebugRenderer
             debugObjects.add(new DebugRect(bottomLefiretrucks, dimensions, lineWidth, colour));
         }
     }
+
+    public List<DebugDraw> getDebugObjects() { return debugObjects; }
 }

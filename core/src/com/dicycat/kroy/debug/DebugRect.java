@@ -44,4 +44,9 @@ public class DebugRect extends DebugDraw {
         debugRenderer.dispose();
         Gdx.gl.glLineWidth(1);
     }
+
+    public Vector2 getBottomLeft() { return bottomLeft; }
+    public Vector2 getDimensions() { return dimensions; }
+    public int getLineWidth() { return lineWidth; }
+    public Color getColor() { return color; }
 }

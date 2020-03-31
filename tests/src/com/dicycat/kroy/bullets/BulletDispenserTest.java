@@ -29,7 +29,6 @@ import static org.junit.Assert.*;
  * Added by Septagon
  */
 
-@PrepareForTest( BulletDispenser.class )
 @RunWith(GdxTestRunner.class)
 public class BulletDispenserTest
 {

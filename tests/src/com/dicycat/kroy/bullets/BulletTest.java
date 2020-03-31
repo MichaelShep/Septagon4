@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
  * Added by Septagon [NOTE: COVERAGE BEFORE ADDITIONS WAS 10% of Classes, 9% of methods and 6% of lines]
  */
 
-@PrepareForTest( Bullet.class )
 @RunWith(GdxTestRunner.class)
 public class BulletTest
 {

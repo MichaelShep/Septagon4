@@ -43,4 +43,9 @@ public class DebugLine extends DebugDraw {
         debugRenderer.end();
         Gdx.gl.glLineWidth(1);
     }
+
+    public Vector2 getStart() { return start; }
+    public Vector2 getEnd() { return end; }
+    public int getLineWidth() { return lineWidth; }
+    public Color getColor() { return color; }
 }

@@ -43,4 +43,9 @@ public class DebugCircle extends DebugDraw {
         debugRenderer.end();
         Gdx.gl.glLineWidth(1);
     }
+
+    public Vector2 getPosition() { return position; }
+    public float getRadius() { return radius; }
+    public int getLineWidth() { return lineWidth; }
+    public Color getColor() { return color; }
 }
