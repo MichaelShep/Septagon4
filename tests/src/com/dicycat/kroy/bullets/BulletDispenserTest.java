@@ -1,8 +1,11 @@
-package com.dicycat.kroy;
+package com.dicycat.kroy.bullets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
+import com.dicycat.kroy.GameTextures;
+import com.dicycat.kroy.GdxTestRunner;
+import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.bullets.Bullet;
 import com.dicycat.kroy.bullets.BulletDispenser;
 import com.dicycat.kroy.bullets.Pattern;

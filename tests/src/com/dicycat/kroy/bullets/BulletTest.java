@@ -1,4 +1,4 @@
-package com.dicycat.kroy;
+package com.dicycat.kroy.bullets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.dicycat.kroy.GameTextures;
+import com.dicycat.kroy.GdxTestRunner;
+import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.bullets.Bullet;
 import com.dicycat.kroy.entities.Fortress;
 import com.dicycat.kroy.screens.GameScreen;

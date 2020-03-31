@@ -133,4 +133,8 @@ public class Pattern {
 	public Bullet[][] getBullets(){return bullets;}
 	public float getWaitTime(){return waitTime;}
 	public float getCooldown(){return cooldown;}
+	public int getOffset() { return offset; }
+	public int getXtra() { return xtra; }
+
+	public void setBullets(Bullet[][] bullets) { this.bullets = bullets; }
 }
