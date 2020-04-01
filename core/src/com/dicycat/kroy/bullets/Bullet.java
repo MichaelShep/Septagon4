@@ -88,10 +88,6 @@ public class Bullet extends GameObject {
 
 	}
 
-	public Circle GetHitbox(){
-		return this.hitbox;
-	}
-
 	public int getSpeed() { return speed; }
 	public float getMaxDist() { return maxDist; }
 	public float getTravelDist() { return travelDist; }

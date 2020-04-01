@@ -51,11 +51,6 @@ public class TiledGameMap{
 
 	public void update(float delta) {}
 
-
-	public void dispose() {
-		tiledMap.dispose();
-	}
-
 	/**
 	 * Gets the tile type at a row/column for a particular layer
 	 * @param layer Layer to check
@@ -105,5 +100,8 @@ public class TiledGameMap{
 	public int getHeight() {
 		return ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight();
 	}
+
+	public TiledMap getTiledMap() { return tiledMap; }
+	public OrthogonalTiledMapRenderer getTiledMapRenderer() { return tiledMapRenderer; }
 	
 }

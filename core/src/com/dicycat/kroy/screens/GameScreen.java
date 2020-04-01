@@ -552,6 +552,19 @@ public class GameScreen implements Screen{
 		deadObjects = new ArrayList<GameObject>();
 	}
 
+	/**
+	 * Sets up windows that are needed in JUnit tests - only used for JUnit testing purposes
+	 */
+	public void setupWindows(Kroy game)
+	{
+		pauseWindow = new PauseWindow(game);
+		pauseWindow.visibility(false);
+		optionsWindow = new OptionsWindow(game);
+		optionsWindow.visibility(false);
+		saveWindow = new SaveGameScene(game);
+		saveWindow.visibility(false);
+	}
+
 	public PauseWindow getPauseWindow() { return pauseWindow; }
 	public SaveGameScene getSaveWindow() { return saveWindow; }
 	public Kroy getGame() { return game; }

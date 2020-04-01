@@ -32,10 +32,10 @@ import java.util.List;
  */
 
 public class SaveManager {
-    private static final int NUM_MAX_SAVES = 5;
+    private static final int NUM_MAX_SAVES = 6; //Final save slot used by the JUnit tests
 
     private List<Preferences> preferences;
-    private Integer preferencesIndex = 0;
+    private int preferencesIndex = 0;
 
     //Lists containing data on all attributes in the game
     private List<FireTruck> fireTrucks;
@@ -88,7 +88,6 @@ public class SaveManager {
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "maxWater", fireTrucks.get(i).getMaxWater());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "rotation", fireTrucks.get(i).getRotation());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "range", fireTrucks.get(i).getRange());
-            preferences.get(preferencesIndex).putFloat("fireTruck" + i + "flowRate", fireTrucks.get(i).getFlowRate());
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "speed", fireTrucks.get(i).getSpeed());
         }
         preferences.get(preferencesIndex).putInteger("numFireTrucks", fireTrucks.size());
@@ -105,6 +104,7 @@ public class SaveManager {
             preferences.get(preferencesIndex).putFloat("ufo" + i + "x", ufos.get(i).getPosition().x);
             preferences.get(preferencesIndex).putFloat("ufo" + i + "y", ufos.get(i).getPosition().y);
             preferences.get(preferencesIndex).putInteger("ufo" + i + "health", ufos.get(i).getHealthPoints());
+            preferences.get(preferencesIndex).putInteger("ufo" + i + "maxHealth", ufos.get(i).getMaxHealthPoints());
         }
         preferences.get(preferencesIndex).putInteger("numUfos", ufos.size());
 
@@ -151,11 +151,13 @@ public class SaveManager {
 
             FireTruck truck = new FireTruck(new Vector2(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "x"), preferences.get(preferencesIndex).getFloat("fireTruck" + i + "y")), truckStats, i, health);
 
+            truck.setCurrentWaterToFixedValue(water);
             truck.setMaxHealthPoints(maxHealth);
+            truck.setHealthToFixedValue(health);
+            truck.setRange(range);
             truck.setRotation(preferences.get(preferencesIndex).getFloat("fireTruck" + i + "rotation"));
             fireTrucks.add(truck);
 
-            System.out.println("LOADED HEALTH: " + truck.getHealthPoints());
             if(truck.getHealthPoints() <= 0)
             {
                 truck.die();
@@ -170,7 +172,6 @@ public class SaveManager {
         for(int i = 0; i < numFortresses; i++){
             int health = preferences.get(preferencesIndex).getInteger("fortress" + i + "health");
             Fortress fortress = new Fortress(fortressPositions.get(i), textures.getFortress(i), textures.getDeadFortress(i), fortressSizes.get(i), health);
-            System.out.println("FORTRESS " + i + "HEALTH " + fortress.getHealthPoints());
             gameObjects.add(fortress);
             fortresses.add(fortress);
             if(fortress.getHealthPoints() == 0)
@@ -185,6 +186,7 @@ public class SaveManager {
         for(int i = 0; i < numUfos; i++){
             UFO ufo = new UFO(new Vector2(preferences.get(preferencesIndex).getFloat("ufo" + i + "x"), preferences.get(preferencesIndex).getFloat("ufo" + i + "y")));
             ufo.setHealthPoints(preferences.get(preferencesIndex).getInteger("ufo" + i + "health"));
+            ufo.setMaxHealthPoints(preferences.get(preferencesIndex).getInteger("ufo" + i + "maxHealth"));
             gameObjects.add(ufo);
             ufos.add(ufo);
             System.out.println("UFO " + i + " loaded");
@@ -207,4 +209,9 @@ public class SaveManager {
     public void setSavedMostRecentState(boolean savedMostRecentState) { this.savedMostRecentState = savedMostRecentState; }
 
     public void setSave(Integer index){this.preferencesIndex = index;}
+
+    public List<FireTruck> getFireTrucks() { return fireTrucks; }
+    public List<Fortress> getFortresses() { return fortresses; }
+    public List<UFO> getUfos() { return ufos; }
+    public List<PowerUps> getPowerUps() { return powerUps; }
 }

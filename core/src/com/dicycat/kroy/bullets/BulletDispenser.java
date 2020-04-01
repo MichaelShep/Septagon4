@@ -104,6 +104,5 @@ public class BulletDispenser {
 
 	public void setPatternTimer(float patternTimer) { this.patternTimer = patternTimer; }
 	public void setBulletTimer(float bulletTimer) { this.bulletTimer = bulletTimer; }
-	public void setCurrentBullet(int currentBullet) { this.currentBullet = currentBullet; }
 }
 

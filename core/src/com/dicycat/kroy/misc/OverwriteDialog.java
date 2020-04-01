@@ -50,4 +50,6 @@ public class OverwriteDialog extends Dialog
     }
 
     public boolean getReturnVal() { return returnVal; }
+    public GameScreen getGameScreen() { return gameScreen; }
+    public int getSaveNumber() { return saveNumber; }
 }

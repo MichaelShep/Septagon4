@@ -56,4 +56,6 @@ public enum TileType {
 	public static TileType getTileTypeByID(int id) {
 		return tileMap.get(id);
 	}
+
+	public static HashMap<Integer, TileType> getTileMap() { return tileMap; }
 }

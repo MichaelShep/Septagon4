@@ -135,5 +135,6 @@ public class ButtonListeners
         }
     }
 
-
+    public GameScreen getGameScreen() { return gameScreen; }
+    public SaveManager getSaveManager() { return saveManager; }
 }

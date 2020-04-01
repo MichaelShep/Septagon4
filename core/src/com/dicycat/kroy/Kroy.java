@@ -101,4 +101,5 @@ public class Kroy extends Game {
 	public Integer getHighScore() {
 		return highScore;
 	}
+	public void setBatch(SpriteBatch batch) { this.batch = batch; }
 }
