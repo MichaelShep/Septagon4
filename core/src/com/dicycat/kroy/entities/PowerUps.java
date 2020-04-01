@@ -140,4 +140,5 @@ public class PowerUps extends Entity {
 
     public void setDuration(int duration) { this.duration = duration; }
     public void setType(PowerType type) { this.type = type; this.setPowerUpTexture(); }
+    public void setShouldRemove(boolean shouldRemove) { this.shouldRemove = shouldRemove; }
 }

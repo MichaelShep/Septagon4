@@ -96,6 +96,7 @@ public abstract class GameObject {
 	public void setRemove(Boolean x){
 		remove = x;
 	}
+	public void setDisplayable(boolean displayable) { this.displayable = displayable; }
 	
 	/**
 	 * set the remove value to true

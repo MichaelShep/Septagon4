@@ -34,4 +34,6 @@ public class StatBar extends GameObject{
 
 	@Override
 	public void update() {}
+
+	public int getBarHeight() { return height; }
 }

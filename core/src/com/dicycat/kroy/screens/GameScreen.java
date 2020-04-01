@@ -550,6 +550,8 @@ public class GameScreen implements Screen{
 		objectsToAdd = new ArrayList<GameObject>();
 		gameObjects = new ArrayList<GameObject>();
 		deadObjects = new ArrayList<GameObject>();
+		objectsToRender = new ArrayList<GameObject>();
+		ufos = new ArrayList<UFO>();
 	}
 
 	/**
@@ -575,4 +577,8 @@ public class GameScreen implements Screen{
 	public List<GameObject> getObjectsToAdd() { return objectsToAdd; }
 	public List<UFO> getUfos() { return ufos; }
 	public FireTruck getCurrentTruck() { return currentTruck; }
+
+	public void setGameObjects(ArrayList<GameObject> gameObjects) { this.gameObjects = gameObjects; }
+	public void setObjectsToAdd(ArrayList<GameObject> objectsToAdd) { this.objectsToAdd = objectsToAdd; }
+	public void setDeadObjects(ArrayList<GameObject> deadObjects) { this.deadObjects = deadObjects; }
 }

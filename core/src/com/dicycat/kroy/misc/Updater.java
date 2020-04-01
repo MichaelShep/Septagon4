@@ -61,7 +61,7 @@ public class Updater
      * @param patrolPositions All of positions of where the patrols should spawn
      * @return Returns the list of generated partolPositions
      */
-    private List<Vector2> updateObjects(List<GameObject> toRemove, List<Vector2> patrolPositions, List<PowerUps> powerUps)
+    public List<Vector2> updateObjects(List<GameObject> toRemove, List<Vector2> patrolPositions, List<PowerUps> powerUps)
     {
         //Checks whether a powerUp should be removed from the list of powerUps
         for(int i = 0; i < powerUps.size(); i++)
@@ -91,7 +91,7 @@ public class Updater
      * Adds and removes objects from the game as necessary
      * @param toRemove The list of objects that should be removed
      */
-    private void addAndRemoveObjects(List<GameObject> toRemove)
+    public void addAndRemoveObjects(List<GameObject> toRemove)
     {
         for (GameObject rObject : toRemove) {	//Remove game objects set for removal
             gameScreen.getGameObjects().remove(rObject);
@@ -116,7 +116,7 @@ public class Updater
      * Spawns patrols into the game
      * @param patrolPositions The positions where the patrols should be created
      */
-    private void spawnPatrols(List<Vector2> patrolPositions)
+    public void spawnPatrols(List<Vector2> patrolPositions)
     {
         lastPatrol += Gdx.graphics.getDeltaTime();
         if (lastPatrol >= patrolUpdateRate) {
@@ -137,4 +137,12 @@ public class Updater
             }
         }
     }
+
+    public int getPatrolUpdateRate() { return patrolUpdateRate; }
+    public float getLastPatrol() { return lastPatrol; }
+    public GameScreen getGameScreen() { return gameScreen; }
+    public SaveManager getSaveManager() { return saveManager; }
+
+    public void setPatrolUpdateRate(int patrolUpdateRate) { this.patrolUpdateRate = patrolUpdateRate; }
+    public void setLastPatrol(float lastPatrol) { this.lastPatrol = lastPatrol; }
 }
