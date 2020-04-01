@@ -15,18 +15,6 @@ public class PowerUps extends Entity {
     private int duration = 30;
     private boolean shouldRemove = false;
 
-    public PowerUps(Vector2 spawnPos, Texture img, Vector2 imSize, int health, HUD hud) {
-        super(spawnPos, img, imSize, health, radius);
-        this.hud = hud;
-        this.setPowerUpTexture();
-
-    }
-    public PowerUps(Vector2 spawnPos, Texture img, PowerType type, HUD hud) {
-        super(spawnPos, img, imSize, health, radius);
-        this.type = type;
-        this.hud = hud;
-        this.setPowerUpTexture();
-    }
     public PowerUps(Vector2 spawnPos, HUD hud) {
         super(spawnPos, new Texture("thunder.png"), imSize, health, radius);
         this.hud = hud;
@@ -124,7 +112,7 @@ public class PowerUps extends Entity {
     /***
      * Sets the texture of the powerUp based on its type
      */
-    private void setPowerUpTexture()
+    public void setPowerUpTexture()
     {
         switch (type){
             case RANGE:
@@ -147,9 +135,9 @@ public class PowerUps extends Entity {
 
     public int getDuration() { return duration; }
     public PowerType getType() { return type; }
+    public HUD getHud() { return hud; }
     public boolean isShouldRemove() { return shouldRemove; }
 
     public void setDuration(int duration) { this.duration = duration; }
     public void setType(PowerType type) { this.type = type; this.setPowerUpTexture(); }
-    public void setShouldRemove(boolean shouldRemove) { this.shouldRemove = shouldRemove; }
 }

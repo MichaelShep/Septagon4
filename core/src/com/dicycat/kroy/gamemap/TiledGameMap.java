@@ -105,31 +105,5 @@ public class TiledGameMap{
 	public int getHeight() {
 		return ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight();
 	}
-
-
-	/**
-	 * Get the number of layers in the map
-	 * @return Number of layers
-	 */
-	public int getLayers() {
-		return tiledMap.getLayers().getCount();
-	}
-	
-	
-	/**
-	 * Gets the width of the map in pixels
-	 * @return width Map pixel width
-	 */
-	public int getPixelWidth() {
-		return this.getWidth() * TileType.TILE_SIZE;
-	}
-	
-	/**
-	 * Gets the height of the map in pixels
-	 * @return height Map pixel height
-	 */
-	public int getPixelHeight() {
-		return this.getHeight() * TileType.TILE_SIZE;
-	}
 	
 }

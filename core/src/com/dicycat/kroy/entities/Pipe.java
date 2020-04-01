@@ -106,5 +106,7 @@ public class Pipe extends GameObject {
 	public boolean isRemove() {
 		return ((Duration.between(startTime, Instant.now()).getSeconds()) > lifeTime);
 	}
+	public Instant getStartTime() { return startTime; }
+	public float getSpeed() { return speed; }
 
 }

@@ -141,6 +141,15 @@ public class HUD {
 		}
 	}
 
+	/**
+	 * Sets up values that are need for JUnit testing
+	 * Only used for testing purposes
+	 */
+	public void setupEssentialValues(SpriteBatch batch)
+	{
+		viewport = new ScreenViewport(new OrthographicCamera());
+		stage = new Stage(viewport, batch);	//Where we are going to put the HUD elements
+	}
 
 	public Integer getFinalScore() {
 		return score;
@@ -153,6 +162,8 @@ public class HUD {
 	public Integer getScore(){
 		return score;
 	}
+
+	public PowerUps getCurrentPowerUp() { return currentPowerUp; }
 
 	/**
 	 * @param x		Points to be added to the score

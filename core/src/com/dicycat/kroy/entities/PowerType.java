@@ -19,7 +19,7 @@ public enum PowerType {
     private int value;
     private static Map map = new HashMap<>();
 
-    private PowerType(int value)
+    PowerType(int value)
     {
         this.value = value;
     }
@@ -45,5 +45,6 @@ public enum PowerType {
     {
         return value;
     }
+    public static Map getMap() { return map; }
 }
 

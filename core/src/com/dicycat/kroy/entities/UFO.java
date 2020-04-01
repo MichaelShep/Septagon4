@@ -96,4 +96,10 @@ public class UFO extends Entity {
 		setRotation(direction);// updates truck direction
 	}
 
+	public Vector2 getSpawnPos() { return spawnPos; }
+	public BulletDispenser getDispenser() { return dispenser; }
+	public int getDirection() { return direction; }
+
+	public void setMovetimer(float movetimer) { this.movetimer = movetimer; }
+	public void setDirection(int direction) { this.direction = direction; }
 }
