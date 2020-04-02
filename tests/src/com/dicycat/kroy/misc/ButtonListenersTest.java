@@ -1,12 +1,9 @@
 package com.dicycat.kroy.misc;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.GdxTestRunner;
 import com.dicycat.kroy.Kroy;
@@ -14,10 +11,7 @@ import com.dicycat.kroy.screens.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

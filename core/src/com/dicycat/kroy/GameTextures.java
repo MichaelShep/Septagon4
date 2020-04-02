@@ -43,7 +43,6 @@ public class GameTextures {
 	 */
 	public void initFireTruckTexture(int truckNum)
 	{
-		System.out.println(truckAddress);
 		truck = new Texture(truckAddress[truckNum]);
 	}
 
@@ -101,13 +100,6 @@ public class GameTextures {
 	 */
 	public Texture getDeadFortress(int fortress) {
 		return deadFortresses[fortress];
-	}
-	
-	/**
-	 * @return the FireStation's texture
-	 */
-	public Texture getFireStation() {
-		return fireStation;
 	}
 	
 	/**

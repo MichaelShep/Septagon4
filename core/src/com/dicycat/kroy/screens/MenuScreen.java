@@ -104,7 +104,7 @@ public class MenuScreen implements Screen{
 	  
 	  gamecam = new OrthographicCamera();
 	  gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);
-	  stage = new Stage(gameport);
+	  stage = new Stage(gameport, game.batch);
 
 	  //SEPTAGON
 	  difficultySelector = new DifficultyScene(game);
@@ -470,5 +470,22 @@ public class MenuScreen implements Screen{
   
   @Override 
   public void dispose() {}
+
+  public Texture getPlayButton() { return playButton; }
+  public Texture getPlayButtonActive() { return playButtonActive; }
+  public Texture getOptionsButton() { return optionsButton; }
+  public Texture getOptionsButtonActive() { return optionsButtonActive; }
+  public Texture getExitButton() { return exitButton; }
+  public Texture getExitButtonActive() { return exitButtonActive; }
+  public Texture getMinigameButton() { return minigameButton; }
+  public Texture getMinigameButtonActive() { return minigameButtonActive; }
+  public Texture getLoadGameButton() { return loadGameButton; }
+  public Texture getLoadGameButtonActive() { return loadGameButtonActive; }
+  public Texture getBackground() { return background; }
+  public DifficultyScene getDifficultySelector() { return difficultySelector; }
+  public LoadGameScene getLoadGameSelector() { return loadGameSelector; }
+  public FireTruckSelectionScene getFireTruckSelector() { return fireTruckSelector; }
+  public boolean isCurrentlyRunningGame() { return currentlyRunningGame; }
  }
+
 

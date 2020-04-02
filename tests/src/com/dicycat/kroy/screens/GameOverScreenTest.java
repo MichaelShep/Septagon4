@@ -1,6 +1,5 @@
 package com.dicycat.kroy.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,10 +12,7 @@ import com.dicycat.kroy.scenes.HUD;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 

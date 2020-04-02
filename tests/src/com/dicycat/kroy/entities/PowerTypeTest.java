@@ -1,7 +1,6 @@
 package com.dicycat.kroy.entities;
 
 import com.dicycat.kroy.GdxTestRunner;
-import javafx.stage.PopupWindow;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

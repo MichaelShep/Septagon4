@@ -6,12 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GdxTestRunner;
-import com.dicycat.kroy.bullets.Bullet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import static org.junit.Assert.assertEquals;
 

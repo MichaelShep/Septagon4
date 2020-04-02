@@ -1,3 +1,4 @@
+package com.dicycat.kroy;
 /*******************************************************************************
  * Copyright 2015 See AUTHORS file.
  *
@@ -13,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
-package com.dicycat.kroy;
 
 import java.util.HashMap;
 
@@ -47,10 +46,10 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
         new HeadlessApplication(this, conf);
         Gdx.gl = mock(GL20.class);
     }
-    
+
     public static void main (String[] args) {
-		JUnitCore.main("com.dicycat.kroy.AllTests");
-	}
+        JUnitCore.main("com.dicycat.kroy.AllTests");
+    }
 
     @Override
     public void create() {

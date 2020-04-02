@@ -1,27 +1,18 @@
 package com.dicycat.kroy.bullets;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.GdxTestRunner;
 import com.dicycat.kroy.Kroy;
-import com.dicycat.kroy.bullets.Bullet;
-import com.dicycat.kroy.entities.Fortress;
 import com.dicycat.kroy.screens.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import static org.junit.Assert.assertEquals;
 

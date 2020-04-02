@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.dicycat.kroy.Kroy;
 
 /**
  * 
@@ -23,10 +24,10 @@ public class TiledGameMap{
 	/**
 	 * 
 	 */
-	public TiledGameMap() {
+	public TiledGameMap(Kroy game) {
 		
 		tiledMap = new TmxMapLoader().load("YorkMapOriginal.tmx");
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, game.batch);
 	}
 
 

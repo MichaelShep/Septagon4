@@ -214,4 +214,5 @@ public class SaveManager {
     public List<Fortress> getFortresses() { return fortresses; }
     public List<UFO> getUfos() { return ufos; }
     public List<PowerUps> getPowerUps() { return powerUps; }
+    public int getSave() { return preferencesIndex; }
 }

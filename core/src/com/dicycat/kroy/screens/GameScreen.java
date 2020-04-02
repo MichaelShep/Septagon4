@@ -120,7 +120,7 @@ public class GameScreen implements Screen{
 		game = _game;
 		gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);	//Mic:could also use StretchViewPort to make the screen stretch instead of adapt
 		hud = new HUD(game.batch, this.game);
-		gameMap = new TiledGameMap();										//or FitPort to make it fit into a specific width/height ratio
+		gameMap = new TiledGameMap(game);										//or FitPort to make it fit into a specific width/height ratio
 		pauseWindow = new PauseWindow(game);
 		pauseWindow.visibility(false);
 		optionsWindow = new OptionsWindow(game);
@@ -200,7 +200,7 @@ public class GameScreen implements Screen{
 	 *
 	 * @param num the fortress number
 	 */
-	private void fortressInit(int num) {
+	public void fortressInit(int num) {
 		Fortress fortressToAdd = new Fortress(fortressPositions.get(num), textures.getFortress(num), textures.getDeadFortress(num),
 				fortressSizes.get(num));
 
@@ -216,7 +216,7 @@ public class GameScreen implements Screen{
 	 *
 	 * @param num the truck number
 	 */
-	private void firetruckInit(float x, float y, int num) {
+	public void firetruckInit(float x, float y, int num) {
 		firetrucks.add(new FireTruck(new Vector2(x, y), truckStats[num], num));
 	}
 
@@ -384,18 +384,6 @@ public class GameScreen implements Screen{
 	public void setGameState(GameScreenState s){
 	    state = s;
 	}
-
-	/**
-	 * @param index
-	 * @return
-	 */
-	public GameObject getGameObject(int index) {
-		if (index <= (gameObjects.size()-1)) {
-			return gameObjects.get(index);
-		}else {
-			return null;
-		}
-	}
 	
 	/**
 	 * @return the number of alive trucks
@@ -428,7 +416,6 @@ public class GameScreen implements Screen{
 	 */
 	public void removeFortress() {
 		fortressesCount--;
-		System.out.println("Fortresses Left: " + fortressesCount);
 
 	}
 
@@ -533,13 +520,6 @@ public class GameScreen implements Screen{
 		return hud;
 	}
 
-	/** 
-	 * @return spawnPosition
-	 */
-	public Vector2 getSpawnPosition() {
-		return spawnPosition;
-	}
-
 	/**
 	 * Sets up values that are needed in JUnit tests - only used for JUnit testing
 	 */
@@ -575,11 +555,22 @@ public class GameScreen implements Screen{
 	public List<GameObject> getObjectsToRender() { return objectsToRender; }
 	public List<GameObject> getDeadObjects() { return deadObjects; }
 	public List<GameObject> getObjectsToAdd() { return objectsToAdd; }
+	public List<Vector2> getFortressPositions() { return fortressPositions; }
+	public List<Vector2> getFortressSizes() { return fortressSizes; }
 	public List<UFO> getUfos() { return ufos; }
+	public List<Fortress> getFortresses() { return fortresses; }
+	public List<FireTruck> getFireTrucks() { return firetrucks; }
+	public List<PowerUps> getPowerUps() { return powerUps; }
 	public FireTruck getCurrentTruck() { return currentTruck; }
+	public boolean isLoadingGame() { return loadingGame; }
+	public int getTruckNum() { return truckNum; }
+	public SaveManager getSaveManager() { return saveManager; }
+	public float getZoom() { return zoom; }
+	public OrthographicCamera getGamecam() { return gamecam; }
+	public Viewport getGameport() { return gameport; }
+	public GameScreenState getState() { return state; }
+	public int getFortressesCount() { return fortressesCount; }
 
 	public void setGameObjects(ArrayList<GameObject> gameObjects) { this.gameObjects = gameObjects; }
-	public void setObjectsToAdd(ArrayList<GameObject> objectsToAdd) { this.objectsToAdd = objectsToAdd; }
-	public void setDeadObjects(ArrayList<GameObject> deadObjects) { this.deadObjects = deadObjects; }
 	public void setHud(HUD hud) { this.hud = hud; }
 }

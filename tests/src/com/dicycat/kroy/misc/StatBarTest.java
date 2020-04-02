@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.GdxTestRunner;
 import com.dicycat.kroy.Kroy;
-import com.dicycat.kroy.scenes.HUD;
 import com.dicycat.kroy.screens.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
