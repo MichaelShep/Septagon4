@@ -24,9 +24,9 @@ public class HUD {
 	public Stage stage;
 	private Viewport viewport;	//creating new port so that the HUD stays locked while map can move around independently
 	
-	private Integer trucks = 6;
-	private Integer worldTimer = 300;	//change to float maybe
-	private static Integer score = 100000;
+	private int trucks = 6;
+	private int worldTimer = 300;	//change to float maybe
+	private static int score = 100000;
 	private float timeCount = 0;
 	
 	private Label scoreLabel;
@@ -43,6 +43,7 @@ public class HUD {
 
 	private boolean displayingPowerUp = false; //Holds whether the player currently has a powerUp or not
 	private PowerUps currentPowerUp = null; //Holds the currentPower that the player has
+	private Table tableHUD;
 	
 	/**
 	 * @param sb	SpriteBatch
@@ -51,8 +52,8 @@ public class HUD {
 	public HUD(SpriteBatch sb, Kroy game) {
 		viewport = new ScreenViewport(new OrthographicCamera());
 		stage = new Stage(viewport, sb);	//Where we are going to put the HUD elements 
-		
-		Table tableHUD = new Table();	//this allows to put widgets in the scene in a clean and ordered way
+
+		tableHUD = new Table();
 		tableHUD.top();	// puts widgets from the top instead of from the centre
 		tableHUD.setFillParent(true);	//makes the table the same size of the stage
 		
@@ -61,6 +62,7 @@ public class HUD {
 		scoreCountLabel = new Label(String.format("%05d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		trucksLabel = new Label("TRUCKS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		powerUpLabel = new Label("NEW POWERUP", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
 		//Setup Fortress label [ID: SETUP]
 		fortressesLabel = new Label("FORTRESSES LEFT:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -159,18 +161,30 @@ public class HUD {
 		score = x;
 	}
 
-	public Integer getScore(){
+	public int getScore(){
 		return score;
 	}
 
 	public PowerUps getCurrentPowerUp() { return currentPowerUp; }
 
-	/**
-	 * @param x		Points to be added to the score
-	 */
-	public void updateScore(Integer x){
-		score += x;
-	}
+	public Label getScoreLabel() { return scoreLabel; }
+	public Label getTimeLabel() { return timeLabel; }
+	public Label getTrucksLabel() { return trucksLabel; }
+	public Label getFortressesLabel() { return fortressesLabel; }
+	public Label getFortressCountLabel() { return fortressCountLabel; }
+	public Label getWorldTimerLabel() { return worldTimerLabel; }
+	public Label getScoreCountLabel() { return scoreCountLabel; }
+	public Label getTrucksCountLabel() { return trucksCountLabel; }
+	public Label getPowerUpLabel() { return powerUpLabel; }
+	public Table getTableHUD() { return tableHUD; }
+	public float getTimeCount() { return timeCount; }
+	public void setTimeCount(float timeCount) { this.timeCount = timeCount; }
+	public int getWorldTimer() { return worldTimer; }
+	public void setWorldTimer(int worldTimer) { this.worldTimer = worldTimer; }
+	public boolean isDisplayingPowerUp() { return displayingPowerUp; }
+
+	public void setCurrentPowerUp(PowerUps currentPowerUp) { this.currentPowerUp = currentPowerUp; }
+	public void setDisplayingPowerUp(boolean displayingPowerUp) { this.displayingPowerUp = displayingPowerUp; }
 	
 }
 

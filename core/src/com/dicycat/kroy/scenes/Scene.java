@@ -24,11 +24,11 @@ public abstract class Scene
     //Attributes needed for setting up and displaying the scene
     protected SpriteBatch stageBatch;
     public Stage stage;
-    protected Table table = new Table();
-    protected NinePatchDrawable background = new NinePatchDrawable(new NinePatch(new Texture("Grey.png"), 3, 3, 3, 3));
+    protected Table table;
+    protected NinePatchDrawable background;
 
     //Used to create the ui design
-    protected Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+    protected Skin skin;
 
     //Positioning variables
     protected float width = Gdx.graphics.getWidth();
@@ -40,6 +40,9 @@ public abstract class Scene
      */
     protected Scene(Kroy game)
     {
+        table = new Table();
+        background = new NinePatchDrawable(new NinePatch(new Texture("Grey.png"), 3, 3, 3, 3));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
         stageBatch = game.batch;
         Viewport viewport = new ScreenViewport(new OrthographicCamera());
         stage = new Stage(viewport, stageBatch);
@@ -61,4 +64,9 @@ public abstract class Scene
      * @param state
      */
     public void visibility(boolean state){ this.table.setVisible(state);}
+
+    public Table getTable() { return table; }
+    public NinePatchDrawable getBackground() { return background; }
+    public Skin getSkin() { return skin; }
+    public SpriteBatch getStageBatch() { return stageBatch; }
 }
