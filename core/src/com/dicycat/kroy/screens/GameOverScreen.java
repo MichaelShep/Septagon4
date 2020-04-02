@@ -45,8 +45,8 @@ public class GameOverScreen implements Screen {
 	private Texture menuButton = new Texture("menu.png");
 	private Texture menuButtonActive = new Texture("menuActive.png");
 
-	private Integer score;
-	private Integer highScore;
+	private int score;
+	private int highScore = 0;
 	private Label scoreLabel;
 	private Label scoreNumberLabel;
 	private Label highScoreLabel;
@@ -76,6 +76,7 @@ public class GameOverScreen implements Screen {
 	private Pixmap pm = new Pixmap(Gdx.files.internal("handHD2.png")); // cursor
 	private int xHotSpot = pm.getWidth() / 3; // where the cursor's aim is
 	private int yHotSpot = 0;
+	private Table table;
 
 	/**
 	 * @param game
@@ -87,10 +88,10 @@ public class GameOverScreen implements Screen {
 		this.result = result;
 		gamecam = new OrthographicCamera(); // m
 		gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);
-		stage = new Stage(gameport);
+		stage = new Stage(gameport, game.batch);
 		this.truckNum = truckNum;
 
-		Table table = new Table(); // this allows to put widgets in the scene in a clean and ordered way
+		table = new Table(); // this allows to put widgets in the scene in a clean and ordered way
 		table.setFillParent(true);
 		table.top();
 
@@ -198,7 +199,6 @@ public class GameOverScreen implements Screen {
 
 	/**
 	 * Saves the high score each time the game is run
-	 * //TODO Needs refactoring so that it saves the score between runs
 	 * 
 	 * @throws IOException
 	 */
@@ -212,7 +212,7 @@ public class GameOverScreen implements Screen {
 		        String data = fReader.nextLine();
 		        highScore = Integer.parseInt(data);
 		      }
-			if(highScore == null) {
+			if(highScore == 0) {
 				highScore = 1;
 			}
 			fReader.close();
@@ -259,4 +259,17 @@ public class GameOverScreen implements Screen {
 	public void dispose() {
 	}
 
+	public Kroy getGame() { return game; }
+	public boolean isResult() { return result; }
+	public int getTruckNum() { return truckNum; }
+	public int getScore() { return score; }
+	public int getHighScore() { return highScore; }
+	public Label getScoreLabel() { return scoreLabel; }
+	public Label getScoreNumberLabel() { return scoreNumberLabel; }
+	public Label getHighScoreLabel() { return highScoreLabel; }
+	public Label getHighScoreNumberLabel() { return highScoreNumberLabel; }
+	public Table getTable() { return table; }
+	public Viewport getGameport() { return gameport; }
+
+	public void setScore(int score) { this.score = score; }
 }

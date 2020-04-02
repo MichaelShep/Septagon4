@@ -581,4 +581,5 @@ public class GameScreen implements Screen{
 	public void setGameObjects(ArrayList<GameObject> gameObjects) { this.gameObjects = gameObjects; }
 	public void setObjectsToAdd(ArrayList<GameObject> objectsToAdd) { this.objectsToAdd = objectsToAdd; }
 	public void setDeadObjects(ArrayList<GameObject> deadObjects) { this.deadObjects = deadObjects; }
+	public void setHud(HUD hud) { this.hud = hud; }
 }
