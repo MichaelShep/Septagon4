@@ -136,7 +136,7 @@ public class HUD {
 	 * Removes the current powerUp message from the screen [ID: REMOVE POWER]
 	 */
 	public void removePowerUpMessage(){
-		if(powerUpLabel != null)
+		if(powerUpLabel != null && currentPowerUp != null)
 		{
 			displayingPowerUp = false;
 			powerUpLabel.remove();
