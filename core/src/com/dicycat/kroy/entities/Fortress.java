@@ -49,6 +49,7 @@ public class Fortress extends Entity {
 	 */
 	private void setup(Texture deadTexture){
 		dispenser = new BulletDispenser(this);
+		//Changes the speed which the fortress fires bullets based on the difficulty [ID: SPEED]
 		dispenser.addPattern(new Pattern(180, (int)(300 * DifficultyMultiplier.getDifficultySpeed()), 800, 0.1f, 20, 1, 0.5f));
 		dispenser.addPattern(new Pattern((int)(100 * DifficultyMultiplier.getDifficultySpeed()), 500, 0.5f, 8, 5, 0.5f));
 		dispenser.addPattern(new Pattern(0, (int)(50 * DifficultyMultiplier.getDifficultySpeed()), 800, 2f, 3, 36, 4));

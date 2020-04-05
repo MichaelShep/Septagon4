@@ -32,15 +32,16 @@ public class HUD {
 	private Label scoreLabel;
 	private Label timeLabel;
 	private Label trucksLabel;
-	//Used to display how many fortresses are left that the player needs to destroy [ID: INIT]
+	//Used to display how many fortresses are left that the player needs to destroy [ID: FORTRESS INIT]
 	private Label fortressesLabel;
 	private Label fortressCountLabel;
 
 	private Label worldTimerLabel;
 	private Label scoreCountLabel;
 	private Label trucksCountLabel;	//we could put mini images of the trucks instead of using an int for the lives
-	private Label powerUpLabel; //Label that will be used to display what powerUp the user currently has [ID: LABEL]
 
+	//Will store all the powerUp info and message for displaying PowerUp [ID: DEFINE POWER]
+	private Label powerUpLabel; //Label that will be used to display what powerUp the user currently has
 	private boolean displayingPowerUp = false; //Holds whether the player currently has a powerUp or not
 	private PowerUps currentPowerUp = null; //Holds the currentPower that the player has
 	private Table tableHUD;
@@ -62,9 +63,10 @@ public class HUD {
 		scoreCountLabel = new Label(String.format("%05d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		trucksLabel = new Label("TRUCKS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		//Initialises the powerUp label [ID: SETUP POWER]
 		powerUpLabel = new Label("NEW POWERUP", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
-		//Setup Fortress label [ID: SETUP]
+		//Setup Fortress label [ID: FORTRESS SETUP]
 		fortressesLabel = new Label("FORTRESSES LEFT:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		fortressCountLabel = new Label(String.format("%01d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
@@ -100,8 +102,9 @@ public class HUD {
 			timeCount =0;
 			scoreCountLabel.setText(String.format("%05d", score));
 			trucksCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.getLives()));
-			fortressCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.fortressesLeft())); //Updates the text for displaying the fortresses [ID: DISPLAY]
+			fortressCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.fortressesLeft())); //Updates the text for displaying the fortresses [ID: FORTRESS DISPLAY]
 
+			//Update the powerUp label when displaying a powerUp, remove the powerUp when expired [ID: UPDATE POWER]
 			if(displayingPowerUp && currentPowerUp.getDuration() >= 1)
 			{
 				currentPowerUp.setDuration(currentPowerUp.getDuration() - 1);
@@ -115,7 +118,7 @@ public class HUD {
 	}
 
 	/***
-	 * Adds a powerUp message to the screen informing the user of the powerUp that they currently have
+	 * Adds a powerUp message to the screen informing the user of the powerUp that they currently have [ID: ADD POWER]
 	 * @param currentPowerUp The powerUp that the message should be displayed for
 	 */
 	public void addPowerUpMessage(PowerUps currentPowerUp){
@@ -130,7 +133,7 @@ public class HUD {
 	}
 
 	/***
-	 * Removes the current powerUp message from the screen
+	 * Removes the current powerUp message from the screen [ID: REMOVE POWER]
 	 */
 	public void removePowerUpMessage(){
 		if(powerUpLabel != null)

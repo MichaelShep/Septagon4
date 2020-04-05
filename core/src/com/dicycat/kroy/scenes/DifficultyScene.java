@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
 
+/**
+ * Creates menu scene allowing the user to select their difficulty level
+ * [ID: SCENE]
+ */
+
 public class DifficultyScene extends Scene {
 
     public TextButton easyButton = new TextButton("Easy",skin);

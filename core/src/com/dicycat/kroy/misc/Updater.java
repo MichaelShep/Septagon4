@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Class added as a result of refractoring the GameScreen - used to handle the updateLoop of the game
+ * [ID: UPDATE]
  */
 
 public class Updater

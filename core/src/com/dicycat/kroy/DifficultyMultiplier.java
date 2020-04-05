@@ -4,6 +4,11 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.List;
 
+/**
+ * Class to handle applying values to objects based on the difficulty selected
+ * [ID: DIFFICULT]
+ */
+
 public class DifficultyMultiplier {
 
     private static int difficultyValue;

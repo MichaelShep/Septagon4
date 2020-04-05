@@ -5,6 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.scenes.HUD;
 
+/**
+ * Class to represent all the PowerUps in the game
+ * [ID: POWERUP]
+ */
+
 public class PowerUps extends Entity {
 
     private static int radius = 25;
@@ -26,6 +31,7 @@ public class PowerUps extends Entity {
      */
     @Override
     public void update(){
+        //Checks that if player in range of powerUp, apply the powerUp to Player [ID: APPLY]
         if (playerInRadius()) {
             FireTruck player = Kroy.mainGameScreen.getPlayer();
             shouldRemove = true;
@@ -33,22 +39,26 @@ public class PowerUps extends Entity {
             switch (type) {
                 case SPEED:
                     player.SpeedUp();
+                    //Adds the message displaying the powerUp to the HUD [ID: ADD]
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case FULLHEALTH:
                     player.fullHealth();
                     this.setDuration(3);
+                    //Adds the message displaying the powerUp to the HUD [ID: ADD]
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case FASTSHOOTING:
                     player.fastShooting();
+                    //Adds the message displaying the powerUp to the HUD [ID: ADD]
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case RANGE:
                     player.increaseRange();
+                    //Adds the message displaying the powerUp to the HUD [ID: ADD]
                     hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
@@ -56,6 +66,7 @@ public class PowerUps extends Entity {
                     player.refillWater();
                     this.setDuration(3);
                     hud.removePowerUpMessage();
+                    //Adds the message displaying the powerUp to the HUD [ID: ADD]
                     hud.addPowerUpMessage(this);
                     break;
             }
@@ -70,6 +81,7 @@ public class PowerUps extends Entity {
     {
         FireTruck player = Kroy.mainGameScreen.getPlayer();
 
+        //Removes the powerUp affect from the Player [ID: REMOVE]
         switch(type)
         {
             case SPEED:

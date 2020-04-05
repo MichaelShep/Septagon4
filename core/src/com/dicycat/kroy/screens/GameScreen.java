@@ -86,7 +86,7 @@ public class GameScreen implements Screen{
 	private ArrayList<FireTruck> firetrucks=new ArrayList<FireTruck>();
 	private List<Fortress> fortresses = new ArrayList<Fortress>(); //Added by Septagon - stores all the fortresses in the game
 	private List<UFO> ufos = new ArrayList<UFO>(); //Added by Septagon - stores all the UFO's in the game
-	private List<PowerUps> powerUps = new ArrayList<>(); //Added by Septagon - stores all the powerUps in the game
+	private List<PowerUps> powerUps = new ArrayList<>(); //Added by Septagon - stores all the powerUps in the game [ID: DECLARE POWERS]
 
 	//Used to handle saving and loading states of the game (creates SaveManager) [ID: DECLARE SAVE]
 	private SaveManager saveManager;
@@ -172,6 +172,7 @@ public class GameScreen implements Screen{
 				fortressInit(i);
 			}
 			gameObjects.add(new FireStation());
+			//Adds all the powerUps for the game into the List [ID: ADD POWERS]
 			powerUps.add(new PowerUps(new Vector2(4344,3729), hud));
 			powerUps.add(new PowerUps(new Vector2(4144,3729), hud));
 			powerUps.add(new PowerUps(new Vector2(4544,3729), hud));
@@ -252,7 +253,7 @@ public class GameScreen implements Screen{
 	}
 
 	/**
-	 * Used to handle the rendering loop for when the game is in the run state - Refractored by Septagon
+	 * Used to handle the rendering loop for when the game is in the run state - Refractored by Septagon [ID: RUN]
 	 * @param delta
 	 */
 	private void handleRunState(float delta)

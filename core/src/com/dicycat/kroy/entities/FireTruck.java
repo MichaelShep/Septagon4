@@ -50,6 +50,7 @@ public class FireTruck extends Entity{
 	 * @param truckStats
 	 */
 	public FireTruck(Vector2 spawnPos, Float[] truckStats, int truckNum) {
+		//Applies difficulty multiplier to heatlth [ID: HEALTH]
 		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25,50), (int)(100 * DifficultyMultiplier.getDifficultyHealth()));
 		this.setup(truckStats);
 	}
@@ -62,6 +63,7 @@ public class FireTruck extends Entity{
 	 * @param health The initial health
 	 */
 	public FireTruck(Vector2 spawnPos, Float[] truckStats, int truckNum, int health){
+		//Applies difficulty multiplier to heatlth [ID: HEALTH]
 		super(spawnPos, Kroy.mainGameScreen.textures.getTruck(truckNum), new Vector2(25, 50), (int)(health * DifficultyMultiplier.getDifficultyHealth()));
 		this.setup(truckStats);
 	}

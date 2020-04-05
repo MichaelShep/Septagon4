@@ -80,6 +80,7 @@ public class Bullet extends GameObject {
 			{
 				if (Intersector.overlaps(hitbox, truck.getHitbox()))
 				{
+					//Applies damage to the player based on the difficulty level of the game [ID: BULLET]
 					truck.applyDamage((int) (10 * DifficultyMultiplier.getDifficultyBullet()));
 					remove = true;
 				}

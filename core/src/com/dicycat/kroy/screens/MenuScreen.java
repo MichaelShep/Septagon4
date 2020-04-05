@@ -62,7 +62,7 @@ public class MenuScreen implements Screen{
   private int xHotSpot = pm.getWidth() / 3;	//where the cursor's aim is 
   private int yHotSpot = 0;
 
-  //SEPTAGON
+  //Defines the difficult and load screen classes [ID: DEFINE]
   private DifficultyScene difficultySelector;
   private LoadGameScene loadGameSelector;
 
@@ -106,7 +106,7 @@ public class MenuScreen implements Screen{
 	  gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);
 	  stage = new Stage(gameport, game.batch);
 
-	  //SEPTAGON
+	  //Setting up the difficulty scene [ID: SETUP DIFFICULT]
 	  difficultySelector = new DifficultyScene(game);
 	  difficultySelector.visibility(false);
 
@@ -216,6 +216,7 @@ public class MenuScreen implements Screen{
 			loadGameSelector.stage.draw();
 			loadGameClickCheck();
 		  	break;
+		  //Draws the difficulty scene - [ID: DRAW DIFFICULT]
 		  case DIFFICULTYSELECT:
 		  	  Gdx.input.setInputProcessor(difficultySelector.stage);
 		  	  difficultySelector.stage.act();
@@ -244,6 +245,10 @@ public class MenuScreen implements Screen{
 	    this.state = state;
 	}
 
+	/**
+	 * Sets up the key listeners for the difficulty selector
+	 * [ID: KEYS]
+	 */
 	public void difficultyClickCheck(){
 		difficultySelector.easyButton.addListener(new ClickListener() {
 			@Override
