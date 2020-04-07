@@ -25,10 +25,7 @@ import com.dicycat.kroy.misc.ButtonListeners;
 import com.dicycat.kroy.misc.OverwriteDialog;
 import com.dicycat.kroy.misc.SaveManager;
 import com.dicycat.kroy.misc.Updater;
-import com.dicycat.kroy.scenes.HUD;
-import com.dicycat.kroy.scenes.OptionsWindow;
-import com.dicycat.kroy.scenes.PauseWindow;
-import com.dicycat.kroy.scenes.SaveGameScene;
+import com.dicycat.kroy.scenes.*;
 import sun.security.util.Debug;
 
 
@@ -93,6 +90,9 @@ public class GameScreen implements Screen{
 	private boolean loadingGame = false;
 	private DebugRenderer debugRenderer;
 	private Updater updater;
+
+	//Creates the object that will be used for allowing player to see a fireTrucks stats
+	private StatsOverlay statsOverlay;
 
 	/**
 	 * extended
@@ -190,6 +190,7 @@ public class GameScreen implements Screen{
 			gameObjects.add(new FireStation());
 		}
 
+		statsOverlay = new StatsOverlay(firetrucks, gamecam);
 		switchTrucks(truckNum);
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position
 	}
@@ -263,6 +264,9 @@ public class GameScreen implements Screen{
 			pause();
 		}
 
+		//Checks for mouse input
+		statsOverlay.checkMousePosition();
+
 		gameTimer -= delta;		//Decrement timer
 		updater.updateLoop(powerUps); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
 
@@ -275,6 +279,7 @@ public class GameScreen implements Screen{
 
 		hud.update(delta);
 		renderObjects(); // Renders objects specified in the UpdateLoop() called previously
+		statsOverlay.render(game.batch); //Renders the fireTruck stats box
 		game.batch.end();
 		hud.stage.draw();
 		pauseWindow.stage.draw();
