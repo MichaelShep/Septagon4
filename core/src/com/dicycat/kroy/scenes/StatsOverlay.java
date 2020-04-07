@@ -89,4 +89,7 @@ public class StatsOverlay
         }
     }
 
+    public List<FireTruck> getFireTrucks() { return fireTrucks; }
+    public OrthographicCamera getCamera() { return camera; }
+    public Texture getBackgroundTexture() { return backgroundTexture; }
 }

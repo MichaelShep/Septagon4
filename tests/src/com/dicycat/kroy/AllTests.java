@@ -51,7 +51,8 @@ import org.junit.runners.Suite;
         SaveGameSceneTest.class,
         GameOverScreenTest.class,
         GameScreenTest.class,
-        MenuScreenTest.class
+        MenuScreenTest.class,
+        StatsOverlayTest.class
 })
 
 public class AllTests {
