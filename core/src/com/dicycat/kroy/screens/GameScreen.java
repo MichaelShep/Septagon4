@@ -6,13 +6,11 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.GameObject;
@@ -20,13 +18,12 @@ import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.debug.*;
 import com.dicycat.kroy.entities.*;
+import com.dicycat.kroy.gamemap.Minimap;
 import com.dicycat.kroy.gamemap.TiledGameMap;
 import com.dicycat.kroy.misc.ButtonListeners;
-import com.dicycat.kroy.misc.OverwriteDialog;
 import com.dicycat.kroy.misc.SaveManager;
 import com.dicycat.kroy.misc.Updater;
 import com.dicycat.kroy.scenes.*;
-import sun.security.util.Debug;
 
 
 /**
@@ -93,6 +90,9 @@ public class GameScreen implements Screen{
 
 	//Creates the object that will be used for allowing player to see a fireTrucks stats
 	private StatsOverlay statsOverlay;
+
+	//Creates a viewport that will be used for displaying the minimap
+	private Minimap minimap;
 
 	/**
 	 * extended
@@ -191,8 +191,11 @@ public class GameScreen implements Screen{
 		}
 
 		statsOverlay = new StatsOverlay(firetrucks, gamecam);
+		minimap = new Minimap(Kroy.width / 4, Kroy.height / 4, 10, 20);
+
 		switchTrucks(truckNum);
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position
+		minimap.setCameraPosition(currentTruck.getX(), currentTruck.getY());
 	}
 
 	/**
@@ -270,6 +273,8 @@ public class GameScreen implements Screen{
 		gameTimer -= delta;		//Decrement timer
 		updater.updateLoop(powerUps); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
 
+		gameport.apply();
+
 		gameMap.renderRoads(gamecam); // Render the background roads, fields and rivers
 		gameMap.renderBuildings(gamecam); // Renders the buildings and the foreground items which are not entities
 
@@ -278,9 +283,22 @@ public class GameScreen implements Screen{
 		game.batch.begin(); // Game loop Start
 
 		hud.update(delta);
-		renderObjects(); // Renders objects specified in the UpdateLoop() called previously
+		renderObjects(game.batch); // Renders objects specified in the UpdateLoop() called previously
 		statsOverlay.render(game.batch); //Renders the fireTruck stats box
+
 		game.batch.end();
+
+		minimap.getMinimapViewport().apply();
+
+		gameMap.renderRoads(minimap.getMinimapCamera());
+		gameMap.renderBuildings(minimap.getMinimapCamera());
+
+		minimap.startRender(gameport);
+		minimap.getMinimapBatch().setProjectionMatrix(minimap.getMinimapCamera().combined);
+		renderMinimapObjects();
+		minimap.endRender();
+
+		gameport.apply();
 		hud.stage.draw();
 		pauseWindow.stage.draw();
 
@@ -316,13 +334,35 @@ public class GameScreen implements Screen{
 	/**
 	 * Renders the objects in "objectsToRender" then clears the list
 	 */
-	private void renderObjects() {
+	private void renderObjects(SpriteBatch batch) {
 		for (GameObject object : objectsToRender) {
-			object.render(game.batch);
+			object.render(batch);
 		}
 		for (FireTruck truck : firetrucks) {
 			if(truck.isAlive()) {
-			truck.render(game.batch);
+			truck.render(batch);
+			}
+		}
+	}
+
+	private void renderMinimapObjects()
+	{
+		for (GameObject object : objectsToRender) {
+			object.render(minimap.getMinimapBatch());
+		}
+
+		for (FireTruck truck : firetrucks) {
+			if(truck.isAlive()) {
+				truck.setSize(truck.getWidth() * 3, truck.getHeight() * 3);
+				truck.render(minimap.getMinimapBatch());
+				truck.setSize(truck.getWidth() / 3, truck.getHeight() / 3);
+			}
+		}
+
+		for(Fortress fortress: fortresses)
+		{
+			if(fortress.isAlive()){
+				fortress.render(minimap.getMinimapBatch());
 			}
 		}
 

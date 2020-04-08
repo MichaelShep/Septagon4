@@ -97,6 +97,8 @@ public abstract class GameObject {
 		remove = x;
 	}
 	public void setDisplayable(boolean displayable) { this.displayable = displayable; }
+
+	public void setSize(float width, float height) { sprite.setSize(width, height); }
 	
 	/**
 	 * set the remove value to true
