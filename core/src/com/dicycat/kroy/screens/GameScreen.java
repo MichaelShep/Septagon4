@@ -88,10 +88,10 @@ public class GameScreen implements Screen{
 	private DebugRenderer debugRenderer;
 	private Updater updater;
 
-	//Creates the object that will be used for allowing player to see a fireTrucks stats
+	//Creates the object that will be used for allowing player to see a fireTrucks stats [ID: CREATE STATS]
 	private StatsOverlay statsOverlay;
 
-	//Creates a viewport that will be used for displaying the minimap
+	//Creates a object used for handling the game's minimap [ID: CREATE MMAP]
 	private Minimap minimap;
 
 	/**
@@ -119,6 +119,8 @@ public class GameScreen implements Screen{
 		this.loadingGame = loadingGame;
 		game = _game;
 		gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);	//Mic:could also use StretchViewPort to make the screen stretch instead of adapt
+		//Sets up the minimap [ID: INIT MMAP]
+		minimap = new Minimap(Kroy.width / 4, Kroy.height / 4, 10, 20);
 		hud = new HUD(game.batch, this.game);
 		gameMap = new TiledGameMap(game);										//or FitPort to make it fit into a specific width/height ratio
 		pauseWindow = new PauseWindow(game);
@@ -190,8 +192,8 @@ public class GameScreen implements Screen{
 			gameObjects.add(new FireStation());
 		}
 
+		//Initialises the overlay for displaying player stats [ID: INIT STATS]
 		statsOverlay = new StatsOverlay(firetrucks, gamecam);
-		minimap = new Minimap(Kroy.width / 4, Kroy.height / 4, 10, 20);
 
 		switchTrucks(truckNum);
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position
@@ -284,20 +286,19 @@ public class GameScreen implements Screen{
 
 		hud.update(delta);
 		renderObjects(game.batch); // Renders objects specified in the UpdateLoop() called previously
-		statsOverlay.render(game.batch); //Renders the fireTruck stats box
+		statsOverlay.render(game.batch); //Renders the fireTruck stats box [ID: DRAW STATS]
 
 		game.batch.end();
 
+		//Handles all the rendering of objects to the minimap [ID: DRAW MMAP]
 		minimap.getMinimapViewport().apply();
-
 		gameMap.renderRoads(minimap.getMinimapCamera());
 		gameMap.renderBuildings(minimap.getMinimapCamera());
-
-		minimap.startRender(gameport);
-		minimap.getMinimapBatch().setProjectionMatrix(minimap.getMinimapCamera().combined);
+		minimap.startRender(gameport, game.batch);
 		renderMinimapObjects();
-		minimap.endRender();
+		game.batch.end();
 
+		game.batch.setProjectionMatrix(gamecam.combined);
 		gameport.apply();
 		hud.stage.draw();
 		pauseWindow.stage.draw();
@@ -348,13 +349,13 @@ public class GameScreen implements Screen{
 	private void renderMinimapObjects()
 	{
 		for (GameObject object : objectsToRender) {
-			object.render(minimap.getMinimapBatch());
+			object.render(game.batch);
 		}
 
 		for (FireTruck truck : firetrucks) {
 			if(truck.isAlive()) {
 				truck.setSize(truck.getWidth() * 3, truck.getHeight() * 3);
-				truck.render(minimap.getMinimapBatch());
+				truck.render(game.batch);
 				truck.setSize(truck.getWidth() / 3, truck.getHeight() / 3);
 			}
 		}
@@ -362,7 +363,7 @@ public class GameScreen implements Screen{
 		for(Fortress fortress: fortresses)
 		{
 			if(fortress.isAlive()){
-				fortress.render(minimap.getMinimapBatch());
+				fortress.render(game.batch);
 			}
 		}
 

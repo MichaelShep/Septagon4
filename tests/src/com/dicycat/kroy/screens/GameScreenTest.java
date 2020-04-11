@@ -1,6 +1,9 @@
 package com.dicycat.kroy.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
@@ -12,6 +15,7 @@ import com.dicycat.kroy.Kroy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
@@ -37,7 +41,7 @@ public class GameScreenTest
     {
         Gdx.gl20 = Mockito.mock(GL20.class);
         Gdx.gl30 = Mockito.mock(GL30.class);
-        Gdx.graphics = new MockGraphics();
+        Gdx.graphics = Mockito.mock(Graphics.class, Mockito.CALLS_REAL_METHODS);
 
         kroy = Mockito.mock(Kroy.class, Mockito.CALLS_REAL_METHODS);
         kroy.batch = Mockito.mock(SpriteBatch.class);

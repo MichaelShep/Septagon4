@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Adds functionality for user to click on a fireTruck and display its stats
- * Added by Septagon
+ * Added by Septagon [ID: STATS]
  */
 
 public class StatsOverlay

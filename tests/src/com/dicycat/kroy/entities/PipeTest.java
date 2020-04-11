@@ -62,8 +62,6 @@ public class PipeTest
         assertEquals(testPipe.isDisplayable(), false);
         assertEquals(testPipe.getHitboxes()[0], new Rectangle(0, 0, 128, 880));
         assertEquals(testPipe.getHitboxes()[1], new Rectangle(1158, 0, 128, 900));
-        Instant currentTime = Instant.now();
-        assertTrue(testPipe.getStartTime().getNano() < currentTime.getNano());
     }
 
     /**
