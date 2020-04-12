@@ -2,6 +2,7 @@ package com.dicycat.kroy.screens;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -9,8 +10,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.GameObject;
@@ -19,6 +22,7 @@ import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.debug.*;
 import com.dicycat.kroy.entities.*;
 import com.dicycat.kroy.gamemap.Minimap;
+import com.dicycat.kroy.gamemap.TileType;
 import com.dicycat.kroy.gamemap.TiledGameMap;
 import com.dicycat.kroy.misc.ButtonListeners;
 import com.dicycat.kroy.misc.SaveManager;
@@ -36,11 +40,16 @@ import com.dicycat.kroy.scenes.*;
 public class GameScreen implements Screen{  
 
 	public static enum GameScreenState{ PAUSE, RUN, RESUME, SAVE, OPTIONS }
+
+	//The number of tiles in from the edge of the map that all power ups must be within [ID: BOUNDS]
+	public static final int SPAWN_BOUNDS = 8;
+	public static final int NUM_POWER_UPS = 5;
 	
 	public Kroy game;
 	public GameTextures textures;
 	public static float gameTimer; //Timer to destroy station
 	public GameScreenState state = GameScreenState.RUN;
+	private Random random;
 	
 	public static TiledGameMap gameMap;
 	
@@ -174,13 +183,13 @@ public class GameScreen implements Screen{
 				fortressInit(i);
 			}
 			gameObjects.add(new FireStation());
+			//Gets bounds of the screen that the powerUps must be generated within
+			random = new Random();
+
 			//Adds all the powerUps for the game into the List [ID: ADD POWERS]
-			powerUps.add(new PowerUps(new Vector2(4344,3729), hud));
-			powerUps.add(new PowerUps(new Vector2(4144,3729), hud));
-			powerUps.add(new PowerUps(new Vector2(4544,3729), hud));
-			powerUps.add(new PowerUps(new Vector2(5055,1415), hud));
-			powerUps.add(new PowerUps(new Vector2(1608,585), hud));
-			powerUps.add(new PowerUps(new Vector2(1919,3871), hud));
+			for(int i = 0; i < NUM_POWER_UPS; i++) {
+				powerUps.add(new PowerUps(generateRandomPositionForPowerUp(), hud));
+			}
 
 			for(PowerUps p: powerUps)
 			{
@@ -198,6 +207,32 @@ public class GameScreen implements Screen{
 		switchTrucks(truckNum);
 		gamecam.translate(new Vector2(currentTruck.getX(), currentTruck.getY())); // sets initial Camera position
 		minimap.setCameraPosition(currentTruck.getX(), currentTruck.getY());
+	}
+
+	/**
+	 * Generates all the random positions for the power up - ensuring their position is on a road tile [ID: POSITIONS]
+	 * @return The position for the power up to spawn at
+	 */
+	private Vector2 generateRandomPositionForPowerUp()
+	{
+		boolean onRoadTile = false;
+		TiledMapTileLayer roadLayer = (TiledMapTileLayer)gameMap.getTiledMap().getLayers().get(1);
+		int xPos = 0;
+		int yPos = 0;
+
+		while(!onRoadTile) {
+			xPos = random.nextInt(gameMap.getWidth() - SPAWN_BOUNDS * 2) + SPAWN_BOUNDS;
+			yPos = random.nextInt(gameMap.getHeight()- SPAWN_BOUNDS * 2) + SPAWN_BOUNDS;
+			int cellAtLocation = roadLayer.getCell(xPos, yPos).getTile().getId();
+			//Checks if the cell at the given location is a road tile using map values from .tmx file
+			if (cellAtLocation > 460 && cellAtLocation < 470) {
+				onRoadTile = true;
+				xPos = xPos * TileType.TILE_SIZE;
+				yPos = yPos * TileType.TILE_SIZE;
+			}
+		}
+
+		return new Vector2(xPos, yPos);
 	}
 
 	/**
@@ -235,6 +270,8 @@ public class GameScreen implements Screen{
 		
 		Gdx.input.setInputProcessor(pauseWindow.stage);  //Set input processor
 		pauseWindow.stage.act();
+
+		System.out.println("Left of Map: " + (int)(currentTruck.getPosition().x / TileType.TILE_SIZE));
 
 		switch (state) {
 			case RUN:
