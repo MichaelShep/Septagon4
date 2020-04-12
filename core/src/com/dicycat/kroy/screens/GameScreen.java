@@ -271,8 +271,6 @@ public class GameScreen implements Screen{
 		Gdx.input.setInputProcessor(pauseWindow.stage);  //Set input processor
 		pauseWindow.stage.act();
 
-		System.out.println("Left of Map: " + (int)(currentTruck.getPosition().x / TileType.TILE_SIZE));
-
 		switch (state) {
 			case RUN:
 				handleRunState(delta);
