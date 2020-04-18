@@ -325,6 +325,7 @@ public class FireTruck extends Entity{
 	public Rectangle getHitbox(){
 		return this.hitbox;
 	}
+	public void setHitbox(Rectangle hitbox) { this.hitbox = hitbox; }
 	
 	/**
 	 * @return direction

@@ -56,7 +56,7 @@ public class Bullet extends GameObject {
 	}
 
 	/**
-	 *
+	 * Updates the bullets position and handles collision with the fireTruck
 	 */
 	@Override
 	public void update() {
@@ -95,4 +95,6 @@ public class Bullet extends GameObject {
 	public Circle getHitbox() { return hitbox; }
 	public Vector2 getVelocity() { return velocity; }
 	public boolean isRemove() { return remove; }
+	public void setTravelDist(float travelDist) { this.travelDist = travelDist; }
+	public void setRemove(boolean remove) { this.remove = remove; }
 }

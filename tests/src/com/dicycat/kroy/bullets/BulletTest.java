@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.GdxTestRunner;
 import com.dicycat.kroy.Kroy;
+import com.dicycat.kroy.entities.FireTruck;
 import com.dicycat.kroy.screens.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,8 +40,11 @@ public class BulletTest
 
         kroy = Mockito.mock(Kroy.class);
         Kroy.mainGameScreen = Mockito.mock(GameScreen.class, Mockito.CALLS_REAL_METHODS);
+        Kroy.mainGameScreen.setupEssentialValues();
         Kroy.mainGameScreen.textures = Mockito.mock(GameTextures.class, Mockito.CALLS_REAL_METHODS);
         Kroy.mainGameScreen.textures.initTextures();
+        Kroy.mainGameScreen.textures.setupTruckAddressArray();
+        Kroy.mainGameScreen.textures.initFireTruckTexture(0);
     }
 
     /**
@@ -121,6 +126,9 @@ public class BulletTest
         Vector2 spawnPos = new Vector2(1000,1000);
         Vector2 direction = new Vector2(10, 10);
         bullet = new Bullet(spawnPos, direction, 5, 7.0f);
+        Float[] testTruckStats = {700f, 3f, 300f, 200f};
+        FireTruck testFireTruck = new FireTruck(new Vector2(100, 100), testTruckStats, 3, 625);
+        Kroy.mainGameScreen.setPlayer(testFireTruck);
 
         //Calls the update() method so that it can be tested
         bullet.update();
@@ -128,5 +136,18 @@ public class BulletTest
         //Checks that the hitbox of the Bullet is correctly positioned at the bullets centre
         assertEquals(bullet.getHitbox().x, bullet.getCentre().x, 0);
         assertEquals(bullet.getHitbox().y, bullet.getCentre().y, 0);
+
+        //Sets up the fireTruck so that its bounds intersect the bullets bounds
+        Kroy.mainGameScreen.getPlayer().setHitbox(new Rectangle(bullet.getCentre().x, bullet.getCentre().y, 100, 100));
+        bullet.setTravelDist(100.0f);
+
+        //Checks that if bullet intersects with player, bullet is set to be removed
+        assertEquals(bullet.isRemove(), true);
+
+        //Checks that if bullet does not intersect with player, not set to be removed
+        bullet.setRemove(false);
+        Kroy.mainGameScreen.getPlayer().setHitbox(new Rectangle(bullet.getCentre().x + 500, bullet.getCentre().y + 500, 100, 100));
+        bullet.update();
+        assertEquals(bullet.isRemove(), false);
     }
 }
