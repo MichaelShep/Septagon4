@@ -342,30 +342,6 @@ public class GameScreen implements Screen{
 			debugRenderer.DrawDebug(gamecam); //Draw all debug items as they have to be drawn outside the batch
 		}
 	}
-	
-	/**
-	 * new
-	 * Can zoom in the game by pressing EQUALS key
-	 * Can zoom out by pressing MINUS key
-	 */
-	public void checkZoom() {
-		if (Gdx.input.isKeyJustPressed(Keys.EQUALS)) {
-			if (zoom > 0.5f) {
-				zoom = zoom - 0.5f;
-			}
-			gamecam.setToOrtho(false, Kroy.width * zoom, Kroy.height * zoom);
-			gamecam.translate(new Vector2(currentTruck.getX() - ((Kroy.width * zoom) / 2),
-					currentTruck.getY() - ((Kroy.height * zoom) / 2)));
-		}
-		if (Gdx.input.isKeyJustPressed(Keys.MINUS)) {
-			if (zoom < 4f) {
-				zoom = zoom + 0.5f;
-			}
-			gamecam.setToOrtho(false, Kroy.width * zoom, Kroy.height * zoom);
-			gamecam.translate(new Vector2(currentTruck.getX() - ((Kroy.width * zoom) / 2),
-					currentTruck.getY() - ((Kroy.height * zoom) / 2)));
-		}
-	}
 
 	/**
 	 * Renders the objects in "objectsToRender" then clears the list

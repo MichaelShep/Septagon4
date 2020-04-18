@@ -103,7 +103,7 @@ public class GameScreenTest
         testGameScreen.show();
         assertEquals(testGameScreen.getFireTrucks().size(), 6);
         assertEquals(testGameScreen.getFortresses().size(), 6);
-        assertEquals(testGameScreen.getPowerUps().size(), 6);
+        assertEquals(testGameScreen.getPowerUps().size(), 5);
     }
 
     /**

@@ -41,8 +41,6 @@ public class Updater
      * Respawns the player if necessary.
      */
     public void updateLoop(List<PowerUps> powerUps) {
-        gameScreen.checkZoom();
-
         //Flag to say that when the game is being updated, the game needs to be saved again
         if(saveManager.isSavedMostRecentState())
             saveManager.setSavedMostRecentState(false);
