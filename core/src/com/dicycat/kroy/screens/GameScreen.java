@@ -199,6 +199,7 @@ public class GameScreen implements Screen{
 		}else {
 			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes, hud);
 			gameObjects.add(new FireStation());
+			hud = new HUD(game.batch, game); //Reset to ensure timer starts at right value
 		}
 
 		//Initialises the overlay for displaying player stats [ID: INIT STATS]
@@ -307,7 +308,6 @@ public class GameScreen implements Screen{
 		//Checks for mouse input
 		statsOverlay.checkMousePosition();
 
-		//gameTimer -= delta;		//Decrement timer
 		updater.updateLoop(powerUps); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
 
 		gameport.apply();

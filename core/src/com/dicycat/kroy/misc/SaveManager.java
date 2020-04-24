@@ -76,6 +76,9 @@ public class SaveManager {
      */
     public void saveAttributes() {
 
+        //Clear all previous saves
+        System.out.println("Saving to save slot: " + preferencesIndex);
+        preferences.get(preferencesIndex).clear();
         //Stores all the required attributes about the engines into preferences
         for(int i = 0; i < fireTrucks.size(); i++){
             preferences.get(preferencesIndex).putFloat("fireTruck" + i + "x", fireTrucks.get(i).getPosition().x);

@@ -128,7 +128,7 @@ public class ButtonListeners
         //If there is already a save at this location, ask the user if they want to overwrite that save
         if(saveManager.getPreferences().get(saveNumber).getBoolean("hasUsedSave") == true)
         {
-            OverwriteDialog overwriteDialog = new OverwriteDialog(skin, gameScreen, 0);
+            OverwriteDialog overwriteDialog = new OverwriteDialog(skin, gameScreen, saveNumber);
             overwriteDialog.show(gameScreen.getSaveWindow().stage);
         }else
         {
