@@ -9,6 +9,7 @@ import com.dicycat.kroy.GameTextures;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.entities.*;
 import com.dicycat.kroy.scenes.HUD;
+import com.dicycat.kroy.screens.GameScreen;
 
 import javax.swing.plaf.FontUIResource;
 import java.util.ArrayList;
@@ -24,9 +25,7 @@ import java.util.List;
  * Each of the patrols positions and health
  * Time elapsed in the game
  *
- * NOTE TO SELF: NEED TO LOOK AT AND MAKE SURE THAT ENTITIES ARE REMOVED FROM THE THREE LISTS THAT I USE HERE
- * WHEN THEY ARE REMOVED FROM THE GAMEOJECT LIST IN THE GAMESCREEN, DON'T THINK THEY ARE AT THE MOMENT AND THIS
- * COULD CAUSE MEMORY LEAKS
+ * NOTE: NEED TO ADD IN SAVING THE FIRESTATION DATA COS DOESN'T DO THIS YET
  *
  * [ID: SAVE MANAGER]
  */
@@ -120,6 +119,9 @@ public class SaveManager {
         //Saves the difficulty value of the game
         preferences.get(preferencesIndex).putInteger("difficulty", DifficultyMultiplier.getDifficultyValue());
 
+        //Save the game timer variable
+        preferences.get(preferencesIndex).putFloat("timer", GameScreen.gameTimer);
+
         //Adds variable that will signify that the save has been used so that we know the user can load from this save
         preferences.get(preferencesIndex).putBoolean("hasUsedSave", true);
 
@@ -201,6 +203,10 @@ public class SaveManager {
             powerUps.add(powerUp);
             System.out.println("PowerUp " + i + " loaded");
         }
+
+        //Load the gameTimer back to the value it should be
+        System.out.println("Saved timer val: " + preferences.get(preferencesIndex).getFloat("timer"));
+        GameScreen.gameTimer = preferences.get(preferencesIndex).getFloat("timer");
     }
 
     public boolean isSavedMostRecentState() { return savedMostRecentState; }

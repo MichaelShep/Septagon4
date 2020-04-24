@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
 import com.dicycat.kroy.entities.PowerType;
 import com.dicycat.kroy.entities.PowerUps;
+import com.dicycat.kroy.screens.GameScreen;
 
 /**
  * HUD window
@@ -25,7 +26,6 @@ public class HUD {
 	private Viewport viewport;	//creating new port so that the HUD stays locked while map can move around independently
 	
 	private int trucks = 6;
-	private int worldTimer = 300;	//change to float maybe
 	private static int score = 100000;
 	private float timeCount = 0;
 	
@@ -57,8 +57,8 @@ public class HUD {
 		tableHUD = new Table();
 		tableHUD.top();	// puts widgets from the top instead of from the centre
 		tableHUD.setFillParent(true);	//makes the table the same size of the stage
-		
-		worldTimerLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+		worldTimerLabel = new Label(String.format("%03d", (int)GameScreen.gameTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		timeLabel = new Label("TIME:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreCountLabel = new Label(String.format("%05d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -94,11 +94,11 @@ public class HUD {
 	public void update(float dt) {
 		timeCount += dt;
 		if (timeCount >= 1) {
-			if (worldTimer>0) {
-				worldTimer--;
+			if (GameScreen.gameTimer>0) {
+				GameScreen.gameTimer--;
 			}
 			score = score - 220;
-			worldTimerLabel.setText(String.format("%03d", worldTimer));
+			worldTimerLabel.setText(String.format("%03d", (int)GameScreen.gameTimer));
 			timeCount =0;
 			scoreCountLabel.setText(String.format("%05d", score));
 			trucksCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.getLives()));
@@ -182,8 +182,8 @@ public class HUD {
 	public Table getTableHUD() { return tableHUD; }
 	public float getTimeCount() { return timeCount; }
 	public void setTimeCount(float timeCount) { this.timeCount = timeCount; }
-	public int getWorldTimer() { return worldTimer; }
-	public void setWorldTimer(int worldTimer) { this.worldTimer = worldTimer; }
+	public float getWorldTimer() { return GameScreen.gameTimer; }
+	public void setWorldTimer(int worldTimer) { GameScreen.gameTimer = worldTimer; }
 	public boolean isDisplayingPowerUp() { return displayingPowerUp; }
 
 	public void setCurrentPowerUp(PowerUps currentPowerUp) { this.currentPowerUp = currentPowerUp; }

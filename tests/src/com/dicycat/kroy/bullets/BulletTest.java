@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * JUnit tests for the Bullet class
- * Added by Septagon [NOTE: COVERAGE BEFORE ADDITIONS WAS 10% of Classes, 9% of methods and 6% of lines]
  */
 
 @RunWith(GdxTestRunner.class)

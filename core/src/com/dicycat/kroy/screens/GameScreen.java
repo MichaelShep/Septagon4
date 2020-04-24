@@ -130,6 +130,7 @@ public class GameScreen implements Screen{
 		gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);	//Mic:could also use StretchViewPort to make the screen stretch instead of adapt
 		//Sets up the minimap [ID: INIT MMAP]
 		minimap = new Minimap(Kroy.width / 4, Kroy.height / 4, 10, 20);
+		gameTimer = 60 * 5; //new    //Set timer to 5 minutes
 		hud = new HUD(game.batch, this.game);
 		gameMap = new TiledGameMap(game);										//or FitPort to make it fit into a specific width/height ratio
 		pauseWindow = new PauseWindow(game);
@@ -140,7 +141,6 @@ public class GameScreen implements Screen{
 		saveWindow.visibility(false);
 		textures = new GameTextures(truckNum);
 		spawnPosition = new Vector2(3750, 4000);
-		gameTimer = 60 * 5; //new    //Set timer to 5 minutes
 		this.truckNum = truckNum;
 
 		//Setup all the fortress positions and sizes
@@ -307,7 +307,7 @@ public class GameScreen implements Screen{
 		//Checks for mouse input
 		statsOverlay.checkMousePosition();
 
-		gameTimer -= delta;		//Decrement timer
+		//gameTimer -= delta;		//Decrement timer
 		updater.updateLoop(powerUps); //Update all game objects positions but does not render them as to be able to render everything as quickly as possible
 
 		gameport.apply();
