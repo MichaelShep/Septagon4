@@ -188,7 +188,7 @@ public class GameScreen implements Screen{
 
 			//Adds all the powerUps for the game into the List [ID: ADD POWERS]
 			for(int i = 0; i < NUM_POWER_UPS; i++) {
-				powerUps.add(new PowerUps(generateRandomPositionForPowerUp(), hud));
+				powerUps.add(new PowerUps(generateRandomPositionForPowerUp(), hud, i));
 			}
 
 			for(PowerUps p: powerUps)

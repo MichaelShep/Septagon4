@@ -42,10 +42,10 @@ public class PowerUpsTest
     }
 
     /**
-     * Tests the constructor of the PowerUps class
+     * Tests the first constructor of the PowerUps class
      */
     @Test
-    public void testConstructor()
+    public void testConstructor1()
     {
         //Creates test objects to be used to perform tests
         PowerUps testPowerUps = new PowerUps(new Vector2(100, 100), hud);
@@ -61,6 +61,27 @@ public class PowerUpsTest
         assertEquals(testPowerUps.getHud(), hud);
         assertTrue(testPowerUps.getType() == (PowerType.FULLHEALTH) || testPowerUps.getType() == (PowerType.FASTSHOOTING) || testPowerUps.getType() == (PowerType.RANGE) ||
                 testPowerUps.getType() == (PowerType.REFILLWATER) || testPowerUps.getType() == (PowerType.SPEED));
+    }
+
+    /**
+     * Tests the second constructor of the PowerUps class
+     */
+    @Test
+    public void testConstructor2()
+    {
+        //Creates test objects to be used to perform tests
+        PowerUps testPowerUps = new PowerUps(new Vector2(100, 100), hud, 1);
+
+        //Test that values are assigned correctly - positions and textures not checked as these are difficult to assert
+        assertEquals(testPowerUps.getWidth(), 16, 0);
+        assertEquals(testPowerUps.getHeight(), 16, 0);
+        assertEquals(testPowerUps.isRemove(), false);
+        assertEquals(testPowerUps.isDisplayable(), false);
+        assertEquals(testPowerUps.getHealthPoints(), 1);
+        assertEquals(testPowerUps.getMaxHealthPoints(), 1);
+        assertEquals(testPowerUps.getRadius(), 25);
+        assertEquals(testPowerUps.getHud(), hud);
+        assertTrue(testPowerUps.getType() == PowerType.FASTSHOOTING);
     }
 
     /**

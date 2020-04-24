@@ -8,6 +8,8 @@ import com.dicycat.kroy.scenes.HUD;
 /**
  * Class to represent all the PowerUps in the game
  * [ID: POWERUP]
+ *
+ * NEED TO MAKE SO THAT POWERUPS CAN STACK - ATM THEY CAN'T
  */
 
 public class PowerUps extends Entity {
@@ -20,12 +22,32 @@ public class PowerUps extends Entity {
     private int duration = 30;
     private boolean shouldRemove = false;
 
+    /**
+     * Initialises a powerUp with a random type
+     * @param spawnPos The position the powerUp will be at
+     * @param hud The games HUD
+     */
     public PowerUps(Vector2 spawnPos, HUD hud) {
         super(spawnPos, new Texture("thunder.png"), imSize, health, radius);
         this.hud = hud;
         type = PowerType.getRandomType();
         this.setPowerUpTexture();
     }
+
+    /**
+     * Intialises a powerUp with a specified type
+     * @param spawnPos The position the powerUp will be at
+     * @param hud The games HUD
+     * @param typeValue The value of the PowerUp type
+     */
+    public PowerUps(Vector2 spawnPos, HUD hud, int typeValue)
+    {
+        super(spawnPos, new Texture("thunder.png"), imSize, health, radius);
+        this.hud = hud;
+        type = PowerType.valueOf(typeValue);
+        this.setPowerUpTexture();
+    }
+
     /**
      * Update all the power ups
      */

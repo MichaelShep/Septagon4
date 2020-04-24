@@ -86,7 +86,7 @@ public class HUDTest
         int initialScore = testHud.getScore();
 
         testHud.update(2);
-        assertEquals(testHud.getWorldTimer(), 2);
+        assertEquals(testHud.getWorldTimer(), 2, 0);
 
         //Check the score is updated correctly, and the timer
         assertEquals(testHud.getScore(), initialScore - 220);
@@ -95,7 +95,7 @@ public class HUDTest
         //Checks that all the labels are updated with the correct value
         Kroy.mainGameScreen.removeFortress();
         testHud.update(2);
-        assertEquals(testHud.getWorldTimerLabel().getText().toString(), String.format("%03d", testHud.getWorldTimer()));
+        assertEquals(testHud.getWorldTimerLabel().getText().toString(), String.format("%03d", (int)testHud.getWorldTimer()));
         assertEquals(testHud.getScoreCountLabel().getText().toString(), String.format("%05d", testHud.getScore()));
         assertEquals(testHud.getTrucksCountLabel().getText().toString(), String.format("%01d", Kroy.mainGameScreen.getLives()));
         assertEquals(testHud.getFortressCountLabel().getText().toString(), String.format("%01d", Kroy.mainGameScreen.fortressesLeft()));
