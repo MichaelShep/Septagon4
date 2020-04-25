@@ -15,6 +15,9 @@ import com.dicycat.kroy.entities.PowerType;
 import com.dicycat.kroy.entities.PowerUps;
 import com.dicycat.kroy.screens.GameScreen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * HUD window
  * 
@@ -41,9 +44,11 @@ public class HUD {
 	private Label trucksCountLabel;	//we could put mini images of the trucks instead of using an int for the lives
 
 	//Will store all the powerUp info and message for displaying PowerUp [ID: DEFINE POWER]
-	private Label powerUpLabel; //Label that will be used to display what powerUp the user currently has
 	private boolean displayingPowerUp = false; //Holds whether the player currently has a powerUp or not
-	private PowerUps currentPowerUp = null; //Holds the currentPower that the player has
+
+	private List<PowerUps> currentPowerUps;
+	private List<Label> powerUpsLabels;
+	int numPowerUps = 0;
 	private Table tableHUD;
 	
 	/**
@@ -58,13 +63,20 @@ public class HUD {
 		tableHUD.top();	// puts widgets from the top instead of from the centre
 		tableHUD.setFillParent(true);	//makes the table the same size of the stage
 
+		currentPowerUps = new ArrayList<PowerUps>();
+		powerUpsLabels = new ArrayList<Label>();
+
+		//Initialuses the powerUp labels [ID: SETUP POWER]
+		for(int i = 0; i < GameScreen.NUM_POWER_UPS; i++)
+		{
+			powerUpsLabels.add(new Label("NEW POWERUP", new Label.LabelStyle(new BitmapFont(), Color.RED)));
+		}
+
 		worldTimerLabel = new Label(String.format("%03d", (int)GameScreen.gameTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		timeLabel = new Label("TIME:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreCountLabel = new Label(String.format("%05d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		scoreLabel = new Label("SCORE:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 		trucksLabel = new Label("TRUCKS:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-		//Initialises the powerUp label [ID: SETUP POWER]
-		powerUpLabel = new Label("NEW POWERUP", new Label.LabelStyle(new BitmapFont(), Color.RED));
 
 		//Setup Fortress label [ID: FORTRESS SETUP]
 		fortressesLabel = new Label("FORTRESSES LEFT:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -105,14 +117,18 @@ public class HUD {
 			fortressCountLabel.setText(String.format("%01d", Kroy.mainGameScreen.fortressesLeft())); //Updates the text for displaying the fortresses [ID: FORTRESS DISPLAY]
 
 			//Update the powerUp label when displaying a powerUp, remove the powerUp when expired [ID: UPDATE POWER]
-			if(displayingPowerUp && currentPowerUp.getDuration() >= 1)
+
+			for(int i = 0; i < currentPowerUps.size(); i++)
 			{
-				currentPowerUp.setDuration(currentPowerUp.getDuration() - 1);
-				if(currentPowerUp.getType() != PowerType.REFILLWATER && currentPowerUp.getType() != PowerType.FULLHEALTH)
-					powerUpLabel.setText("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds");
-			}else if(displayingPowerUp)
-			{
-				removePowerUpMessage();
+				if(currentPowerUps.get(i).getDuration() >= 1)
+				{
+					currentPowerUps.get(i).setDuration(currentPowerUps.get(i).getDuration() - 1);
+					if(currentPowerUps.get(i).getType() != PowerType.REFILLWATER && currentPowerUps.get(i).getType() != PowerType.FULLHEALTH)
+						powerUpsLabels.get(i).setText("You have " + currentPowerUps.get(i).toString() + " for " + currentPowerUps.get(i).getDuration() + " seconds");
+				}else
+				{
+					removePowerUpMessage(i);
+				}
 			}
 		}
 	}
@@ -122,27 +138,45 @@ public class HUD {
 	 * @param currentPowerUp The powerUp that the message should be displayed for
 	 */
 	public void addPowerUpMessage(PowerUps currentPowerUp){
-		this.currentPowerUp = currentPowerUp;
-		displayingPowerUp = true;
+		currentPowerUps.add(currentPowerUp);
+		if(!displayingPowerUp)
+			displayingPowerUp = true;
 		if(currentPowerUp.getType() != PowerType.REFILLWATER && currentPowerUp.getType() != PowerType.FULLHEALTH)
-			powerUpLabel = new Label("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds", new Label.LabelStyle(new BitmapFont(), Color.RED));
+			powerUpsLabels.set(numPowerUps, new Label("You have " + currentPowerUp.toString() + " for " + currentPowerUp.getDuration() + " seconds", new Label.LabelStyle(new BitmapFont(), Color.RED)));
 		else
-			powerUpLabel = new Label("You have been given " + currentPowerUp.toString(), new Label.LabelStyle(new BitmapFont(), Color.RED));
-		powerUpLabel.setPosition(Gdx.graphics.getWidth() / 2 - powerUpLabel.getWidth() / 2, Gdx.graphics.getHeight() - 50);
-		stage.addActor(powerUpLabel);
+			powerUpsLabels.set(numPowerUps, new Label("You have been given " + currentPowerUp.toString(), new Label.LabelStyle(new BitmapFont(), Color.RED)));
+		powerUpsLabels.get(numPowerUps).setPosition(Gdx.graphics.getWidth() / 2 - powerUpsLabels.get(numPowerUps).getWidth() / 2, Gdx.graphics.getHeight() - 50 - (numPowerUps * 30));
+		stage.addActor(powerUpsLabels.get(numPowerUps));
+		numPowerUps++;
 	}
 
 	/***
-	 * Removes the current powerUp message from the screen [ID: REMOVE POWER]
+	 * Removes one of the the current powerUp messages from the screen [ID: REMOVE POWER]
 	 */
-	public void removePowerUpMessage(){
-		if(powerUpLabel != null && currentPowerUp != null)
+	public void removePowerUpMessage(int index){
+		if(numPowerUps >= 0)
 		{
-			displayingPowerUp = false;
-			powerUpLabel.remove();
-			currentPowerUp.remove();
-			powerUpLabel = null;
-			currentPowerUp = null;
+			powerUpsLabels.get(index).remove();
+			currentPowerUps.get(index).remove();
+			powerUpsLabels.remove(index);
+			currentPowerUps.remove(index);
+			updatePowerUpPositions();
+			numPowerUps--;
+			if(numPowerUps == 0)
+			{
+				displayingPowerUp = false;
+			}
+		}
+	}
+
+	/**
+	 * Used for moving the powerUp labels to the correct y position once one of the labels has been removed
+	 */
+	public void updatePowerUpPositions()
+	{
+		for(int i = 0; i < currentPowerUps.size(); i++)
+		{
+			powerUpsLabels.get(i).setPosition(Gdx.graphics.getWidth() / 2 - powerUpsLabels.get(i).getWidth() / 2, Gdx.graphics.getHeight() - 50 - (i * 30));
 		}
 	}
 
@@ -168,7 +202,8 @@ public class HUD {
 		return score;
 	}
 
-	public PowerUps getCurrentPowerUp() { return currentPowerUp; }
+	public PowerUps getCurrentPowerUps(int index) { return currentPowerUps.get(index); }
+	public List<PowerUps> getCurrentPowerUps() { return currentPowerUps; }
 
 	public Label getScoreLabel() { return scoreLabel; }
 	public Label getTimeLabel() { return timeLabel; }
@@ -178,7 +213,7 @@ public class HUD {
 	public Label getWorldTimerLabel() { return worldTimerLabel; }
 	public Label getScoreCountLabel() { return scoreCountLabel; }
 	public Label getTrucksCountLabel() { return trucksCountLabel; }
-	public Label getPowerUpLabel() { return powerUpLabel; }
+	public List<Label> getPowerUpsLabels() { return powerUpsLabels; }
 	public Table getTableHUD() { return tableHUD; }
 	public float getTimeCount() { return timeCount; }
 	public void setTimeCount(float timeCount) { this.timeCount = timeCount; }
@@ -186,7 +221,6 @@ public class HUD {
 	public void setWorldTimer(int worldTimer) { GameScreen.gameTimer = worldTimer; }
 	public boolean isDisplayingPowerUp() { return displayingPowerUp; }
 
-	public void setCurrentPowerUp(PowerUps currentPowerUp) { this.currentPowerUp = currentPowerUp; }
 	public void setDisplayingPowerUp(boolean displayingPowerUp) { this.displayingPowerUp = displayingPowerUp; }
 	
 }

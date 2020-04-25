@@ -17,7 +17,7 @@ public class PowerUps extends Entity {
     private static int radius = 25;
     private static int health = 1;
     private static Vector2 imSize = new Vector2(16, 16);
-    private PowerType type = null;
+    private PowerType type;
     private HUD hud;
     private int duration = 30;
     private boolean shouldRemove = false;
@@ -62,32 +62,27 @@ public class PowerUps extends Entity {
                 case SPEED:
                     player.SpeedUp();
                     //Adds the message displaying the powerUp to the HUD [ID: ADD]
-                    hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case FULLHEALTH:
                     player.fullHealth();
                     this.setDuration(3);
                     //Adds the message displaying the powerUp to the HUD [ID: ADD]
-                    hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case FASTSHOOTING:
                     player.fastShooting();
                     //Adds the message displaying the powerUp to the HUD [ID: ADD]
-                    hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case RANGE:
                     player.increaseRange();
                     //Adds the message displaying the powerUp to the HUD [ID: ADD]
-                    hud.removePowerUpMessage();
                     hud.addPowerUpMessage(this);
                     break;
                 case REFILLWATER:
                     player.refillWater();
                     this.setDuration(3);
-                    hud.removePowerUpMessage();
                     //Adds the message displaying the powerUp to the HUD [ID: ADD]
                     hud.addPowerUpMessage(this);
                     break;

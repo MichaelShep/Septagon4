@@ -104,16 +104,17 @@ public class HUDTest
         PowerUps testPowerUps = new PowerUps(new Vector2(100, 100), testHud);
         testPowerUps.setType(PowerType.FASTSHOOTING);
         testPowerUps.setDuration(20);
-        testHud.setCurrentPowerUp(testPowerUps);
+        testHud.addPowerUpMessage(testPowerUps);
         testHud.setDisplayingPowerUp(true);
         testHud.update(2);
-        assertEquals(testHud.getPowerUpLabel().getText().toString(), "You have " + testPowerUps.toString() + " for " + testPowerUps.getDuration() + " seconds");
+        assertEquals(testHud.getPowerUpsLabels().get(0).getText().toString(), "You have " + testPowerUps.toString() + " for " + testPowerUps.getDuration() + " seconds");
 
         //Check that if displaying powerUp and powerUp == null, powerUp message is set to null
+        testHud.removePowerUpMessage(0);
         testPowerUps.setDuration(0);
-        testHud.setCurrentPowerUp(testPowerUps);
+        testHud.addPowerUpMessage(testPowerUps);
         testHud.update(2);
-        assertNull(testHud.getPowerUpLabel());
+        assertEquals(0, testHud.getCurrentPowerUps().size());
     }
 
     /**
@@ -131,11 +132,11 @@ public class HUDTest
         testHud.addPowerUpMessage(testPowerUp);
 
         //Check values are assigned correctly
-        assertEquals(testHud.getCurrentPowerUp(), testPowerUp);
+        assertEquals(testHud.getCurrentPowerUps(0), testPowerUp);
         assertEquals(testHud.isDisplayingPowerUp(), true);
-        assertEquals(testHud.getPowerUpLabel().getText().toString(), "You have " + testPowerUp.toString() + " for " + testPowerUp.getDuration() + " seconds");
-        assertEquals(testHud.getPowerUpLabel().getX(), Gdx.graphics.getWidth() / 2 - testHud.getPowerUpLabel().getWidth() / 2, 0);
-        assertEquals(testHud.getPowerUpLabel().getY(), Gdx.graphics.getHeight() - 50, 0);
+        assertEquals(testHud.getPowerUpsLabels().get(0).getText().toString(), "You have " + testPowerUp.toString() + " for " + testPowerUp.getDuration() + " seconds");
+        assertEquals(testHud.getPowerUpsLabels().get(0).getX(), Gdx.graphics.getWidth() / 2 - testHud.getPowerUpsLabels().get(0).getWidth() / 2, 0);
+        assertEquals(testHud.getPowerUpsLabels().get(0).getY(), Gdx.graphics.getHeight() - 50, 0);
     }
 
     /**
@@ -152,11 +153,10 @@ public class HUDTest
         testHud.addPowerUpMessage(testPowerUp);
 
         //Call method to be tested
-        testHud.removePowerUpMessage();
+        testHud.removePowerUpMessage(0);
 
         //Check values are assigned correctly
         assertEquals(testHud.isDisplayingPowerUp(), false);
-        assertNull(testHud.getPowerUpLabel());
-        assertNull(testHud.getCurrentPowerUp());
+        assertEquals(0, testHud.getCurrentPowerUps().size());
     }
 }

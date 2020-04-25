@@ -97,7 +97,7 @@ public class PowerUpsTest
 
         //Checks that when no truck in the range of the powerUp, powerUp not added to hud
         testPowerUps.update();
-        assertEquals(hud.getCurrentPowerUp(), null);
+        assertEquals(hud.getCurrentPowerUps().size(), 0);
 
         //Checks that when truck in range, powerUp applied to player and health reduced by 1
         //Checks the increase speed powerup
