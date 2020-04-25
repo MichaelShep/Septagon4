@@ -103,9 +103,9 @@ public class HUD {
 	 * 
 	 * @param dt	Delta Time 
 	 */
-	public void update(float dt) {
+	public void update(float dt, GameScreen gameScreen) {
 		timeCount += dt;
-		if (timeCount >= 1) {
+		if (timeCount >= 1 && gameScreen.getState() == GameScreen.GameScreenState.RUN) {
 			if (GameScreen.gameTimer>0) {
 				GameScreen.gameTimer--;
 			}
@@ -198,7 +198,7 @@ public class HUD {
 		score = x;
 	}
 
-	public int getScore(){
+	public static int getScore(){
 		return score;
 	}
 

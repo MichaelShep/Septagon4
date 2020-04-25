@@ -125,6 +125,9 @@ public class SaveManager {
         //Save the game timer variable
         preferences.get(preferencesIndex).putFloat("timer", GameScreen.gameTimer);
 
+        //Save the score variable
+        preferences.get(preferencesIndex).putInteger("score", HUD.getScore());
+
         //Adds variable that will signify that the save has been used so that we know the user can load from this save
         preferences.get(preferencesIndex).putBoolean("hasUsedSave", true);
 
@@ -208,8 +211,10 @@ public class SaveManager {
         }
 
         //Load the gameTimer back to the value it should be
-        System.out.println("Saved timer val: " + preferences.get(preferencesIndex).getFloat("timer"));
         GameScreen.gameTimer = preferences.get(preferencesIndex).getFloat("timer");
+
+        //Load the score back to the value it should be
+        HUD.setScore(preferences.get(preferencesIndex).getInteger("score"));
     }
 
     public boolean isSavedMostRecentState() { return savedMostRecentState; }

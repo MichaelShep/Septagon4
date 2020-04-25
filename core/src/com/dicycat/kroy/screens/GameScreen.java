@@ -131,6 +131,7 @@ public class GameScreen implements Screen{
 		//Sets up the minimap [ID: INIT MMAP]
 		minimap = new Minimap(Kroy.width / 4, Kroy.height / 4, 10, 20);
 		gameTimer = 60 * 5; //new    //Set timer to 5 minutes
+		HUD.setScore(100000);
 		hud = new HUD(game.batch, this.game);
 		gameMap = new TiledGameMap(game);										//or FitPort to make it fit into a specific width/height ratio
 		pauseWindow = new PauseWindow(game);
@@ -319,7 +320,7 @@ public class GameScreen implements Screen{
 		game.batch.setProjectionMatrix(gamecam.combined);	//Mic:only renders the part of the map where the camera is
 		game.batch.begin(); // Game loop Start
 
-		hud.update(delta);
+		hud.update(delta, this);
 		renderObjects(game.batch); // Renders objects specified in the UpdateLoop() called previously
 		statsOverlay.render(game.batch); //Renders the fireTruck stats box [ID: DRAW STATS]
 
