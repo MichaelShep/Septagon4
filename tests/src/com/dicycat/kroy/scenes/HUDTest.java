@@ -78,14 +78,15 @@ public class HUDTest
 
         //Checks that if timeCount + parameter is less than 1, timeCount = timeCount + parameter and nothing else happens
         testHud.setTimeCount(0);
-        testHud.update(0.5f);
+        testHud.update(0.5f, Kroy.mainGameScreen);
         assertEquals(testHud.getTimeCount(), 0.5f, 0);
 
         //Checks that if world timer is greater than 0, it is decreased by 1
         testHud.setWorldTimer(3);
         int initialScore = testHud.getScore();
+        Kroy.mainGameScreen.setGameState(GameScreen.GameScreenState.RUN);
 
-        testHud.update(2);
+        testHud.update(2, Kroy.mainGameScreen);
         assertEquals(testHud.getWorldTimer(), 2, 0);
 
         //Check the score is updated correctly, and the timer
@@ -94,7 +95,7 @@ public class HUDTest
 
         //Checks that all the labels are updated with the correct value
         Kroy.mainGameScreen.removeFortress();
-        testHud.update(2);
+        testHud.update(2, Kroy.mainGameScreen);
         assertEquals(testHud.getWorldTimerLabel().getText().toString(), String.format("%03d", (int)testHud.getWorldTimer()));
         assertEquals(testHud.getScoreCountLabel().getText().toString(), String.format("%05d", testHud.getScore()));
         assertEquals(testHud.getTrucksCountLabel().getText().toString(), String.format("%01d", Kroy.mainGameScreen.getLives()));
@@ -106,14 +107,14 @@ public class HUDTest
         testPowerUps.setDuration(20);
         testHud.addPowerUpMessage(testPowerUps);
         testHud.setDisplayingPowerUp(true);
-        testHud.update(2);
+        testHud.update(2, Kroy.mainGameScreen);
         assertEquals(testHud.getPowerUpsLabels().get(0).getText().toString(), "You have " + testPowerUps.toString() + " for " + testPowerUps.getDuration() + " seconds");
 
         //Check that if displaying powerUp and powerUp == null, powerUp message is set to null
         testHud.removePowerUpMessage(0);
         testPowerUps.setDuration(0);
         testHud.addPowerUpMessage(testPowerUps);
-        testHud.update(2);
+        testHud.update(2, Kroy.mainGameScreen);
         assertEquals(0, testHud.getCurrentPowerUps().size());
     }
 
