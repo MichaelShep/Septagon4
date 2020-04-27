@@ -105,7 +105,6 @@ public class HUD {
 	 */
 	public void update(float dt, GameScreen gameScreen) {
 		timeCount += dt;
-		System.out.println("CODE BEING RUN 1");
 		if (timeCount >= 1 && gameScreen.getState() == GameScreen.GameScreenState.RUN) {
 			if (GameScreen.gameTimer>0) {
 				GameScreen.gameTimer--;

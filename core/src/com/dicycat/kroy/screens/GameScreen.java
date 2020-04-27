@@ -198,9 +198,9 @@ public class GameScreen implements Screen{
 			}
 
 		}else {
+			hud = new HUD(game.batch, game); //Reset to ensure timer starts at right value
 			saveManager.loadAttributes(gameObjects, textures, fortressPositions, fortressSizes, hud);
 			gameObjects.add(new FireStation());
-			hud = new HUD(game.batch, game); //Reset to ensure timer starts at right value
 		}
 
 		//Initialises the overlay for displaying player stats [ID: INIT STATS]
@@ -629,6 +629,7 @@ public class GameScreen implements Screen{
 	public Viewport getGameport() { return gameport; }
 	public GameScreenState getState() { return state; }
 	public int getFortressesCount() { return fortressesCount; }
+	public void setFortressesCount(int fortressesCount) { this.fortressesCount = fortressesCount; }
 
 	public void setGameObjects(ArrayList<GameObject> gameObjects) { this.gameObjects = gameObjects; }
 	public void setHud(HUD hud) { this.hud = hud; }
