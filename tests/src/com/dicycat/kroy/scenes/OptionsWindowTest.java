@@ -109,6 +109,7 @@ public class OptionsWindowTest
 
         //Test table is set up correctly when state = PAGE1
         OptionsWindow.state = OptionsWindow.State.PAGE1;
+        testOptionsWindow.getTable().clear();
         testOptionsWindow.updateDraw();
         assertEquals(testOptionsWindow.getTable().getCells().get(0).getActor(), testOptionsWindow.getMusic());
         assertEquals(testOptionsWindow.getTable().getCells().get(1).getActor(), testOptionsWindow.getDebug());
