@@ -103,8 +103,11 @@ public class Fortress extends Entity {
 	@Override
 	public void applyDamage(float damage) {
 		super.applyDamage(damage);
-		healthBar.setPosition(getCentre().add(0, (getHeight() / 2) + 25));
-		healthBar.setBarDisplay((getHealthPoints()*500)/maxHealthPoints);
+		if(!dead)
+		{
+			healthBar.setPosition(getCentre().add(0, (getHeight() / 2) + 25));
+			healthBar.setBarDisplay((getHealthPoints() * 500) / maxHealthPoints);
+		}
 	}
 	
 	/**

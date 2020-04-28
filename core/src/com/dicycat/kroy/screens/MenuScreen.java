@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dicycat.kroy.Kroy;
+import com.dicycat.kroy.misc.SaveManager;
 import com.dicycat.kroy.scenes.*;
 import com.dicycat.kroy.DifficultyMultiplier;
 
@@ -101,6 +103,19 @@ public class MenuScreen implements Screen{
 	  minigameButtonActive = new Texture("minigameActive.png");
 	  loadGameButton = new Texture("load_game.png");
 	  background = new Texture ("fireforce.png");
+
+	  //Clears save files if this is your first time loading the game
+	  if(Gdx.files.local("core/assets/firstLoad.txt").exists())
+	  {
+	  	  System.out.println("Has found file");
+		  for(int i = 0; i < SaveManager.NUM_MAX_SAVES; i++)
+		  {
+			  Gdx.app.getPreferences("Save" + i).clear();
+			  Gdx.app.getPreferences("Save" + i).flush();
+			  System.out.println("Save games should have been removed");
+		  }
+		  Gdx.files.local("core/assets/firstLoad.txt").delete();
+	  }
 	  
 	  gamecam = new OrthographicCamera();
 	  gameport = new FitViewport(Kroy.width, Kroy.height, gamecam);

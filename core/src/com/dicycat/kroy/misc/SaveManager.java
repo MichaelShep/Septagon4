@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 public class SaveManager {
-    private static final int NUM_MAX_SAVES = 6; //Final save slot used by the JUnit tests
+    public static final int NUM_MAX_SAVES = 6; //Final save slot used by the JUnit tests
 
     private List<Preferences> preferences;
     private int preferencesIndex = 0;
