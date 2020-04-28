@@ -306,7 +306,7 @@ public class MenuScreen implements Screen{
 					System.out.println("Load button pressed");
 					fireTruckSelector.visibility(true);// display the difficulty selection window
 					loadingGame = true;
-					startGame(1, 0);
+					startGame(0, 0);
 				}
 			});
 		}
@@ -321,7 +321,7 @@ public class MenuScreen implements Screen{
 					System.out.println("Load button pressed");
 					fireTruckSelector.visibility(true);// display the difficulty selection window
 					loadingGame = true;
-					startGame(1, 1);
+					startGame(0, 1);
 				}
 			});
 		}
@@ -336,7 +336,7 @@ public class MenuScreen implements Screen{
 					System.out.println("Load button pressed");
 					fireTruckSelector.visibility(true);// display the difficulty selection window
 					loadingGame = true;
-					startGame(1, 2);
+					startGame(0, 2);
 				}
 			});
 		}
@@ -351,7 +351,7 @@ public class MenuScreen implements Screen{
 					System.out.println("Load button pressed");
 					fireTruckSelector.visibility(true);// display the difficulty selection window
 					loadingGame = true;
-					startGame(1, 3);
+					startGame(0, 3);
 				}
 			});
 		}
@@ -366,7 +366,7 @@ public class MenuScreen implements Screen{
 					System.out.println("Load button pressed");
 					fireTruckSelector.visibility(true);// display the difficulty selection window
 					loadingGame = true;
-					startGame(1, 4);
+					startGame(0, 4);
 				}
 			});
 		}
