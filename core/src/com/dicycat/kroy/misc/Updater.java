@@ -110,7 +110,8 @@ public class Updater
             gameScreen.updateLives();
         }
 
-        gameScreen.setLives(gameScreen.getFireTrucks().size());
+        if(gameScreen.getFireTrucks() != null)
+            gameScreen.setLives(gameScreen.getFireTrucks().size());
     }
 
     /**
