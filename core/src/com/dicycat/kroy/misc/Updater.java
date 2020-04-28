@@ -109,6 +109,8 @@ public class Updater
         if (gameScreen.getCurrentTruck().isRemove()) {	//If the player is set for removal, respawn
             gameScreen.updateLives();
         }
+
+        gameScreen.setLives(gameScreen.getFireTrucks().size());
     }
 
     /**

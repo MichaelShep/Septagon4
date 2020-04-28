@@ -515,6 +515,11 @@ public class GameScreen implements Screen{
 			}else if(firetrucks.get(5).isAlive()) {
 				switchTrucks(5);
 			}
+
+			for(int i = 0; i < firetrucks.size(); i++)
+			{
+				if(firetrucks.get(i).isDead()) firetrucks.remove(i);
+			}
 		} else {
 			gameOver(false);
 		}

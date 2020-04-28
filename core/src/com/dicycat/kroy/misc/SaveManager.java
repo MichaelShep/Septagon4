@@ -222,7 +222,6 @@ public class SaveManager {
 
         //Load the fortress and truck count back to what it should be
         Kroy.mainGameScreen.setFortressesCount(preferences.get(preferencesIndex).getInteger("fortressCount"));
-        System.out.println("Num Fire Trucks: " + preferences.get(preferencesIndex).getInteger("truckCount"));
         Kroy.mainGameScreen.setLives(preferences.get(preferencesIndex).getInteger("truckCount"));
     }
 
