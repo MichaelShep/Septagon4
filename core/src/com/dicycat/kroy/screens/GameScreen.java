@@ -450,6 +450,7 @@ public class GameScreen implements Screen{
 	public int getLives() {
 		return lives;
 	}
+	public void setLives(int lives) { this.lives = lives; }
 
 	/**
 	 * Method that will set up the save manager for the current save and save all neccessary values [ID: SAVE PERFORM]

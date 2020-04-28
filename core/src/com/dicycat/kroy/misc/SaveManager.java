@@ -128,8 +128,9 @@ public class SaveManager {
         //Save the score variable
         preferences.get(preferencesIndex).putInteger("score", HUD.getScore());
 
-        //Saves the number of fortresses left
+        //Saves the number of fortresses and fire trucks left
         preferences.get(preferencesIndex).putInteger("fortressCount", Kroy.mainGameScreen.getFortressesCount());
+        preferences.get(preferencesIndex).putInteger("truckCount", Kroy.mainGameScreen.getLives());
 
         //Adds variable that will signify that the save has been used so that we know the user can load from this save
         preferences.get(preferencesIndex).putBoolean("hasUsedSave", true);
@@ -219,8 +220,10 @@ public class SaveManager {
         //Load the score back to the value it should be
         HUD.setScore(preferences.get(preferencesIndex).getInteger("score"));
 
-        //Load the fortress count back to what it should be
+        //Load the fortress and truck count back to what it should be
         Kroy.mainGameScreen.setFortressesCount(preferences.get(preferencesIndex).getInteger("fortressCount"));
+        System.out.println("Num Fire Trucks: " + preferences.get(preferencesIndex).getInteger("truckCount"));
+        Kroy.mainGameScreen.setLives(preferences.get(preferencesIndex).getInteger("truckCount"));
     }
 
     public boolean isSavedMostRecentState() { return savedMostRecentState; }
